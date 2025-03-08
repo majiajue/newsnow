@@ -34,6 +34,12 @@ JWT_SECRET=
 INIT_TABLE=true
 # 是否启用缓存
 ENABLE_CACHE=true
+# Cloudflare 翻译 API 账户 ID
+CLOUDFLARE_ACCOUNT_ID=
+# Cloudflare 翻译 API 密钥
+CLOUDFLARE_API_KEY=
+# Cloudflare 翻译模型 (可选，默认: @cf/meta/m2m100-1.2b)
+CLOUDFLARE_MODEL=
 ```
 
 本项目主推 Cloudflare Pages 以及 Docker 部署， Vercel 需要你自行搞定数据库，其他支持的数据库可以查看 https://db0.unjs.io/connectors 。
@@ -59,7 +65,7 @@ pnpm dev
 
 ## License
 
-[MIT](./LICENSE) © ourongxing
+[MIT](./LICENSE) ourongxing
 
 ## 赞赏
 如果本项目对你有所帮助，可以给小猫买点零食。如果需要定制或者其他帮助，请通过下列方式联系备注。

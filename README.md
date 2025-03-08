@@ -33,6 +33,12 @@ JWT_SECRET=
 INIT_TABLE=true
 # Whether to enable cache
 ENABLE_CACHE=true
+# Cloudflare Translation API Account ID
+CLOUDFLARE_ACCOUNT_ID=
+# Cloudflare Translation API Key
+CLOUDFLARE_API_KEY=
+# Cloudflare Translation Model (optional, default: @cf/meta/m2m100-1.2b)
+CLOUDFLARE_MODEL=
 ```
 
 This project primarily supports deployment on Cloudflare Pages and Docker. For Vercel, you need to set up your own database. Supported databases can be found at https://db0.unjs.io/connectors .
@@ -62,4 +68,4 @@ If you want to add data sources, refer to the `shared/sources`, and `server/sour
 
 ## License
 
-[MIT](./LICENSE) © ourongxing
+[MIT](./LICENSE) ourongxing

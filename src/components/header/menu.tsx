@@ -1,12 +1,14 @@
 import { motion } from "framer-motion"
+import { useTranslation } from "../TranslationProvider"
 
 function ThemeToggle() {
   const { isDark, toggleDark } = useDark()
+  const { translate } = useTranslation()
   return (
     <li onClick={toggleDark}>
       <span className={$("inline-block", isDark ? "i-ph-moon-stars-duotone" : "i-ph-sun-dim-duotone")} />
       <span>
-        {isDark ? "黑暗模式" : "白天模式"}
+        {translate(isDark ? "黑暗模式" : "白天模式")}
       </span>
     </li>
   )
@@ -15,6 +17,7 @@ function ThemeToggle() {
 export function Menu() {
   const { loggedIn, login, logout, userInfo, enableLogin } = useLogin()
   const [shown, show] = useState(false)
+  const { translate } = useTranslation()
   return (
     <span className="relative" onMouseEnter={() => show(true)} onMouseLeave={() => show(false)}>
       <span className="flex items-center scale-90">
@@ -55,19 +58,19 @@ export function Menu() {
                 ? (
                     <li onClick={logout}>
                       <span className="i-ph:sign-out-duotone inline-block" />
-                      <span>退出登录</span>
+                      <span>{translate("退出登录")}</span>
                     </li>
                   )
                 : (
                     <li onClick={login}>
                       <span className="i-ph:sign-in-duotone inline-block" />
-                      <span>Github 账号登录</span>
+                      <span>{translate("Github 账号登录")}</span>
                     </li>
                   ))}
               <ThemeToggle />
               <li onClick={() => window.open(Homepage)}>
                 <span className="i-ph:github-logo-duotone inline-block" />
-                <span>Star on Github </span>
+                <span>{translate("Star on Github")}</span>
               </li>
               <li className="flex gap-2 items-center">
                 <a

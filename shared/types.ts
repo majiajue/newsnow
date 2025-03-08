@@ -99,6 +99,11 @@ export interface NewsItem {
       url: string
       scale: number
     }
+    // 翻译相关字段
+    langId?: string
+    originalTitle?: string
+    description?: string
+    uniqueDescription?: string
   }
 }
 
@@ -107,4 +112,5 @@ export interface SourceResponse {
   id: SourceID
   updatedTime: number | string
   items: NewsItem[]
+  lang?: string
 }

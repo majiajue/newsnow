@@ -1,5 +1,10 @@
 import type { PrimitiveAtom } from "jotai"
+import { atom } from "jotai"
 import type { FixedColumnID, PrimitiveMetadata, SourceID } from "@shared/types"
+import { fixedColumnIds, metadata } from "@shared/metadata"
+import { sources } from "@shared/sources"
+import { verifyPrimitiveMetadata } from "@shared/verify"
+import { typeSafeObjectEntries, typeSafeObjectFromEntries } from "@shared/type.util"
 import type { Update } from "./types"
 
 function createPrimitiveMetadataAtom(

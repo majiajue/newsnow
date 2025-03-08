@@ -13,14 +13,34 @@ const enableLoginAtom = atomWithStorage<{
 })
 
 enableLoginAtom.onMount = (set) => {
-  myFetch("/enable-login").then((r) => {
-    set(r)
-  }).catch((e) => {
-    if (e.statusCode === 506) {
-      set({ enable: false })
-      localStorage.removeItem("jwt")
-    }
+  // 添加超时处理
+  const timeoutPromise = new Promise<void>((_, reject) => {
+    setTimeout(() => reject(new Error("请求超时")), 10000)
   })
+
+  // 实际请求
+  const fetchPromise = myFetch("/enable-login")
+    .then((r) => {
+      set(r)
+    })
+    .catch((e) => {
+      console.error("登录检查失败:", e)
+      if (e.statusCode === 506) {
+        set({ enable: false })
+        localStorage.removeItem("jwt")
+      } else {
+        // 对于其他错误，默认启用登录
+        set({ enable: true })
+      }
+    })
+
+  // 使用 Promise.race 处理超时
+  Promise.race([fetchPromise, timeoutPromise])
+    .catch((e) => {
+      console.error("登录检查出错或超时:", e)
+      // 超时默认启用登录
+      set({ enable: true })
+    })
 }
 
 export function useLogin() {

@@ -1,48 +1,52 @@
+import { useTranslation } from "./TranslationProvider"
+
 export function Footer() {
+  const { translate } = useTranslation()
+
   const sources = [
     {
-      category: "科技资讯",
+      category: translate("科技资讯"),
       links: [
-        { name: "Hacker News", url: "https://news.ycombinator.com" },
-        { name: "Product Hunt", url: "https://www.producthunt.com" },
-        { name: "GitHub", url: "https://github.com/trending" },
-        { name: "IT之家", url: "https://www.ithome.com" },
-        { name: "V2EX", url: "https://v2ex.com" },
-        { name: "Linux中国", url: "https://linux.cn" },
-        { name: "Solidot", url: "https://www.solidot.org" },
+        { name: translate("Hacker News"), url: "https://news.ycombinator.com" },
+        { name: translate("Product Hunt"), url: "https://www.producthunt.com" },
+        { name: translate("GitHub"), url: "https://github.com/trending" },
+        { name: translate("IT之家"), url: "https://www.ithome.com" },
+        { name: translate("V2EX"), url: "https://v2ex.com" },
+        { name: translate("Linux中国"), url: "https://linux.cn" },
+        { name: translate("Solidot"), url: "https://www.solidot.org" },
       ],
     },
     {
-      category: "社交媒体",
+      category: translate("社交媒体"),
       links: [
-        { name: "微博", url: "https://weibo.com" },
-        { name: "知乎", url: "https://zhihu.com" },
-        { name: "哔哩哔哩", url: "https://bilibili.com" },
-        { name: "抖音", url: "https://douyin.com" },
-        { name: "快手", url: "https://kuaishou.com" },
-        { name: "贴吧", url: "https://tieba.baidu.com" },
-        { name: "酷安", url: "https://coolapk.com" },
+        { name: translate("微博"), url: "https://weibo.com" },
+        { name: translate("知乎"), url: "https://zhihu.com" },
+        { name: translate("哔哩哔哩"), url: "https://bilibili.com" },
+        { name: translate("抖音"), url: "https://douyin.com" },
+        { name: translate("快手"), url: "https://kuaishou.com" },
+        { name: translate("贴吧"), url: "https://tieba.baidu.com" },
+        { name: translate("酷安"), url: "https://coolapk.com" },
       ],
     },
     {
-      category: "新闻资讯",
+      category: translate("新闻资讯"),
       links: [
-        { name: "36氪", url: "https://36kr.com" },
-        { name: "澎湃新闻", url: "https://thepaper.cn" },
-        { name: "今日头条", url: "https://toutiao.com" },
-        { name: "参考消息", url: "http://www.cankaoxiaoxi.com" },
-        { name: "联合早报", url: "https://www.zaobao.com" },
-        { name: "卫星通讯社", url: "http://sputniknews.cn" },
+        { name: translate("36氪"), url: "https://36kr.com" },
+        { name: translate("澎湃新闻"), url: "https://thepaper.cn" },
+        { name: translate("今日头条"), url: "https://toutiao.com" },
+        { name: translate("参考消息"), url: "http://www.cankaoxiaoxi.com" },
+        { name: translate("联合早报"), url: "https://www.zaobao.com" },
+        { name: translate("卫星通讯社"), url: "http://sputniknews.cn" },
       ],
     },
     {
-      category: "财经资讯",
+      category: translate("财经资讯"),
       links: [
-        { name: "华尔街见闻", url: "https://wallstreetcn.com" },
-        { name: "雪球", url: "https://xueqiu.com" },
-        { name: "格隆汇", url: "https://gelonghui.com" },
-        { name: "金十数据", url: "https://jin10.com" },
-        { name: "FastBull", url: "https://fastbull.cn" },
+        { name: translate("华尔街见闻"), url: "https://wallstreetcn.com" },
+        { name: translate("雪球"), url: "https://xueqiu.com" },
+        { name: translate("格隆汇"), url: "https://gelonghui.com" },
+        { name: translate("金十数据"), url: "https://jin10.com" },
+        { name: translate("FastBull"), url: "https://fastbull.cn" },
       ],
     },
   ]
@@ -72,14 +76,17 @@ export function Footer() {
           ))}
         </div>
         <div className="text-center pt-4 border-t border-neutral-200 dark:border-neutral-800">
-          <span>NewsNow  2025 By </span>
+          <span>
+            {translate("NewsNow  2025 By")}
+            {" "}
+          </span>
           <a
             href="https://github.com/majiajue/newsnow"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-neutral-600 transition-colors"
           >
-            majiajue
+            {translate("majiajue")}
           </a>
         </div>
       </div>

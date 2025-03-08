@@ -28,15 +28,53 @@ export class Cache {
     logger.success(`set ${key} cache`)
   }
 
+  async delete(key: string) {
+    await this.db.prepare(`DELETE FROM cache WHERE id = ?`).run(key)
+    logger.success(`删除缓存 ${key} 成功`)
+  }
+
+  async deleteAll() {
+    await this.db.prepare(`DELETE FROM cache`).run()
+    logger.success(`清空所有缓存成功`)
+  }
+
   async get(key: string): Promise<CacheInfo | undefined > {
-    const row = (await this.db.prepare(`SELECT id, data, updated FROM cache WHERE id = ?`).get(key)) as CacheRow | undefined
-    if (row) {
-      logger.success(`get ${key} cache`)
-      return {
-        id: row.id,
-        updated: row.updated,
-        items: JSON.parse(row.data),
+    try {
+      console.log(`尝试获取缓存: ${key}`)
+      const row = (await this.db.prepare(`SELECT id, data, updated FROM cache WHERE id = ?`).get(key)) as CacheRow | undefined
+
+      if (row) {
+        console.log(`找到缓存: ${key}, 更新时间: ${new Date(row.updated).toISOString()}`)
+        try {
+          const parsedData = JSON.parse(row.data)
+
+          // 检查解析后的数据是否为数组
+          if (Array.isArray(parsedData)) {
+            logger.success(`获取缓存 ${key} 成功，数据是数组，长度: ${parsedData.length}`)
+            return {
+              id: row.id,
+              updated: row.updated,
+              items: parsedData,
+            }
+          } else if (parsedData && typeof parsedData === "object" && "items" in parsedData) {
+            // 如果数据是旧格式的 CacheInfo 对象
+            logger.success(`获取缓存 ${key} 成功，数据是对象，包含items`)
+            return parsedData as CacheInfo
+          } else {
+            console.error(`缓存数据格式错误: ${key}`, typeof parsedData)
+            return undefined
+          }
+        } catch (error) {
+          console.error(`解析缓存数据失败: ${key}`, error)
+          return undefined
+        }
+      } else {
+        console.log(`未找到缓存: ${key}`)
+        return undefined
       }
+    } catch (error) {
+      console.error(`获取缓存出错: ${key}`, error)
+      return undefined
     }
   }
 
@@ -66,8 +104,20 @@ export class Cache {
     }
   }
 
-  async delete(key: string) {
-    return await this.db.prepare(`DELETE FROM cache WHERE id = ?`).run(key)
+  async keys(): Promise<string[]> {
+    try {
+      const res = await this.db.prepare(`SELECT id FROM cache`).all() as any
+      const rows = (res.results ?? res) as { id: string }[]
+
+      if (rows?.length) {
+        return rows.map(row => row.id)
+      } else {
+        return []
+      }
+    } catch (error) {
+      console.error("获取所有缓存键出错:", error)
+      return []
+    }
   }
 }
 
