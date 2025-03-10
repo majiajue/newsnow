@@ -1,8 +1,10 @@
 import type { ReactNode } from "react"
-import { createContext, useCallback, useEffect, useMemo } from "react"
+import { createContext, useCallback, useContext, useEffect, useMemo } from "react"
+import { Translate as TranslateComponent } from "./Translate"
 import type { Language } from "~/services/translationService"
 import { translate, useTranslationStore } from "~/services/translationService"
 import { getI18nText, hasI18nText } from "~/i18n"
+// 导入 Translate 组件以便重新导出
 
 // 翻译上下文类型
 export interface TranslationContextType {
@@ -15,6 +17,18 @@ export interface TranslationContextType {
 
 // 创建翻译上下文
 export const TranslationContext = createContext<TranslationContextType | null>(null)
+
+// 创建 useTranslation 钩子函数
+export function useTranslation() {
+  const context = useContext(TranslationContext)
+  if (!context) {
+    throw new Error("useTranslation 必须在 TranslationProvider 内部使用")
+  }
+  return context
+}
+
+// 重新导出 Translate 组件
+export const Translate = TranslateComponent
 
 // 翻译提供者属性
 interface TranslationProviderProps {

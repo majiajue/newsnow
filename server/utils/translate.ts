@@ -135,6 +135,18 @@ async function translateWithCloudflare(text: string | string[], fromLang: string
   try {
     const { ACCOUNT_ID, API_KEY, MODEL } = CLOUDFLARE_API
 
+    // 输出 API 配置信息（不显示完整的 API_KEY）
+    console.log(`Cloudflare 翻译 API 配置:`)
+    console.log(`- ACCOUNT_ID: ${ACCOUNT_ID || "未设置"}`)
+    console.log(`- API_KEY: ${API_KEY ? "已设置" : "未设置"}`)
+    console.log(`- MODEL: ${MODEL}`)
+
+    // 检查 API 配置是否完整
+    if (!ACCOUNT_ID || !API_KEY) {
+      console.error("Cloudflare 翻译 API 配置不完整，使用模拟翻译")
+      return mockTranslate(text, fromLang, toLang)
+    }
+
     // 处理每个文本项
     const translatedResults: string[] = []
 
@@ -150,55 +162,73 @@ async function translateWithCloudflare(text: string | string[], fromLang: string
       }
 
       console.log(`[${i + 1}/${textArray.length}] 使用Cloudflare API翻译，模型: ${MODEL}，源语言: ${fromLang}，目标语言: ${toLang}`)
-      console.log(`请求体: ${JSON.stringify(requestBody).substring(0, 200)}...`)
+      console.log(`原文: "${currentText.substring(0, 100)}${currentText.length > 100 ? "..." : ""}"`)
+      console.log(`请求体: ${JSON.stringify(requestBody)}`)
 
       try {
+        // 构建 API URL
+        const apiUrl = `https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}/ai/run/${MODEL}`
+        console.log(`API URL: ${apiUrl}`)
+
         let response
         try {
-          response = await myFetch(
-            `https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}/ai/run/${MODEL}`,
-            {
-              method: "POST",
-              headers: {
-                "Authorization": `Bearer ${API_KEY}`,
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(requestBody),
-              timeout: 30000, // 30秒超时
+          // 修改 myFetch 调用方式，确保 URL 正确传递
+          response = await myFetch(apiUrl, {
+            method: "POST",
+            headers: {
+              "Authorization": `Bearer ${API_KEY}`,
+              "Content-Type": "application/json",
             },
-          )
+            body: JSON.stringify(requestBody),
+            timeout: 30000, // 30秒超时
+          })
         } catch (error) {
           console.error("翻译请求失败:", error)
-          return mockTranslateText(currentText, fromLang, toLang)
+          translatedResults.push(mockTranslateText(currentText, fromLang, toLang))
+          continue
         }
 
         // 检查响应是否成功
         if (!response || !response.success) {
-          console.error("翻译请求失败:", response)
-          return mockTranslateText(currentText, fromLang, toLang)
+          console.error("翻译请求失败:", JSON.stringify(response))
+          translatedResults.push(mockTranslateText(currentText, fromLang, toLang))
+          continue
         }
 
         // 检查响应是否包含翻译结果
         if (!response.result || !response.result.translated_text) {
           console.error("翻译响应格式不正确，使用模拟翻译")
-          return mockTranslateText(currentText, fromLang, toLang)
+          translatedResults.push(mockTranslateText(currentText, fromLang, toLang))
+          continue
         }
 
         // 获取翻译结果
         let translatedText = response.result.translated_text || ""
 
-        // 检查翻译质量
-        const isLowQualityTranslation = checkLowQualityTranslation(currentText, translatedText)
+        // 输出详细的翻译结果日志
+        console.log(`翻译结果: "${translatedText.substring(0, 100)}${translatedText.length > 100 ? "..." : ""}"`)
 
-        // 如果翻译结果与原文相同或质量低，添加 [EN] 前缀
-        if ((translatedText === currentText && !translatedText.startsWith("[EN]")) || isLowQualityTranslation) {
-          if (isLowQualityTranslation) {
-            console.log(`检测到低质量翻译: "${currentText}" -> "${translatedText}"，使用后备翻译`)
-            translatedText = mockTranslateText(currentText, fromLang, toLang)
-          } else {
-            console.log(`翻译结果与原文相同，添加 [EN] 前缀: ${currentText.substring(0, 30)}...`)
-            // 添加 [EN] 前缀表示这是英文
-            translatedText = `[EN] ${translatedText}`
+        // 验证翻译结果是否与原文相关
+        // 如果翻译结果与原文完全无关，可能是 API 返回了错误的结果
+        const isUnrelatedTranslation = checkUnrelatedTranslation(currentText, translatedText, fromLang, toLang)
+
+        if (isUnrelatedTranslation) {
+          console.log(`检测到无关翻译结果，使用后备翻译`)
+          translatedText = mockTranslateText(currentText, fromLang, toLang)
+        } else {
+          // 检查翻译质量
+          const isLowQualityTranslation = checkLowQualityTranslation(currentText, translatedText)
+
+          // 如果翻译结果与原文相同或质量低，添加 [EN] 前缀
+          if ((translatedText === currentText && !translatedText.startsWith("[EN]")) || isLowQualityTranslation) {
+            if (isLowQualityTranslation) {
+              console.log(`检测到低质量翻译: "${currentText}" -> "${translatedText}"，使用后备翻译`)
+              translatedText = mockTranslateText(currentText, fromLang, toLang)
+            } else {
+              console.log(`翻译结果与原文相同，添加 [EN] 前缀: ${currentText.substring(0, 30)}...`)
+              // 添加 [EN] 前缀表示这是英文
+              translatedText = `[EN] ${translatedText}`
+            }
           }
         }
 
@@ -270,6 +300,62 @@ function checkLowQualityTranslation(originalText: string, translatedText: string
 }
 
 /**
+ * 检查翻译结果是否与原文无关
+ * 用于检测 API 返回了错误的翻译结果
+ * @param originalText 原文
+ * @param translatedText 翻译文
+ * @param fromLang 源语言
+ * @param toLang 目标语言
+ * @returns 是否为无关翻译
+ */
+function checkUnrelatedTranslation(originalText: string, translatedText: string, fromLang: string, toLang: string): boolean {
+  // 如果原文或翻译为空，无法判断
+  if (!originalText || !translatedText) {
+    return false
+  }
+
+  // 如果原文中包含特定关键词，但翻译结果中不包含相应的英文关键词，可能是无关翻译
+  // 例如：原文中包含"小米"，但翻译中没有"Xiaomi"
+  const keywordPairs = [
+    { zh: "小米", en: "Xiaomi" },
+    { zh: "华为", en: "Huawei" },
+    { zh: "苹果", en: "Apple" },
+    { zh: "三星", en: "Samsung" },
+    { zh: "詹姆斯", en: "James" },
+    { zh: "哪吒", en: "Nezha" },
+    { zh: "复联", en: "Avengers" },
+  ]
+
+  for (const pair of keywordPairs) {
+    if (fromLang === "zh" && toLang === "en") {
+      if (originalText.includes(pair.zh) && !translatedText.toLowerCase().includes(pair.en.toLowerCase())) {
+        return true
+      }
+    } else if (fromLang === "en" && toLang === "zh") {
+      if (originalText.toLowerCase().includes(pair.en.toLowerCase()) && !translatedText.includes(pair.zh)) {
+        return true
+      }
+    }
+  }
+
+  // 如果翻译结果包含与原文完全无关的特定关键词，可能是无关翻译
+  // 例如：原文没有提到"小米"，但翻译结果中出现了"Xiaomi"
+  for (const pair of keywordPairs) {
+    if (fromLang === "zh" && toLang === "en") {
+      if (!originalText.includes(pair.zh) && translatedText.toLowerCase().includes(pair.en.toLowerCase())) {
+        return true
+      }
+    } else if (fromLang === "en" && toLang === "zh") {
+      if (!originalText.toLowerCase().includes(pair.en.toLowerCase()) && translatedText.includes(pair.zh)) {
+        return true
+      }
+    }
+  }
+
+  return false
+}
+
+/**
  * 翻译函数
  * @param text 要翻译的文本，可以是字符串或字符串数组
  * @param fromLang 源语言，默认为'zh'
@@ -296,7 +382,7 @@ export async function translate(text: string | string[], fromLang: string = "zh"
     return text
   } catch (error) {
     console.error("翻译出错:", error)
-    logger.error(`Translation error: ${error}`)
+    logger.error(`翻译出错: ${error}`)
 
     // 出错时返回原文
     return text
