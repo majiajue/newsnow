@@ -147,6 +147,11 @@ export default defineEventHandler(async (event): Promise<SourceResponse> => {
 
 // 获取数据并更新缓存的函数
 async function getDataAndUpdateCache(id: SourceID, cacheTable: any, cache: CacheInfo | undefined, lang: string, forceTranslate: boolean) {
+  // 创建一个 Promise，在超时后自动拒绝
+  const timeoutPromise = new Promise((_, reject) => {
+    setTimeout(() => reject(new Error(`获取数据超时: ${id}`)), 10000) // 10秒超时
+  })
+
   try {
     // 构建缓存键
     const cacheKey = `${id}_${lang}`
@@ -202,203 +207,206 @@ async function getDataAndUpdateCache(id: SourceID, cacheTable: any, cache: Cache
       console.log(`强制重新翻译，忽略缓存`)
     }
 
-    // 获取原始数据（中文）
-    const newData = (await getters[id]()).slice(0, 30)
-    console.log(`获取到 ${id} 的原始数据，语言: ${lang}, 数量: ${newData.length}`)
+    // 使用 Promise.race 实现超时控制
+    const dataPromise = Promise.race([
+      (async () => {
+        // 获取原始数据（中文）
+        const newData = (await getters[id]()).slice(0, 30)
+        console.log(`获取到 ${id} 的原始数据，语言: ${lang}, 数量: ${newData.length}`)
 
-    // 如果请求的是中文，直接使用原始数据
-    if (lang === "zh") {
-      // 更新缓存
-      if (cacheTable) {
-        await cacheTable.set(cacheKey, newData)
-        console.log(`中文数据缓存更新成功，键: ${cacheKey}`)
-      }
+        // 如果请求的是中文，直接使用原始数据
+        if (lang === "zh") {
+          // 异步更新缓存，不阻塞响应
+          if (cacheTable) {
+            cacheTable.set(cacheKey, newData)
+              .then(() => console.log(`中文数据缓存更新成功，键: ${cacheKey}`))
+              .catch((e: Error) => console.error(`中文数据缓存更新失败: ${e}`))
+          }
 
+          return {
+            status: "success",
+            id,
+            updatedTime: Date.now(),
+            items: newData,
+            lang,
+          }
+        }
+
+        // 如果请求的是英文，进行翻译
+        let processedData = newData
+        try {
+          console.log(`开始翻译 ${id} 的数据到英文，数据项数量: ${newData.length}`)
+
+          // 创建翻译后的数据副本
+          processedData = JSON.parse(JSON.stringify(newData))
+
+          // 提取所有需要翻译的标题和描述
+          const titles: string[] = []
+          const descriptions: string[] = []
+          const uniqueDescriptions: string[] = []
+
+          processedData.forEach((item) => {
+            if (item.title) {
+              titles.push(item.title)
+            }
+            if (item.extra?.description) {
+              descriptions.push(item.extra.description)
+            }
+            if (item.extra?.uniqueDescription) {
+              uniqueDescriptions.push(item.extra.uniqueDescription)
+            }
+          })
+
+          console.log(`准备翻译 ${titles.length} 个标题, ${descriptions.length} 个描述, ${uniqueDescriptions.length} 个唯一描述`)
+
+          // 创建三个并行的翻译任务
+          const [translatedTitles, translatedDescriptions, translatedUniqueDescriptions] = await Promise.all([
+            titles.length > 0 ? translate(titles, "zh", "en") : [],
+            descriptions.length > 0 ? translate(descriptions, "zh", "en") : [],
+            uniqueDescriptions.length > 0 ? translate(uniqueDescriptions, "zh", "en") : [],
+          ])
+
+          console.log(`翻译完成，获得 ${translatedTitles.length} 个翻译后的标题, ${translatedDescriptions.length} 个描述, ${translatedUniqueDescriptions.length} 个唯一描述`)
+
+          // 检查翻译结果数量是否与原始数量一致
+          if (translatedTitles.length !== titles.length
+            || translatedDescriptions.length !== descriptions.length
+            || translatedUniqueDescriptions.length !== uniqueDescriptions.length) {
+            console.error(`翻译结果数量不匹配: 标题 ${titles.length}/${translatedTitles.length}, 描述 ${descriptions.length}/${translatedDescriptions.length}, 唯一描述 ${uniqueDescriptions.length}/${translatedUniqueDescriptions.length}`)
+          }
+
+          // 创建新的翻译后的项目数组
+          let titleIndex = 0
+          let descIndex = 0
+          let uniqueDescIndex = 0
+
+          processedData = processedData.map((item) => {
+            // 创建新对象，避免修改原始对象
+            const translatedItem = { ...item }
+
+            // 设置语言标识
+            if (!translatedItem.extra) {
+              translatedItem.extra = {}
+            }
+            translatedItem.extra.langId = "en"
+
+            // 翻译标题
+            if (item.title) {
+              // 保存原始标题
+              translatedItem.extra.originalTitle = item.title
+
+              // 使用翻译后的标题
+              if (titleIndex < translatedTitles.length) {
+                translatedItem.title = translatedTitles[titleIndex]
+
+                // 如果翻译后的标题与原始标题相同且不是以 [EN] 开头，添加 [EN] 前缀
+                if (translatedItem.title === item.title && !translatedItem.title.startsWith("[EN]")) {
+                  translatedItem.title = `[EN] ${translatedItem.title}`
+                }
+
+                titleIndex++
+              }
+            }
+
+            // 翻译描述
+            if (item.extra?.description) {
+              const originalDesc = item.extra.description
+
+              // 使用翻译后的描述
+              if (descIndex < translatedDescriptions.length) {
+                translatedItem.extra.description = translatedDescriptions[descIndex]
+
+                // 如果翻译后的描述与原始描述相同且不是以 [EN] 开头，添加 [EN] 前缀
+                if (translatedItem.extra.description === originalDesc && !translatedItem.extra.description.startsWith("[EN]")) {
+                  translatedItem.extra.description = `[EN] ${translatedItem.extra.description}`
+                }
+
+                descIndex++
+              }
+            }
+
+            // 翻译唯一描述
+            if (item.extra?.uniqueDescription) {
+              const originalUniqueDesc = item.extra.uniqueDescription
+
+              // 使用翻译后的唯一描述
+              if (uniqueDescIndex < translatedUniqueDescriptions.length) {
+                translatedItem.extra.uniqueDescription = translatedUniqueDescriptions[uniqueDescIndex]
+
+                // 如果翻译后的唯一描述与原始唯一描述相同且不是以 [EN] 开头，添加 [EN] 前缀
+                if (translatedItem.extra.uniqueDescription === originalUniqueDesc && !translatedItem.extra.uniqueDescription.startsWith("[EN]")) {
+                  translatedItem.extra.uniqueDescription = `[EN] ${translatedItem.extra.uniqueDescription}`
+                }
+
+                uniqueDescIndex++
+              }
+            }
+
+            return translatedItem
+          })
+        } catch (error) {
+          console.error("翻译失败:", error)
+
+          // 如果翻译失败，至少添加语言标识和 [EN] 前缀
+          processedData = processedData.map((item) => {
+            const translatedItem = { ...item }
+            if (!translatedItem.extra) {
+              translatedItem.extra = {}
+            }
+            translatedItem.extra.langId = "en"
+            translatedItem.extra.originalTitle = item.title
+
+            // 添加 [EN] 前缀
+            if (item.title && !item.title.startsWith("[EN]")) {
+              translatedItem.title = `[EN] ${item.title}`
+            }
+
+            return translatedItem
+          })
+        }
+
+        // 异步更新缓存，不阻塞响应
+        if (cacheTable) {
+          cacheTable.set(cacheKey, processedData)
+            .then(() => console.log(`英文数据缓存更新成功，键: ${cacheKey}`))
+            .catch((e: Error) => console.error(`英文数据缓存更新失败: ${e}`))
+        }
+
+        return {
+          status: "success",
+          id,
+          updatedTime: Date.now(),
+          items: processedData,
+          lang,
+        }
+      })(),
+      timeoutPromise,
+    ])
+
+    return await dataPromise
+  } catch (error) {
+    console.error("获取数据出错:", error)
+    // 如果有缓存，返回缓存的数据
+    if (cache && cache.items && cache.items.length > 0) {
+      console.log(`使用缓存数据作为后备，源: ${id}`)
       return {
         status: "success",
         id,
         updatedTime: Date.now(),
-        items: newData,
+        items: cache.items,
         lang,
+        fromCache: true,
       }
     }
 
-    // 如果请求的是英文，进行翻译
-    let processedData = newData
-    try {
-      console.log(`开始翻译 ${id} 的数据到英文，数据项数量: ${newData.length}`)
-
-      // 创建翻译后的数据副本
-      processedData = JSON.parse(JSON.stringify(newData))
-
-      // 提取所有需要翻译的标题和描述
-      const titles: string[] = []
-      const descriptions: string[] = []
-      const uniqueDescriptions: string[] = []
-
-      processedData.forEach((item) => {
-        if (item.title) {
-          titles.push(item.title)
-        }
-        if (item.extra?.description) {
-          descriptions.push(item.extra.description)
-        }
-        if (item.extra?.uniqueDescription) {
-          uniqueDescriptions.push(item.extra.uniqueDescription)
-        }
-      })
-
-      console.log(`准备翻译 ${titles.length} 个标题, ${descriptions.length} 个描述, ${uniqueDescriptions.length} 个唯一描述`)
-
-      try {
-        // 翻译标题和描述
-        const translatedTitles = await translate(titles, "zh", "en") as string[]
-        const translatedDescriptions = await translate(descriptions, "zh", "en") as string[]
-        const translatedUniqueDescriptions = await translate(uniqueDescriptions, "zh", "en") as string[]
-
-        console.log(`翻译完成，获得 ${translatedTitles.length} 个翻译后的标题, ${translatedDescriptions.length} 个描述, ${translatedUniqueDescriptions.length} 个唯一描述`)
-
-        // 检查翻译结果数量是否与原始数量一致
-        if (translatedTitles.length !== titles.length
-          || translatedDescriptions.length !== descriptions.length
-          || translatedUniqueDescriptions.length !== uniqueDescriptions.length) {
-          console.error(`翻译结果数量不匹配: 标题 ${titles.length}/${translatedTitles.length}, 描述 ${descriptions.length}/${translatedDescriptions.length}, 唯一描述 ${uniqueDescriptions.length}/${translatedUniqueDescriptions.length}`)
-        }
-
-        // 创建新的翻译后的项目数组
-        let titleIndex = 0
-        let descIndex = 0
-        let uniqueDescIndex = 0
-
-        processedData = processedData.map((item) => {
-          // 创建新对象，避免修改原始对象
-          const translatedItem = { ...item }
-
-          // 设置语言标识
-          if (!translatedItem.extra) {
-            translatedItem.extra = {}
-          }
-          translatedItem.extra.langId = "en"
-
-          // 翻译标题
-          if (item.title) {
-            // 保存原始标题
-            translatedItem.extra.originalTitle = item.title
-
-            // 使用翻译后的标题
-            if (titleIndex < translatedTitles.length) {
-              translatedItem.title = translatedTitles[titleIndex]
-
-              // 如果翻译后的标题与原始标题相同且不是以 [EN] 开头，添加 [EN] 前缀
-              if (translatedItem.title === item.title && !translatedItem.title.startsWith("[EN]")) {
-                translatedItem.title = `[EN] ${translatedItem.title}`
-              }
-
-              titleIndex++
-            }
-          }
-
-          // 翻译描述
-          if (item.extra?.description) {
-            const originalDesc = item.extra.description
-
-            // 使用翻译后的描述
-            if (descIndex < translatedDescriptions.length) {
-              translatedItem.extra.description = translatedDescriptions[descIndex]
-
-              // 如果翻译后的描述与原始描述相同且不是以 [EN] 开头，添加 [EN] 前缀
-              if (translatedItem.extra.description === originalDesc && !translatedItem.extra.description.startsWith("[EN]")) {
-                translatedItem.extra.description = `[EN] ${translatedItem.extra.description}`
-              }
-
-              descIndex++
-            }
-          }
-
-          // 翻译唯一描述
-          if (item.extra?.uniqueDescription) {
-            const originalUniqueDesc = item.extra.uniqueDescription
-
-            // 使用翻译后的唯一描述
-            if (uniqueDescIndex < translatedUniqueDescriptions.length) {
-              translatedItem.extra.uniqueDescription = translatedUniqueDescriptions[uniqueDescIndex]
-
-              // 如果翻译后的唯一描述与原始唯一描述相同且不是以 [EN] 开头，添加 [EN] 前缀
-              if (translatedItem.extra.uniqueDescription === originalUniqueDesc && !translatedItem.extra.uniqueDescription.startsWith("[EN]")) {
-                translatedItem.extra.uniqueDescription = `[EN] ${translatedItem.extra.uniqueDescription}`
-              }
-
-              uniqueDescIndex++
-            }
-          }
-
-          return translatedItem
-        })
-      } catch (error) {
-        console.error("翻译失败:", error)
-
-        // 如果翻译失败，至少添加语言标识和 [EN] 前缀
-        processedData = processedData.map((item) => {
-          const translatedItem = { ...item }
-
-          if (!translatedItem.extra) {
-            translatedItem.extra = {}
-          }
-          translatedItem.extra.langId = "en"
-
-          // 处理标题
-          if (item.title && !item.title.startsWith("[EN]")) {
-            translatedItem.extra.originalTitle = item.title
-            translatedItem.title = `[EN] ${item.title}`
-          }
-
-          // 处理描述
-          if (item.extra?.description && !item.extra.description.startsWith("[EN]")) {
-            translatedItem.extra.description = `[EN] ${item.extra.description}`
-          }
-
-          // 处理唯一描述
-          if (item.extra?.uniqueDescription && !item.extra.uniqueDescription.startsWith("[EN]")) {
-            translatedItem.extra.uniqueDescription = `[EN] ${item.extra.uniqueDescription}`
-          }
-
-          return translatedItem
-        })
-      }
-
-      console.log(`翻译完成，数据项目数: ${processedData.length}`)
-
-      // 更新缓存
-      if (cacheTable) {
-        await cacheTable.set(cacheKey, processedData)
-        console.log(`已更新英文翻译缓存: ${cacheKey}`)
-      }
-
-      logger.success(`已使用 Cloudflare API 将 ${id} 翻译为英文`)
-    } catch (error) {
-      console.error(`翻译出错详情:`, error)
-      logger.error(`Translation error: ${error}`)
-
-      // 如果翻译失败，仍然使用原始数据，但标记语言
-      processedData = newData.map(item => ({
-        ...item,
-        extra: {
-          ...item.extra,
-          langId: "en",
-          originalTitle: item.title,
-        },
-      }))
-    }
-
+    // 如果没有缓存，返回错误状态
     return {
-      status: "success",
+      status: "error",
       id,
       updatedTime: Date.now(),
-      items: processedData,
+      message: String(error),
+      items: [],
       lang,
     }
-  } catch (error) {
-    logger.error(`获取数据失败: ${error}`)
-    throw error
   }
 }
