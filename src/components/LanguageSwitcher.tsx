@@ -8,18 +8,18 @@ const $ = (...classes: (string | boolean | undefined)[]) => classes.filter(Boole
 */
 
 export function LanguageSwitcher() {
-  const { currentLanguage, setLanguage } = useTranslation()
-  const [displayLanguage, setDisplayLanguage] = useState<Language>(currentLanguage)
+  const { language, setLanguage } = useTranslation()
+  const [displayLanguage, setDisplayLanguage] = useState<Language>(language)
 
   // 同步显示语言和实际语言
   useEffect(() => {
-    console.log("LanguageSwitcher: 当前语言变化为", currentLanguage)
-    setDisplayLanguage(currentLanguage)
-  }, [currentLanguage])
+    console.log("LanguageSwitcher: 当前语言变化为", language)
+    setDisplayLanguage(language)
+  }, [language])
 
   const toggleLanguage = () => {
-    const newLanguage: Language = currentLanguage === "zh" ? "en" : "zh"
-    console.log("切换语言:", currentLanguage, "->", newLanguage)
+    const newLanguage: Language = language === "zh" ? "en" : "zh"
+    console.log("切换语言:", language, "->", newLanguage)
 
     // 立即更新显示语言，提供即时反馈
     setDisplayLanguage(newLanguage)

@@ -1,5 +1,6 @@
 import { defineEventHandler, readBody } from "h3"
 import { translate as translateUtil } from "../utils/translate"
+import { translateParallel } from "../utils/translateParallel"
 import { logger } from "../utils/logger"
 
 /**
@@ -10,7 +11,7 @@ import { logger } from "../utils/logger"
 export default defineEventHandler(async (event) => {
   try {
     // 解析请求体
-    const { text, targetLanguage = "en", sourceLanguage = "zh" } = await readBody(event)
+    const { text, targetLanguage = "en", sourceLanguage = "zh", useParallel = true } = await readBody(event)
 
     // 验证参数
     if (!text) {
@@ -28,10 +29,12 @@ export default defineEventHandler(async (event) => {
       }
     }
 
-    console.log(`翻译请求: 从 ${sourceLanguage} 到 ${targetLanguage}, 文本: ${text.substring(0, 30)}${text.length > 30 ? "..." : ""}`)
+    console.log(`翻译请求: 从 ${sourceLanguage} 到 ${targetLanguage}, 文本: ${text.substring(0, 30)}${text.length > 30 ? "..." : ""}${useParallel ? " (并行模式)" : ""}`)
 
-    // 执行翻译
-    const translation = await translateUtil(text, sourceLanguage, targetLanguage)
+    // 执行翻译，根据参数选择普通翻译或并行翻译
+    const translation = useParallel
+      ? await translateParallel(text, sourceLanguage, targetLanguage)
+      : await translateUtil(text, sourceLanguage, targetLanguage)
 
     // 移除可能的"[EN]"前缀
     let cleanTranslation = translation

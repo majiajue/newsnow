@@ -104,13 +104,17 @@ export interface NewsItem {
     originalTitle?: string
     description?: string
     uniqueDescription?: string
+    // 来源和关键词
+    attribution?: string
+    keywords?: string[]
   }
 }
 
 export interface SourceResponse {
-  status: "success" | "cache"
+  status: "success" | "cache" | "error"
   id: SourceID
   updatedTime: number | string
   items: NewsItem[]
   lang?: string
+  message?: string
 }

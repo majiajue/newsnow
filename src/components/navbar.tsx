@@ -18,7 +18,7 @@ function useSearchBar() {
 }
 
 // 硬编码的翻译
-const hardcodedTranslations = {
+const hardcodedTranslations: Record<string, Record<string, string>> = {
   zh: {
     more: "更多",
     toutiao: "今日头条",
@@ -31,6 +31,7 @@ const hardcodedTranslations = {
     github: "GitHub热门",
     v2ex: "V2EX热门",
     following: "关注",
+    focus: "关注",
     hottest: "最热",
     realtime: "实时",
   },
@@ -46,6 +47,7 @@ const hardcodedTranslations = {
     github: "GitHub Trending",
     v2ex: "V2EX Hot Topics",
     following: "Following",
+    focus: "Focus",
     hottest: "Hottest",
     realtime: "Real-time",
   },
@@ -54,19 +56,15 @@ const hardcodedTranslations = {
 export function NavBar() {
   const currentId = useAtomValue(currentColumnIDAtom)
   const { toggle } = useSearchBar()
-  const { currentLanguage, translate } = useTranslation()
+  const { language, t } = useTranslation()
 
   // 调试信息
-  console.log("NavBar 当前语言:", currentLanguage)
+  console.log("NavBar 当前语言:", language)
   console.log("NavBar 语言包:", locales)
-  console.log("NavBar 更多文本:", translate("更多"))
+  console.log("NavBar 更多文本:", t("更多"))
 
   return (
-    <span className={$([
-      "flex p-3 rounded-2xl bg-primary/1 text-sm",
-      "shadow shadow-primary/20 hover:shadow-primary/50 transition-shadow-500",
-    ])}
-    >
+    <span className="flex p-3 rounded-2xl bg-primary/1 text-sm shadow shadow-primary/20 hover:shadow-primary/50 transition-shadow-500">
       <button
         type="button"
         onClick={() => toggle(true)}
@@ -81,17 +79,28 @@ export function NavBar() {
         let columnName = ""
 
         // 特殊处理一些关键导航项
-        if (columnId === "following") {
-          columnName = translate("关注")
+        if (columnId === "focus") {
+          columnName = t("关注")
         } else if (columnId === "hottest") {
-          columnName = translate("最热")
+          columnName = t("最热")
         } else if (columnId === "realtime") {
-          columnName = translate("实时")
+          columnName = t("实时")
         } else {
           // 其他栏目使用硬编码翻译或元数据
-          columnName = currentLanguage === "en"
-            ? hardcodedTranslations.en[columnId] || metadata[columnId].name
-            : hardcodedTranslations.zh[columnId] || metadata[columnId].name
+          const langKey = language === "en" ? "en" : "zh"
+          // 使用类型断言确保 TypeScript 知道 columnId 是有效的键
+          const translations = hardcodedTranslations[langKey]
+
+          // 使用安全的方式获取列名
+          if (columnId in translations) {
+            columnName = translations[columnId]
+          } else if (columnId in metadata) {
+            // 这里使用类型断言，因为我们已经检查了 columnId 是否在 metadata 中
+            columnName = metadata[columnId as keyof typeof metadata].name
+          } else {
+            // 如果都找不到，使用 columnId 作为默认值
+            columnName = String(columnId)
+          }
         }
 
         console.log(`NavBar 栏目 ${columnId} 名称:`, columnName)

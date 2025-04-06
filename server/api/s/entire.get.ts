@@ -1,4 +1,4 @@
-import { defineEventHandler, readBody } from "h3"
+import { defineEventHandler, getQuery } from "h3"
 import type { SourceID, SourceResponse } from "@shared/types"
 import { translate } from "../../utils/translate"
 import { getCacheTable } from "#/database/cache"
@@ -14,7 +14,18 @@ interface CacheInfo {
 
 export default defineEventHandler(async (event) => {
   try {
-    const { sources: sourceIds, lang = "zh" }: { sources: SourceID[], lang?: string } = await readBody(event)
+    const query = getQuery(event)
+    const sourcesParam = query.sources as string
+    const lang = (query.lang as string) || "zh"
+
+    // 解析 sources 参数
+    let sourceIds: SourceID[] = []
+    try {
+      sourceIds = JSON.parse(decodeURIComponent(sourcesParam))
+    } catch (e) {
+      logger.error(`解析 sources 参数失败: ${e}`)
+      return []
+    }
 
     if (!sourceIds?.length) {
       return []
@@ -74,11 +85,7 @@ export default defineEventHandler(async (event) => {
           // 使用语言参数构建缓存键
           const cacheKey = `${id}_${lang}`
           // 只在需要使用缓存时获取
-          let _cache: CacheInfo | undefined
-
-          if (cacheTable) {
-            _cache = await cacheTable.get(cacheKey)
-          }
+          const _cache = cacheTable ? await cacheTable.get(cacheKey) : undefined
 
           // 获取原始数据（中文）
           const newData = (await getters[id]()).slice(0, 30)
@@ -173,7 +180,10 @@ export default defineEventHandler(async (event) => {
           if (cacheTable) {
             // 使用包含语言的缓存键
             const cacheKey = `${id}_${lang}`
-            await cacheTable.set(cacheKey, processedData)
+            await cacheTable.set(cacheKey, {
+              updated: now,
+              items: processedData,
+            })
           }
 
           // 返回响应

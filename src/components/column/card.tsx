@@ -8,8 +8,8 @@ import { OverlayScrollbar } from "../common/overlay-scrollbar"
 import { $, cacheSources, delay, refetchSources, useFocusWith, useRefetch } from "./cardUtils"
 import { myFetch, safeParseString } from "~/utils"
 import { useRelativeTime } from "~/hooks/useRelativeTime"
-
 import { useTranslation } from "~/hooks/useTranslation"
+import { SourceLoadingIndicator } from "~/components/LoadingIndicator"
 
 // 导出供其他模块使用
 export { cacheSources, refetchSources }
@@ -60,10 +60,10 @@ export const CardWrapper = forwardRef<HTMLElement, ItemsProps>(({ id, isDragging
 
 function NewsCard({ id, setHandleRef }: NewsCardProps) {
   const { refresh } = useRefetch()
-  const { currentLanguage } = useTranslation()
+  const { t } = useTranslation()
 
   useEffect(() => {
-    console.log("NewsCard 语言变化:", currentLanguage, id)
+    console.log("NewsCard 语言变化:", t("语言变化"), id)
     // 当语言变化时，清除该源的所有语言缓存
     const zhCacheKey = `${id}_zh`
     const enCacheKey = `${id}_en`
@@ -80,7 +80,7 @@ function NewsCard({ id, setHandleRef }: NewsCardProps) {
 
     // 添加到需要刷新的源
     refetchSources.add(id)
-  }, [currentLanguage, id])
+  }, [t, id])
 
   useEffect(() => {
     const handleLanguageChange = (event: CustomEvent<{ language: string }>) => {
@@ -120,7 +120,7 @@ function NewsCard({ id, setHandleRef }: NewsCardProps) {
   }, [id])
 
   const { data, isFetching, isError } = useQuery({
-    queryKey: ["source", id, currentLanguage],
+    queryKey: ["source", id, t("语言")],
     queryFn: async ({ queryKey }) => {
       const id = queryKey[1] as SourceID
       const lang = queryKey[2] as string
@@ -223,11 +223,11 @@ function NewsCard({ id, setHandleRef }: NewsCardProps) {
 
   const { isFocused, toggleFocus } = useFocusWith(id)
 
-  const isTranslated = currentLanguage === "en"
+  const isTranslated = t("语言") === "en"
 
   return (
     <>
-      <div className={$("flex justify-between mx-2 mt-0 mb-2 items-center")}>
+      <div className="flex justify-between mx-2 mt-0 mb-2 items-center">
         <div className="flex gap-2 items-center">
           <a
             className={$("w-8 h-8 rounded-full bg-cover")}
@@ -256,7 +256,9 @@ function NewsCard({ id, setHandleRef }: NewsCardProps) {
             type="button"
             className={$("btn i-ph:arrow-counter-clockwise-duotone", isFetching && "animate-spin i-ph:circle-dashed-duotone")}
             onClick={() => refresh(id)}
-          />
+          >
+            {t("更新")}
+          </button>
           <button
             type="button"
             className={$("btn", isFocused ? "i-ph:star-fill" : "i-ph:star-duotone")}
@@ -284,6 +286,7 @@ function NewsCard({ id, setHandleRef }: NewsCardProps) {
         defer
       >
         <div className={$("transition-opacity-500", isFetching && "op-20")}>
+          {isFetching && <SourceLoadingIndicator sourceId={id} />}
           {!!data?.items?.length && (sources[id].type === "hottest" ? <NewsListHot items={data.items} isTranslated={isTranslated} /> : <NewsListTimeLine items={data.items} />)}
         </div>
       </OverlayScrollbar>
@@ -293,18 +296,18 @@ function NewsCard({ id, setHandleRef }: NewsCardProps) {
 
 function UpdatedTime({ isError, updatedTime }: { updatedTime: any, isError: boolean }) {
   const relativeTime = useRelativeTime(updatedTime ?? "")
-  const { translate } = useTranslation()
+  const { t } = useTranslation()
 
   if (relativeTime) {
     return (
       <>
         {relativeTime}
-        {translate("更新")}
+        {t("更新")}
       </>
     )
   }
-  if (isError) return <>{translate("获取失败")}</>
-  return <>{translate("加载中...")}</>
+  if (isError) return <>{t("获取失败")}</>
+  return <>{t("加载中...")}</>
 }
 
 function DiffNumber({ diff }: { diff: number }) {
@@ -334,35 +337,46 @@ function DiffNumber({ diff }: { diff: number }) {
 }
 
 function ExtraInfo({ item }: { item: NewsItem }) {
-  if (item?.extra?.info) {
-    return <>{item.extra.info}</>
+  if (!item.extra) {
+    return null
   }
 
-  // 显示增强的内容描述
-  if (item?.extra?.uniqueDescription) {
+  const {
+    info,
+    uniqueDescription,
+    attribution,
+    description,
+    icon,
+    keywords,
+  } = item.extra
+
+  if (info) {
+    return <>{info}</>
+  }
+
+  if (uniqueDescription) {
     return (
       <div className="text-sm text-gray-700 dark:text-gray-300 mt-1">
-        {item.extra.uniqueDescription}
-        {item?.extra?.attribution && (
+        {uniqueDescription}
+        {attribution && (
           <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-            {item.extra.attribution}
+            {attribution}
           </div>
         )}
       </div>
     )
   }
 
-  // 显示普通描述
-  if (item?.extra?.description) {
+  if (description) {
     return (
       <div className="text-sm text-gray-700 dark:text-gray-300 mt-1">
-        {item.extra.description}
+        {description}
       </div>
     )
   }
 
-  if (item?.extra?.icon) {
-    const { url, scale } = typeof item.extra.icon === "string" ? { url: item.extra.icon, scale: undefined } : item.extra.icon
+  if (icon) {
+    const { url, scale } = typeof icon === "string" ? { url: icon, scale: undefined } : icon
     return (
       <img
         src={url}
@@ -375,13 +389,12 @@ function ExtraInfo({ item }: { item: NewsItem }) {
     )
   }
 
-  // 显示关键词标签
-  if (item?.extra?.keywords && item.extra.keywords.length > 0) {
+  if (keywords?.length) {
     return (
       <div className="flex flex-wrap gap-1 mt-1">
-        {item.extra.keywords.map((keyword, index) => (
+        {keywords.map((keyword, index) => (
           <span
-            key={`keyword-${keyword}-${index}`}
+            key={`keyword-${index}-${keyword}`}
             className="text-xs px-2 py-0.5 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
           >
             {keyword}
@@ -390,6 +403,8 @@ function ExtraInfo({ item }: { item: NewsItem }) {
       </div>
     )
   }
+
+  return null
 }
 
 function NewsUpdatedTime({ date }: { date: string | number }) {

@@ -9,11 +9,11 @@ import { currentSourcesAtom, goToTopAtom } from "~/atoms"
 
 function GoTop() {
   const { ok, fn: goToTop } = useAtomValue(goToTopAtom)
-  const { translate } = useTranslation()
+  const { t } = useTranslation()
   return (
     <button
       type="button"
-      title={translate("回到顶部")}
+      title={t("回到顶部")}
       className={$("i-ph:arrow-fat-up-duotone", ok ? "op-50 btn" : "op-0")}
       onClick={goToTop}
     />
@@ -24,7 +24,7 @@ function Refresh() {
   const currentSources = useAtomValue(currentSourcesAtom)
   const { refresh } = useRefetch()
   const refreshAll = useCallback(() => refresh(...currentSources), [refresh, currentSources])
-  const { translate } = useTranslation()
+  const { t } = useTranslation()
 
   const isFetching = useIsFetching({
     predicate: (query) => {
@@ -36,7 +36,7 @@ function Refresh() {
   return (
     <button
       type="button"
-      title={translate("刷新")}
+      title={t("刷新")}
       className={$("i-ph:arrow-counter-clockwise-duotone btn", isFetching && "animate-spin i-ph:circle-dashed-duotone")}
       onClick={refreshAll}
     />
@@ -44,17 +44,17 @@ function Refresh() {
 }
 
 export function Header() {
-  const { translate } = useTranslation()
+  const { t } = useTranslation()
   return (
     <>
       <span className="flex justify-self-start">
         <Link to="/" className="flex gap-2 items-center">
-          <div className="h-10 w-10 bg-cover" title={translate("logo")} style={{ backgroundImage: "url(/icon.svg)" }} />
+          <div className="h-10 w-10 bg-cover" title={t("logo")} style={{ backgroundImage: "url(/icon.svg)" }} />
           <span className="text-2xl font-brand line-height-none!">
-            <p>{translate("News")}</p>
+            <p>{t("News")}</p>
             <p className="mt--1">
               <span className="color-primary-6">N</span>
-              <span>{translate("ow")}</span>
+              <span>{t("ow")}</span>
             </p>
           </span>
         </Link>

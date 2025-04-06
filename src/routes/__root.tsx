@@ -12,6 +12,7 @@ import { SearchBar } from "~/components/common/search-bar"
 import { useSync } from "~/hooks/useSync"
 import { useOnReload } from "~/hooks/useOnReload"
 import { usePWA } from "~/hooks/usePWA"
+import { GlobalLoadingIndicator } from "~/components/LoadingIndicator"
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient
@@ -66,6 +67,7 @@ function RootComponent() {
       </GlobalOverlayScrollbar>
       <Toast />
       <SearchBar />
+      <GlobalLoadingIndicator />
       {import.meta.env.DEV && (
         <>
           <ReactQueryDevtools buttonPosition="bottom-left" />

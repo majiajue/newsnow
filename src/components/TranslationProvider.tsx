@@ -1,272 +1,230 @@
 import type { ReactNode } from "react"
-import { createContext, useCallback, useContext, useEffect, useMemo } from "react"
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react"
 import { Translate as TranslateComponent } from "./Translate"
 import type { Language } from "~/services/translationService"
 import { translate, useTranslationStore } from "~/services/translationService"
-import { getI18nText, hasI18nText } from "~/i18n"
-// 导入 Translate 组件以便重新导出
 
 // 翻译上下文类型
-export interface TranslationContextType {
-  currentLanguage: Language
+interface TranslationContextType {
+  language: Language
   setLanguage: (language: Language) => void
-  translate: (text: string) => string
+  t: (text: string) => string
   translateAsync: (text: string) => Promise<string>
-  isTranslated: boolean
+  isTranslating: boolean
+  translationProgress: number
+  translationQueue: number
+  translationErrors: number
 }
 
 // 创建翻译上下文
-export const TranslationContext = createContext<TranslationContextType | null>(null)
+const TranslationContext = createContext<TranslationContextType>({
+  language: "zh",
+  setLanguage: () => {},
+  t: (text: string) => text,
+  translateAsync: async (text: string) => text,
+  isTranslating: false,
+  translationProgress: 0,
+  translationQueue: 0,
+  translationErrors: 0,
+})
 
-// 创建 useTranslation 钩子函数
-export function useTranslation() {
-  const context = useContext(TranslationContext)
-  if (!context) {
-    throw new Error("useTranslation 必须在 TranslationProvider 内部使用")
-  }
-  return context
-}
+// 使用翻译上下文的钩子
+export const useTranslation = () => useContext(TranslationContext)
 
 // 重新导出 Translate 组件
 export const Translate = TranslateComponent
 
-// 翻译提供者属性
-interface TranslationProviderProps {
-  children: ReactNode
-}
-
-// 检测浏览器语言
-function detectBrowserLanguage(): Language {
-  if (typeof window === "undefined") return "zh" // 默认为中文
-
-  // 获取浏览器语言
-  const browserLang = navigator.language || (navigator as any).userLanguage
-  console.log("浏览器语言:", browserLang)
-
-  // 如果浏览器语言以 'zh' 开头（如 zh-CN, zh-TW 等），则返回中文，否则返回英文
-  const detectedLang = browserLang && browserLang.startsWith("zh") ? "zh" : "en"
-  console.log("检测到的语言:", detectedLang)
-  return detectedLang
-}
-
-/**
- * 检查翻译质量
- * @param originalText 原始文本
- * @param translatedText 翻译后的文本
- * @returns 是否为低质量翻译
- */
-function isLowQualityTranslation(originalText: string, translatedText: string): boolean {
-  // 检查翻译结果是否为空
-  if (!translatedText) return true
-
-  // 检查翻译结果是否过短（相对于原文）
-  const originalLength = originalText.length
-  const translatedLength = translatedText.length
-
-  // 如果原文较长，但翻译结果非常短，可能是低质量翻译
-  if (originalLength > 20 && translatedLength < originalLength * 0.3) return true
-
-  // 检查是否匹配常见错误模式（如只有两个单词的简单短语）
-  const wordCount = translatedText.split(/\s+/).filter(Boolean).length
-  if (originalLength > 30 && wordCount <= 2) return true
-
-  return false
-}
-
 // 翻译提供者组件
-export function TranslationProvider({ children }: TranslationProviderProps) {
-  const { currentLanguage, setLanguage: storeSetLanguage, getTranslation, addTranslation } = useTranslationStore()
+function TranslationProviderComponent({ children }: { children: ReactNode }) {
+  // 从 store 获取当前语言和设置语言的函数
+  const {
+    language: currentLanguage,
+    setLanguage: storeSetLanguage,
+  } = useTranslationStore()
 
   console.log("TranslationProvider 初始化，当前语言:", currentLanguage)
 
-  // 设置语言并清除缓存
+  // 状态管理
+  const [language, setLanguageState] = useState<Language>(currentLanguage)
+  const [isTranslating, setIsTranslating] = useState<boolean>(false)
+  const [translationProgress, setTranslationProgress] = useState<number>(0)
+  const [translationQueue, setTranslationQueue] = useState<number>(0)
+  const [translationErrors, setTranslationErrors] = useState<number>(0)
+  const [translationCache, setTranslationCache] = useState<Record<string, string>>({})
+
+  // 设置语言
   const setLanguage = useCallback((language: Language) => {
-    console.log("设置语言 (setLanguage):", language)
+    // 清除翻译缓存
+    setTranslationCache({})
 
-    // 如果语言没有变化，不做任何操作
-    if (language === currentLanguage) {
-      console.log("语言未变化，不做任何操作")
-      return
-    }
+    // 重置翻译状态
+    setTranslationProgress(0)
+    setTranslationQueue(0)
+    setTranslationErrors(0)
 
-    // 设置新语言
+    // 更新语言状态
     storeSetLanguage(language)
+    setLanguageState(language)
 
-    // 发布自定义事件，通知所有组件语言已更改
-    if (typeof window !== "undefined") {
-      console.log("发布语言变化事件:", language)
-      const event = new CustomEvent("languageChanged", { detail: { language } })
-      window.dispatchEvent(event)
+    // 将语言设置保存到本地存储
+    localStorage.setItem("language-setting", JSON.stringify(language))
+
+    // 记录语言切换事件
+    console.log(`语言已切换为: ${language}`)
+  }, [storeSetLanguage])
+
+  // 翻译函数
+  const t = useCallback((text: string): string => {
+    // 如果文本为空，直接返回
+    if (!text) return text
+
+    // 如果语言是中文，直接返回原文
+    if (language === "zh") return text
+
+    // 如果缓存中已有翻译，直接返回
+    const cacheKey = `${language}:${text}`
+    if (translationCache[cacheKey]) {
+      return translationCache[cacheKey]
     }
 
-    // 清除 react-query 缓存，强制重新获取数据
-    const queryClient = window.queryClient
-    if (queryClient) {
-      console.log("清除缓存...")
-      // 使所有以 "source" 开头的查询失效
-      queryClient.invalidateQueries({ queryKey: ["source"] })
-      queryClient.invalidateQueries({ queryKey: ["entire"] })
-    }
+    // 否则，异步获取翻译并更新缓存
+    setIsTranslating(true)
+    setTranslationQueue(prev => prev + 1)
 
-    // 延迟刷新页面以确保所有组件都使用新语言
-    setTimeout(() => {
-      console.log("刷新页面以应用新语言")
-      window.location.reload()
-    }, 500)
-  }, [currentLanguage, storeSetLanguage])
+    translate(text, language)
+      .then((translated) => {
+        if (typeof translated === "string") {
+          // 更新缓存
+          setTranslationCache(prev => ({
+            ...prev,
+            [cacheKey]: translated,
+          }))
 
-  // 初始化时检测浏览器语言
-  useEffect(() => {
-    console.log("useEffect 运行，检测浏览器语言")
-    const detectedLanguage = detectBrowserLanguage()
-    console.log("当前语言:", currentLanguage, "检测到的语言:", detectedLanguage)
+          // 更新翻译状态
+          setTranslationProgress(prev => prev + 1)
+          setTranslationQueue(prev => prev - 1)
 
-    // 从 localStorage 获取用户设置的语言
-    const savedLanguage = localStorage.getItem("language-setting")
-    if (savedLanguage) {
-      try {
-        const parsedLanguage = JSON.parse(savedLanguage) as Language
-        console.log("从 localStorage 获取的语言:", parsedLanguage)
-
-        if (parsedLanguage !== currentLanguage) {
-          console.log("使用保存的语言设置")
-          setLanguage(parsedLanguage)
+          // 如果翻译队列为空，设置翻译状态为完成
+          if (translationQueue <= 1) {
+            setTimeout(() => {
+              setIsTranslating(false)
+            }, 300)
+          }
         }
-        return
-      } catch (error) {
-        console.error("解析保存的语言设置失败:", error)
-      }
-    }
+      })
+      .catch((error) => {
+        console.error("翻译错误:", error)
+        setTranslationErrors(prev => prev + 1)
+        setTranslationQueue(prev => prev - 1)
 
-    // 如果没有保存的设置，使用浏览器语言
-    if (detectedLanguage !== currentLanguage) {
-      console.log("检测到浏览器语言与当前语言不同，自动切换")
-      setLanguage(detectedLanguage)
-    }
-  }, [currentLanguage, setLanguage]) // 添加依赖项
+        // 如果翻译队列为空，设置翻译状态为完成
+        if (translationQueue <= 1) {
+          setTimeout(() => {
+            setIsTranslating(false)
+          }, 300)
+        }
+      })
 
-  // 同步翻译（从缓存获取）
-  const translateSync = useCallback((text: string): string => {
-    if (!text) return text
-
-    // 如果是中文且当前语言是中文，直接返回
-    if (currentLanguage === "zh") return text
-
-    // 首先检查是否是国际化键
-    if (text.includes(".") && hasI18nText(text, currentLanguage)) {
-      const i18nText = getI18nText(text, currentLanguage)
-      console.log(`翻译键 "${text}" => "${i18nText}"`)
-      return i18nText
-    }
-
-    // 然后检查翻译缓存
-    const cached = getTranslation(text, currentLanguage)
-    if (cached) {
-      // 检查缓存的翻译质量
-      if (!isLowQualityTranslation(text, cached)) {
-        return cached
-      }
-      console.warn(`检测到低质量翻译: "${text}" => "${cached}"，尝试使用备选翻译`)
-    }
-
-    // 如果没有缓存，检查常见翻译
-    const commonTranslations: Record<string, string> = {
-      关注: "Following",
-      最热: "Hottest",
-      实时: "Real-time",
-      更多: "More",
-      刷新: "Refresh",
-      回到顶部: "Back to Top",
-      黑暗模式: "Dark Mode",
-      白天模式: "Light Mode",
-      退出登录: "Log Out",
-      登录: "Log In",
-    }
-
-    if (currentLanguage === "en" && commonTranslations[text]) {
-      return commonTranslations[text]
-    }
-
+    // 在翻译完成前，先返回原文
     return text
-  }, [currentLanguage, getTranslation])
+  }, [language, translationCache, translationQueue])
 
-  // 异步翻译（如果缓存没有则请求API）
-  const translateAsync = useCallback(async (text: string): Promise<string> => {
+  const translateAsync = useCallback(async (text: string) => {
+    // 如果文本为空，直接返回
     if (!text) return text
 
-    // 如果是中文且当前语言是中文，直接返回
-    if (currentLanguage === "zh") return text
+    // 如果语言是中文，直接返回原文
+    if (language === "zh") return text
 
-    // 首先检查是否是国际化键
-    if (text.includes(".") && hasI18nText(text, currentLanguage)) {
-      return getI18nText(text, currentLanguage)
+    // 如果缓存中已有翻译，直接返回
+    const cacheKey = `${language}:${text}`
+    if (translationCache[cacheKey]) {
+      return translationCache[cacheKey]
     }
 
-    // 然后检查翻译缓存
-    const cached = getTranslation(text, currentLanguage)
-    if (cached) {
-      // 检查缓存的翻译质量
-      if (!isLowQualityTranslation(text, cached)) {
-        return cached
-      }
-      console.warn(`检测到低质量翻译: "${text}" => "${cached}"，尝试使用API重新翻译`)
-    }
-
-    // 检查常见翻译
-    const commonTranslations: Record<string, string> = {
-      关注: "Following",
-      最热: "Hottest",
-      实时: "Real-time",
-      更多: "More",
-      刷新: "Refresh",
-      回到顶部: "Back to Top",
-      黑暗模式: "Dark Mode",
-      白天模式: "Light Mode",
-      退出登录: "Log Out",
-      登录: "Log In",
-    }
-
-    if (currentLanguage === "en" && commonTranslations[text]) {
-      const translation = commonTranslations[text]
-      // 将翻译结果添加到缓存
-      addTranslation(text, currentLanguage, translation)
-      return translation
-    }
+    // 否则，异步获取翻译并更新缓存
+    setIsTranslating(true)
+    setTranslationQueue(prev => prev + 1)
 
     try {
-      // 如果缓存中没有，则请求API翻译
-      const translated = await translate(text, currentLanguage)
+      const translated = await translate(text, language)
+      if (typeof translated === "string") {
+        // 更新缓存
+        setTranslationCache(prev => ({
+          ...prev,
+          [cacheKey]: translated,
+        }))
 
-      // 检查API翻译质量
-      if (translated && translated !== text && !isLowQualityTranslation(text, translated)) {
-        // 将翻译结果添加到缓存
-        addTranslation(text, currentLanguage, translated)
+        // 更新翻译状态
+        setTranslationProgress(prev => prev + 1)
+        setTranslationQueue(prev => prev - 1)
+
+        // 如果翻译队列为空，设置翻译状态为完成
+        if (translationQueue <= 1) {
+          setTimeout(() => {
+            setIsTranslating(false)
+          }, 300)
+        }
+
         return translated
-      } else {
-        console.warn(`API返回低质量翻译: "${text}" => "${translated}"，使用原文`)
-        return text
       }
     } catch (error) {
-      console.error("翻译失败:", error)
-      return text
-    }
-  }, [currentLanguage, getTranslation, addTranslation])
+      console.error("翻译错误:", error)
+      setTranslationErrors(prev => prev + 1)
+      setTranslationQueue(prev => prev - 1)
 
-  // 检查是否已经翻译
-  const isTranslated = currentLanguage !== "zh"
+      // 如果翻译队列为空，设置翻译状态为完成
+      if (translationQueue <= 1) {
+        setTimeout(() => {
+          setIsTranslating(false)
+        }, 300)
+      }
+    }
+
+    // 在翻译完成前，先返回原文
+    return text
+  }, [language, translationCache, translationQueue])
+
+  // 检测浏览器语言并设置初始语言
+  useEffect(() => {
+    // 尝试从本地存储中获取语言设置
+    const storedLanguage = localStorage.getItem("language-setting")
+    if (storedLanguage) {
+      try {
+        const parsedLanguage = JSON.parse(storedLanguage) as Language
+        if (parsedLanguage) {
+          setLanguageState(parsedLanguage)
+          storeSetLanguage(parsedLanguage)
+          return
+        }
+      } catch (error) {
+        console.error("解析存储的语言设置时出错:", error)
+      }
+    }
+
+    // 如果没有存储的语言设置，检测浏览器语言
+    const browserLanguage = navigator.language.toLowerCase()
+    if (browserLanguage.startsWith("zh")) {
+      setLanguageState("zh")
+      storeSetLanguage("zh")
+    } else if (browserLanguage.startsWith("en")) {
+      setLanguageState("en")
+      storeSetLanguage("en")
+    }
+    // 其他语言默认使用中文
+  }, [storeSetLanguage])
 
   // 提供上下文值
   const contextValue = useMemo(() => ({
-    currentLanguage,
+    language,
     setLanguage,
-    translate: translateSync,
+    t,
     translateAsync,
-    isTranslated,
-  }), [currentLanguage, setLanguage, translateSync, translateAsync, isTranslated])
-
-  useEffect(() => {
-    console.log("当前语言:", currentLanguage)
-  }, [currentLanguage])
+    isTranslating,
+    translationProgress,
+    translationQueue,
+    translationErrors,
+  }), [language, setLanguage, t, translateAsync, isTranslating, translationProgress, translationQueue, translationErrors])
 
   return (
     <TranslationContext.Provider value={contextValue}>
@@ -274,3 +232,5 @@ export function TranslationProvider({ children }: TranslationProviderProps) {
     </TranslationContext.Provider>
   )
 }
+
+export const TranslationProvider = TranslationProviderComponent
