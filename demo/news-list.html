@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NewNow - AI增强新闻平台</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+  <style>
+    :root {
+      --primary-color: #2c3e50;
+      --secondary-color: #3498db;
+      --accent-color: #e74c3c;
+      --bg-color: #f5f5f5;
+      --text-color: #333;
+      --card-bg: #ffffff;
+      --border-color: #eaeaea;
+    }
+    
+    body {
+      font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+    
+    .navbar {
+      background-color: var(--primary-color);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    .navbar-brand {
+      font-weight: bold;
+      color: white !important;
+    }
+    
+    .nav-link {
+      color: rgba(255, 255, 255, 0.85) !important;
+    }
+    
+    .nav-link:hover {
+      color: white !important;
+    }
+    
+    .news-card {
+      background-color: var(--card-bg);
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      transition: transform 0.2s, box-shadow 0.2s;
+      border: 1px solid var(--border-color);
+      height: 100%;
+    }
+    
+    .news-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .card-tag {
+      font-size: 0.75rem;
+      padding: 4px 8px;
+      border-radius: 4px;
+      background-color: #e3f2fd;
+      color: #0d6efd;
+      display: inline-block;
+      margin-right: 5px;
+      margin-bottom: 5px;
+    }
+    
+    .card-tag.tech {
+      background-color: #e3f2fd;
+      color: #0d6efd;
+    }
+    
+    .card-tag.business {
+      background-color: #e8f5e9;
+      color: #2e7d32;
+    }
+    
+    .card-tag.politics {
+      background-color: #ffebee;
+      color: #c62828;
+    }
+    
+    .card-tag.health {
+      background-color: #f3e5f5;
+      color: #8e24aa;
+    }
+    
+    .news-source {
+      font-size: 0.8rem;
+      color: #666;
+    }
+    
+    .news-date {
+      font-size: 0.8rem;
+      color: #888;
+    }
+    
+    .view-detail-btn {
+      color: var(--secondary-color);
+      text-decoration: none;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      transition: all 0.2s;
+    }
+    
+    .view-detail-btn:hover {
+      color: var(--primary-color);
+      text-decoration: underline;
+    }
+    
+    .view-detail-btn i {
+      margin-left: 5px;
+      transition: transform 0.2s;
+    }
+    
+    .view-detail-btn:hover i {
+      transform: translateX(3px);
+    }
+    
+    .section-heading {
+      border-bottom: 2px solid var(--primary-color);
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+    
+    .ai-badge {
+      background-color: var(--accent-color);
+      color: white;
+      font-size: 0.7rem;
+      padding: 3px 6px;
+      border-radius: 4px;
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+    
+    .category-filter {
+      overflow-x: auto;
+      white-space: nowrap;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+    }
+    
+    .filter-btn {
+      border-radius: 20px;
+      padding: 6px 15px;
+      margin-right: 8px;
+      border: 1px solid var(--border-color);
+      background-color: white;
+      color: var(--text-color);
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .filter-btn.active {
+      background-color: var(--primary-color);
+      color: white;
+      border-color: var(--primary-color);
+    }
+    
+    .filter-btn:hover:not(.active) {
+      background-color: #f0f0f0;
+    }
+    
+    /* 响应式调整 */
+    @media (max-width: 768px) {
+      .section-heading {
+        font-size: 1.5rem;
+      }
+      
+      .news-card {
+        margin-bottom: 20px;
+      }
+    }
+    
+    .search-bar {
+      max-width: 400px;
+    }
+    
+    footer {
+      margin-top: 50px;
+      padding: 20px 0;
+      background-color: var(--primary-color);
+      color: rgba(255, 255, 255, 0.8);
+    }
+  </style>
+</head>
+<body>
+  <!-- 导航栏 -->
+  <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">NewNow</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <a class="nav-link active" href="#">首页</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">科技</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">商业</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">政治</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">健康</a>
+          </li>
+        </ul>
+        <form class="d-flex search-bar">
+          <input class="form-control me-2" type="search" placeholder="搜索新闻..." aria-label="Search">
+          <button class="btn btn-outline-light" type="submit">搜索</button>
+        </form>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 主内容区 -->
+  <div class="container my-4">
+    <!-- 焦点新闻 -->
+    <div class="row mb-4">
+      <div class="col-12">
+        <h2 class="section-heading">今日焦点</h2>
+      </div>
+      <div class="col-md-8">
+        <div class="card news-card mb-4">
+          <img src="https://via.placeholder.com/800x400" class="card-img-top" alt="焦点新闻图片">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <div>
+                <span class="card-tag tech">科技</span>
+                <span class="card-tag business">商业</span>
+              </div>
+              <span class="news-date">2025-04-10</span>
+            </div>
+            <h3 class="card-title">人工智能技术革新：大模型如何改变我们的工作方式</h3>
+            <p class="news-source">来源：科技前沿</p>
+            <p class="card-text">随着人工智能技术的快速发展，大型语言模型正在彻底改变我们的工作方式。从自动化日常任务到生成创意内容，AI的应用范围正在迅速扩大...</p>
+            <a href="news-detail.html" class="view-detail-btn">阅读全文与AI分析 <i class="bi bi-arrow-right"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card news-card mb-4">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <div>
+                <span class="card-tag politics">政治</span>
+              </div>
+              <span class="news-date">2025-04-10</span>
+            </div>
+            <h5 class="card-title">全球气候峰会达成新协议，各国承诺减排</h5>
+            <p class="news-source">来源：环球时报</p>
+            <p class="card-text">在最新一轮全球气候峰会上，与会各国达成了新的减排协议，承诺到2030年...</p>
+            <a href="news-detail.html" class="view-detail-btn">阅读全文与AI分析 <i class="bi bi-arrow-right"></i></a>
+          </div>
+        </div>
+        <div class="card news-card">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <div>
+                <span class="card-tag health">健康</span>
+              </div>
+              <span class="news-date">2025-04-09</span>
+            </div>
+            <h5 class="card-title">新研究揭示：每天步行8000步可显著降低心脏病风险</h5>
+            <p class="news-source">来源：健康生活</p>
+            <p class="card-text">一项涉及超过10万人的长期研究表明，每天保持8000步的步行量可以显著降低...</p>
+            <a href="news-detail.html" class="view-detail-btn">阅读全文与AI分析 <i class="bi bi-arrow-right"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 分类过滤器 -->
+    <div class="category-filter">
+      <button class="filter-btn active">全部</button>
+      <button class="filter-btn">科技</button>
+      <button class="filter-btn">商业</button>
+      <button class="filter-btn">政治</button>
+      <button class="filter-btn">健康</button>
+      <button class="filter-btn">教育</button>
+      <button class="filter-btn">环境</button>
+      <button class="filter-btn">娱乐</button>
+    </div>
+    
+    <!-- 新闻列表 -->
+    <div class="row">
+      <div class="col-12">
+        <h2 class="section-heading">最新资讯</h2>
+      </div>
+      
+      <!-- 新闻卡片 -->
+      <div class="col-md-4 mb-4">
+        <div class="card news-card h-100">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <div>
+                <span class="card-tag tech">科技</span>
+              </div>
+              <span class="news-date">2025-04-10</span>
+            </div>
+            <h5 class="card-title">量子计算breakthrough：IBM宣布新的量子处理器</h5>
+            <p class="news-source">来源：科技评论</p>
+            <p class="card-text">IBM今天宣布了新一代量子处理器的重大突破，声称已经克服了量子退相干问题...</p>
+            <a href="news-detail.html" class="view-detail-btn">阅读全文与AI分析 <i class="bi bi-arrow-right"></i></a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-4 mb-4">
+        <div class="card news-card h-100">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <div>
+                <span class="card-tag business">商业</span>
+              </div>
+              <span class="news-date">2025-04-10</span>
+            </div>
+            <h5 class="card-title">电动汽车制造商NeoVolt获得50亿融资，加速全球扩张</h5>
+            <p class="news-source">来源：商业内幕</p>
+            <p class="card-text">电动汽车初创公司NeoVolt今日宣布获得50亿美元新一轮融资，投资方包括多家知名风投...</p>
+            <a href="news-detail.html" class="view-detail-btn">阅读全文与AI分析 <i class="bi bi-arrow-right"></i></a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-4 mb-4">
+        <div class="card news-card h-100">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <div>
+                <span class="card-tag health">健康</span>
+              </div>
+              <span class="news-date">2025-04-09</span>
+            </div>
+            <h5 class="card-title">mRNA技术新应用：科学家开发针对多种癌症的疫苗</h5>
+            <p class="news-source">来源：医学前沿</p>
+            <p class="card-text">在mRNA新冠疫苗成功的基础上，科学家们现在将这一技术应用于癌症治疗，首个多癌种疫苗...</p>
+            <a href="news-detail.html" class="view-detail-btn">阅读全文与AI分析 <i class="bi bi-arrow-right"></i></a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-4 mb-4">
+        <div class="card news-card h-100">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <div>
+                <span class="card-tag politics">政治</span>
+              </div>
+              <span class="news-date">2025-04-09</span>
+            </div>
+            <h5 class="card-title">联合国通过新决议，加强全球网络安全合作</h5>
+            <p class="news-source">来源：国际新闻</p>
+            <p class="card-text">联合国安理会通过了一项新决议，呼吁各国加强网络安全领域的合作，共同应对日益复杂的网络威胁...</p>
+            <a href="news-detail.html" class="view-detail-btn">阅读全文与AI分析 <i class="bi bi-arrow-right"></i></a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-4 mb-4">
+        <div class="card news-card h-100">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <div>
+                <span class="card-tag tech">科技</span>
+                <span class="card-tag business">商业</span>
+              </div>
+              <span class="news-date">2025-04-08</span>
+            </div>
+            <h5 class="card-title">元宇宙土地交易达到新高，虚拟房地产市场升温</h5>
+            <p class="news-source">来源：数字经济</p>
+            <p class="card-text">随着元宇宙概念持续升温，虚拟土地的交易量和价格均创下新高，多个平台上的优质虚拟地块...</p>
+            <a href="news-detail.html" class="view-detail-btn">阅读全文与AI分析 <i class="bi bi-arrow-right"></i></a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-4 mb-4">
+        <div class="card news-card h-100">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <div>
+                <span class="card-tag health">健康</span>
+              </div>
+              <span class="news-date">2025-04-08</span>
+            </div>
+            <h5 class="card-title">研究证实：地中海饮食可能是延长寿命的最佳饮食模式</h5>
+            <p class="news-source">来源：健康生活</p>
+            <p class="card-text">一项长达30年的追踪研究最终证实，坚持地中海饮食模式的人群平均寿命比对照组高7.5年...</p>
+            <a href="news-detail.html" class="view-detail-btn">阅读全文与AI分析 <i class="bi bi-arrow-right"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 分页 -->
+    <nav aria-label="Page navigation" class="my-4">
+      <ul class="pagination justify-content-center">
+        <li class="page-item disabled">
+          <a class="page-link" href="#" tabindex="-1" aria-disabled="true">上一页</a>
+        </li>
+        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item">
+          <a class="page-link" href="#">下一页</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+  
+  <!-- 页脚 -->
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <h5>NewNow</h5>
+          <p>AI增强的新闻平台，为您提供深度解读和专业分析</p>
+        </div>
+        <div class="col-md-6 text-md-end">
+          <p>&copy; 2025 NewNow 平台</p>
+          <p class="small">技术支持：Jina AI + OpenAI</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // 分类过滤按钮逻辑
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', function() {
+        // 移除所有按钮的active类
+        filterBtns.forEach(b => b.classList.remove('active'));
+        // 给当前点击的按钮添加active类
+        this.classList.add('active');
+        
+        // 这里可以添加实际的过滤逻辑
+        console.log('过滤分类:', this.textContent);
+      });
+    });
+  </script>
+</body>
+</html>

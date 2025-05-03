@@ -17,7 +17,7 @@ async function uploadMetadata(metadata: PrimitiveMetadata) {
     })
 
     // 创建实际的请求Promise
-    const fetchPromise = myFetch("/me/sync", {
+    const fetchPromise = myFetch("me/sync", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${jwt}`,
@@ -48,7 +48,7 @@ async function downloadMetadata(): Promise<PrimitiveMetadata | undefined> {
     })
 
     // 创建实际的请求Promise
-    const fetchPromise = myFetch("/me/sync", {
+    const fetchPromise = myFetch("me/sync", {
       headers: {
         Authorization: `Bearer ${jwt}`,
       },

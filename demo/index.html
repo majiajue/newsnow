@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI内容增强系统 - 演示</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+  <style>
+    :root {
+      --primary-color: #3f51b5;
+      --secondary-color: #ff4081;
+      --dark-color: #303f9f;
+      --light-color: #c5cae9;
+      --text-color: #333;
+      --light-text: #757575;
+      --bg-color: #f5f5f5;
+      --card-bg: #ffffff;
+    }
+    
+    body {
+      font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+    
+    .navbar {
+      background-color: var(--primary-color);
+    }
+    
+    .navbar-brand {
+      font-weight: bold;
+      color: white !important;
+    }
+    
+    .action-card {
+      background-color: var(--card-bg);
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      transition: transform 0.2s, box-shadow 0.2s;
+      height: 100%;
+    }
+    
+    .action-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .card-icon {
+      font-size: 2.5rem;
+      color: var(--primary-color);
+    }
+    
+    .btn-primary {
+      background-color: var(--primary-color);
+      border-color: var(--primary-color);
+    }
+    
+    .btn-primary:hover {
+      background-color: var(--dark-color);
+      border-color: var(--dark-color);
+    }
+    
+    .btn-secondary {
+      background-color: var(--secondary-color);
+      border-color: var(--secondary-color);
+    }
+    
+    #result-container {
+      display: none;
+      background-color: var(--card-bg);
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      padding: 20px;
+      margin-top: 30px;
+    }
+    
+    .content-block {
+      margin-bottom: 15px;
+      padding: 15px;
+      border-radius: 6px;
+      background-color: rgba(195, 195, 195, 0.1);
+    }
+    
+    .loader {
+      display: none;
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid var(--primary-color);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 20px auto;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .feature-icon {
+      font-size: 1.8rem;
+      color: var(--primary-color);
+      margin-bottom: 10px;
+    }
+    
+    .tab-content {
+      padding: 20px;
+      border: 1px solid #dee2e6;
+      border-top: 0;
+      border-radius: 0 0 8px 8px;
+    }
+    
+    .nav-tabs .nav-link.active {
+      color: var(--primary-color);
+      font-weight: bold;
+    }
+    
+    .category-badge {
+      background-color: var(--light-color);
+      color: var(--dark-color);
+      font-weight: normal;
+      margin-right: 5px;
+    }
+    
+    /* 移动端适配 */
+    @media (max-width: 768px) {
+      .card-icon {
+        font-size: 2rem;
+      }
+      
+      h2 {
+        font-size: 1.5rem;
+      }
+      
+      .action-section {
+        padding: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- 导航栏 -->
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+      <a class="navbar-brand" href="#">AI内容增强系统</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link active" href="#">首页</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">内容库</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">分析报告</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">设置</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 主内容区 -->
+  <div class="container my-5">
+    <!-- 系统介绍 -->
+    <div class="row mb-5">
+      <div class="col-md-8 mx-auto text-center">
+        <h1 class="mb-3">基于Jina AI的智能内容增强系统</h1>
+        <p class="lead">通过AI技术提升内容质量，自动提取、分析和生成高质量内容</p>
+      </div>
+    </div>
+    
+    <!-- 功能卡片 -->
+    <div class="row mb-5">
+      <div class="col-md-4 mb-4">
+        <div class="action-card p-4">
+          <div class="card-icon text-center mb-3">
+            <i class="bi bi-search"></i>
+          </div>
+          <h4 class="text-center mb-3">内容获取</h4>
+          <p>使用Jina搜索和阅读API获取高质量网页内容，支持URL直接解析和主题搜索</p>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div class="action-card p-4">
+          <div class="card-icon text-center mb-3">
+            <i class="bi bi-layers"></i>
+          </div>
+          <h4 class="text-center mb-3">内容处理</h4>
+          <p>智能分段、自动分类和向量嵌入，使内容结构化、标准化并易于检索</p>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div class="action-card p-4">
+          <div class="card-icon text-center mb-3">
+            <i class="bi bi-magic"></i>
+          </div>
+          <h4 class="text-center mb-3">AI增强</h4>
+          <p>利用AI技术分析内容、生成摘要、添加专业见解，提升内容深度和价值</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 操作区域 -->
+    <div class="row mb-4">
+      <div class="col-lg-12">
+        <div class="action-card action-section p-4">
+          <ul class="nav nav-tabs" id="contentSourceTab" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" id="url-tab" data-bs-toggle="tab" data-bs-target="#url-content" type="button" role="tab">通过URL获取</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="search-tab" data-bs-toggle="tab" data-bs-target="#search-content" type="button" role="tab">主题搜索</button>
+            </li>
+          </ul>
+          <div class="tab-content" id="contentSourceTabContent">
+            <!-- URL输入面板 -->
+            <div class="tab-pane fade show active" id="url-content" role="tabpanel">
+              <p class="mb-3">请输入要分析的网页URL：</p>
+              <div class="input-group mb-3">
+                <input type="text" id="url-input" class="form-control" placeholder="https://example.com/article">
+                <button class="btn btn-primary" type="button" id="fetch-url-btn">获取内容</button>
+              </div>
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="extract-links" checked>
+                <label class="form-check-label" for="extract-links">提取链接</label>
+              </div>
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="extract-images" checked>
+                <label class="form-check-label" for="extract-images">提取图片</label>
+              </div>
+            </div>
+            
+            <!-- 主题搜索面板 -->
+            <div class="tab-pane fade" id="search-content" role="tabpanel">
+              <p class="mb-3">输入要搜索的主题关键词：</p>
+              <div class="input-group mb-3">
+                <input type="text" id="search-input" class="form-control" placeholder="AI技术发展前沿">
+                <button class="btn btn-primary" type="button" id="search-btn">搜索内容</button>
+              </div>
+              <div class="row">
+                <div class="col-md-4 mb-2">
+                  <label for="results-count" class="form-label">结果数量</label>
+                  <select class="form-select" id="results-count">
+                    <option value="3">3个结果</option>
+                    <option value="5" selected>5个结果</option>
+                    <option value="10">10个结果</option>
+                  </select>
+                </div>
+                <div class="col-md-8 mb-2">
+                  <label class="form-label">高级选项</label>
+                  <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="enable-ai-enhance" checked>
+                    <label class="form-check-label" for="enable-ai-enhance">启用AI内容增强</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 加载动画 -->
+    <div class="loader" id="loader"></div>
+    
+    <!-- 结果展示区 -->
+    <div id="result-container">
+      <h3 class="mb-4" id="result-title">内容分析结果</h3>
+      
+      <ul class="nav nav-tabs mb-3" id="resultTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="content-tab" data-bs-toggle="tab" data-bs-target="#content" type="button" role="tab">内容</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="analysis-tab" data-bs-toggle="tab" data-bs-target="#analysis" type="button" role="tab">AI分析</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="metadata-tab" data-bs-toggle="tab" data-bs-target="#metadata" type="button" role="tab">元数据</button>
+        </li>
+      </ul>
+      
+      <div class="tab-content" id="resultTabContent">
+        <!-- 内容面板 -->
+        <div class="tab-pane fade show active" id="content" role="tabpanel">
+          <div class="mb-4">
+            <h4>原文内容</h4>
+            <div class="content-block" id="original-content">
+              <!-- 这里将显示原始内容 -->
+            </div>
+          </div>
+          
+          <div class="mb-4">
+            <h4>分段内容</h4>
+            <div id="segmented-content">
+              <!-- 这里将显示分段内容 -->
+            </div>
+          </div>
+        </div>
+        
+        <!-- AI分析面板 -->
+        <div class="tab-pane fade" id="analysis" role="tabpanel">
+          <div class="row mb-4">
+            <div class="col-md-6">
+              <div class="card h-100">
+                <div class="card-body">
+                  <h5 class="card-title">内容摘要</h5>
+                  <div id="content-summary" class="mt-3">
+                    <!-- 这里将显示AI生成的摘要 -->
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="card h-100">
+                <div class="card-body">
+                  <h5 class="card-title">内容分类</h5>
+                  <div id="content-categories" class="mt-3">
+                    <!-- 这里将显示分类结果 -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="card mb-4">
+            <div class="card-body">
+              <h5 class="card-title">深度分析</h5>
+              <div id="content-analysis" class="mt-3">
+                <!-- 这里将显示AI深度分析 -->
+              </div>
+            </div>
+          </div>
+          
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">关键要点</h5>
+              <div id="key-points" class="mt-3">
+                <!-- 这里将显示关键要点列表 -->
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 元数据面板 -->
+        <div class="tab-pane fade" id="metadata" role="tabpanel">
+          <div class="row">
+            <div class="col-md-6 mb-4">
+              <div class="card h-100">
+                <div class="card-body">
+                  <h5 class="card-title">基本信息</h5>
+                  <table class="table">
+                    <tbody id="basic-metadata">
+                      <!-- 这里将显示基本元数据 -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 mb-4">
+              <div class="card h-100">
+                <div class="card-body">
+                  <h5 class="card-title">质量评分</h5>
+                  <div id="quality-scores" class="mt-3">
+                    <!-- 这里将显示质量评分 -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="row">
+            <div class="col-md-6 mb-4">
+              <div class="card h-100">
+                <div class="card-body">
+                  <h5 class="card-title">链接</h5>
+                  <div id="links-list" class="mt-3">
+                    <!-- 这里将显示提取的链接 -->
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 mb-4">
+              <div class="card h-100">
+                <div class="card-body">
+                  <h5 class="card-title">图片</h5>
+                  <div id="images-list" class="mt-3">
+                    <!-- 这里将显示提取的图片 -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="text-center mt-4">
+        <button class="btn btn-primary me-2" id="save-result-btn">保存结果</button>
+        <button class="btn btn-secondary" id="new-query-btn">新的查询</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- 页脚 -->
+  <footer class="bg-dark text-white py-4 mt-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <h5>AI内容增强系统</h5>
+          <p>基于Jina AI API构建的高质量内容获取与增强系统</p>
+        </div>
+        <div class="col-md-6 text-md-end">
+          <p>&copy; 2025 AI内容增强系统</p>
+          <p class="small">由 Jina AI 提供技术支持</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    // 模拟演示数据
+    const demoContent = {
+      title: "人工智能技术的最新发展趋势",
+      url: "https://example.com/ai-trends",
+      content: "人工智能(AI)技术正在以前所未有的速度发展，改变着我们的工作和生活方式。从机器学习到神经网络，从自然语言处理到计算机视觉，AI领域的进步正在各个行业产生深远影响...",
+      chunks: [
+        "人工智能(AI)技术正在以前所未有的速度发展，改变着我们的工作和生活方式。",
+        "从机器学习到神经网络，从自然语言处理到计算机视觉，AI领域的进步正在各个行业产生深远影响。",
+        "特别是大型语言模型(LLM)的出现，使得AI系统能够生成高质量的文本、理解复杂指令并执行各种任务。"
+      ],
+      summary: "本文概述了人工智能技术的最新发展趋势，重点关注大型语言模型、多模态AI和AI在各行业的应用。文章指出，尽管AI技术进步迅速，但仍面临着伦理、隐私和安全等方面的挑战。",
+      categories: [
+        { name: "技术", score: 0.92 },
+        { name: "人工智能", score: 0.88 },
+        { name: "科学", score: 0.65 }
+      ],
+      analysis: "这篇文章全面概述了AI领域的最新发展，特别强调了大型语言模型的重要性。从技术角度看，文章准确地指出了当前AI发展的主要方向。然而，文章对于AI的局限性和挑战探讨较少，未来的研究方向部分也可以更加具体。",
+      keyPoints: [
+        "大型语言模型是当前AI发展的重点方向",
+        "多模态AI正在成为新的研究热点",
+        "AI的商业应用正在各行业快速拓展",
+        "伦理和隐私问题是AI发展面临的主要挑战"
+      ],
+      metadata: {
+        wordCount: 1250,
+        readingTime: "约5分钟",
+        language: "中文",
+        publicationDate: "2025-03-15"
+      },
+      quality: {
+        originality: 0.82,
+        depth: 0.75,
+        readability: 0.88,
+        overall: 0.82
+      },
+      links: {
+        "AI研究报告": "https://example.com/ai-report",
+        "技术趋势分析": "https://example.com/tech-trends"
+      },
+      images: {
+        "AI发展图表": "https://example.com/ai-chart.jpg",
+        "神经网络示意图": "https://example.com/neural-network.jpg"
+      }
+    };
+    
+    // DOM元素
+    const fetchUrlBtn = document.getElementById('fetch-url-btn');
+    const searchBtn = document.getElementById('search-btn');
+    const loader = document.getElementById('loader');
+    const resultContainer = document.getElementById('result-container');
+    const newQueryBtn = document.getElementById('new-query-btn');
+    
+    // 模拟获取URL内容
+    fetchUrlBtn.addEventListener('click', function() {
+      const url = document.getElementById('url-input').value;
+      if (!url) {
+        alert('请输入有效的URL');
+        return;
+      }
+      
+      showLoader();
+      
+      // 模拟API调用延迟
+      setTimeout(() => {
+        displayResults(demoContent);
+        hideLoader();
+      }, 1500);
+    });
+    
+    // 模拟搜索内容
+    searchBtn.addEventListener('click', function() {
+      const query = document.getElementById('search-input').value;
+      if (!query) {
+        alert('请输入搜索关键词');
+        return;
+      }
+      
+      showLoader();
+      
+      // 模拟API调用延迟
+      setTimeout(() => {
+        displayResults(demoContent);
+        hideLoader();
+      }, 1500);
+    });
+    
+    // 显示新查询
+    newQueryBtn.addEventListener('click', function() {
+      resultContainer.style.display = 'none';
+      document.getElementById('url-input').value = '';
+      document.getElementById('search-input').value = '';
+    });
+    
+    // 显示加载动画
+    function showLoader() {
+      loader.style.display = 'block';
+      resultContainer.style.display = 'none';
+    }
+    
+    // 隐藏加载动画
+    function hideLoader() {
+      loader.style.display = 'none';
+      resultContainer.style.display = 'block';
+    }
+    
+    // 显示结果
+    function displayResults(data) {
+      // 设置标题
+      document.getElementById('result-title').textContent = data.title;
+      
+      // 填充内容面板
+      document.getElementById('original-content').textContent = data.content;
+      
+      const segmentedContent = document.getElementById('segmented-content');
+      segmentedContent.innerHTML = '';
+      data.chunks.forEach((chunk, index) => {
+        const chunkDiv = document.createElement('div');
+        chunkDiv.className = 'content-block';
+        chunkDiv.innerHTML = `<small class="text-muted">段落 ${index + 1}</small><p>${chunk}</p>`;
+        segmentedContent.appendChild(chunkDiv);
+      });
+      
+      // 填充AI分析面板
+      document.getElementById('content-summary').textContent = data.summary;
+      
+      const categoriesDiv = document.getElementById('content-categories');
+      categoriesDiv.innerHTML = '';
+      data.categories.forEach(category => {
+        const badge = document.createElement('div');
+        badge.className = 'mb-2';
+        badge.innerHTML = `<span class="badge category-badge">${category.name}</span> <span class="text-muted">${(category.score * 100).toFixed(0)}%</span>`;
+        categoriesDiv.appendChild(badge);
+      });
+      
+      document.getElementById('content-analysis').textContent = data.analysis;
+      
+      const keyPointsDiv = document.getElementById('key-points');
+      keyPointsDiv.innerHTML = '';
+      const ul = document.createElement('ul');
+      data.keyPoints.forEach(point => {
+        const li = document.createElement('li');
+        li.textContent = point;
+        ul.appendChild(li);
+      });
+      keyPointsDiv.appendChild(ul);
+      
+      // 填充元数据面板
+      const metadataTable = document.getElementById('basic-metadata');
+      metadataTable.innerHTML = '';
+      for (const [key, value] of Object.entries(data.metadata)) {
+        const row = document.createElement('tr');
+        row.innerHTML = `<td>${key}</td><td>${value}</td>`;
+        metadataTable.appendChild(row);
+      }
+      
+      const qualityScores = document.getElementById('quality-scores');
+      qualityScores.innerHTML = '';
+      for (const [key, value] of Object.entries(data.quality)) {
+        const progressDiv = document.createElement('div');
+        progressDiv.className = 'mb-3';
+        progressDiv.innerHTML = `
+          <div class="d-flex justify-content-between mb-1">
+            <span>${key}</span>
+            <span>${(value * 100).toFixed(0)}%</span>
+          </div>
+          <div class="progress">
+            <div class="progress-bar" role="progressbar" style="width: ${value * 100}%" aria-valuenow="${value * 100}" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+        `;
+        qualityScores.appendChild(progressDiv);
+      }
+      
+      const linksList = document.getElementById('links-list');
+      linksList.innerHTML = '';
+      const linksList_ul = document.createElement('ul');
+      for (const [title, url] of Object.entries(data.links)) {
+        const li = document.createElement('li');
+        li.innerHTML = `<a href="${url}" target="_blank">${title}</a>`;
+        linksList_ul.appendChild(li);
+      }
+      linksList.appendChild(linksList_ul);
+      
+      const imagesList = document.getElementById('images-list');
+      imagesList.innerHTML = '';
+      for (const [title, url] of Object.entries(data.images)) {
+        const imgDiv = document.createElement('div');
+        imgDiv.className = 'mb-3';
+        imgDiv.innerHTML = `<p class="mb-1">${title}</p><img src="${url}" alt="${title}" class="img-fluid img-thumbnail">`;
+        imagesList.appendChild(imgDiv);
+      }
+    }
+  </script>
+</body>
+</html>

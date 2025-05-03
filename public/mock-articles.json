@@ -1,0 +1,210 @@
+{
+  "code": 0,
+  "data": [
+    {
+      "id": "mock-1",
+      "title": "财经新闻1: 市场分析报告",
+      "summary": "这是一条财经新闻，涵盖了最新的市场动态和分析。",
+      "url": "https://www.cls.cn/detail/mock-1",
+      "pubDate": "2025-05-01T08:00:00.000Z",
+      "source": "财联社",
+      "category": "财经",
+      "author": "系统生成"
+    },
+    {
+      "id": "mock-2",
+      "title": "科技新闻2: 人工智能最新进展",
+      "summary": "这是一条科技新闻，介绍了人工智能领域的最新突破和应用。",
+      "url": "https://www.cls.cn/detail/mock-2",
+      "pubDate": "2025-05-01T07:30:00.000Z",
+      "source": "中国证券报",
+      "category": "科技",
+      "author": "系统生成"
+    },
+    {
+      "id": "mock-3",
+      "title": "政策新闻3: 最新经济政策解读",
+      "summary": "这是一条政策新闻，解读了最新发布的经济政策及其影响。",
+      "url": "https://www.cls.cn/detail/mock-3",
+      "pubDate": "2025-05-01T07:00:00.000Z",
+      "source": "上海证券报",
+      "category": "政策",
+      "author": "系统生成"
+    },
+    {
+      "id": "mock-4",
+      "title": "市场新闻4: 股市行情分析",
+      "summary": "这是一条市场新闻，分析了今日股市行情和未来走势。",
+      "url": "https://www.cls.cn/detail/mock-4",
+      "pubDate": "2025-05-01T06:30:00.000Z",
+      "source": "证券时报",
+      "category": "市场",
+      "author": "系统生成"
+    },
+    {
+      "id": "mock-5",
+      "title": "公司新闻5: 企业季度财报",
+      "summary": "这是一条公司新闻，报道了多家上市公司的季度财报情况。",
+      "url": "https://www.cls.cn/detail/mock-5",
+      "pubDate": "2025-05-01T06:00:00.000Z",
+      "source": "21世纪经济报道",
+      "category": "公司",
+      "author": "系统生成"
+    },
+    {
+      "id": "mock-6",
+      "title": "国际新闻6: 全球经济形势",
+      "summary": "这是一条国际新闻，分析了当前全球经济形势和主要国家的经济政策。",
+      "url": "https://www.cls.cn/detail/mock-6",
+      "pubDate": "2025-05-01T05:30:00.000Z",
+      "source": "财联社",
+      "category": "国际",
+      "author": "系统生成"
+    },
+    {
+      "id": "mock-7",
+      "title": "财经新闻7: 央行货币政策",
+      "summary": "这是一条财经新闻，解读了央行最新的货币政策及其对市场的影响。",
+      "url": "https://www.cls.cn/detail/mock-7",
+      "pubDate": "2025-05-01T05:00:00.000Z",
+      "source": "中国证券报",
+      "category": "财经",
+      "author": "系统生成"
+    },
+    {
+      "id": "mock-8",
+      "title": "科技新闻8: 区块链技术应用",
+      "summary": "这是一条科技新闻，介绍了区块链技术在金融领域的最新应用案例。",
+      "url": "https://www.cls.cn/detail/mock-8",
+      "pubDate": "2025-05-01T04:30:00.000Z",
+      "source": "上海证券报",
+      "category": "科技",
+      "author": "系统生成"
+    },
+    {
+      "id": "mock-9",
+      "title": "政策新闻9: 财税政策调整",
+      "summary": "这是一条政策新闻，解读了最新的财税政策调整及其对企业的影响。",
+      "url": "https://www.cls.cn/detail/mock-9",
+      "pubDate": "2025-05-01T04:00:00.000Z",
+      "source": "证券时报",
+      "category": "政策",
+      "author": "系统生成"
+    },
+    {
+      "id": "mock-10",
+      "title": "市场新闻10: 债券市场分析",
+      "summary": "这是一条市场新闻，分析了当前债券市场的走势和投资机会。",
+      "url": "https://www.cls.cn/detail/mock-10",
+      "pubDate": "2025-05-01T03:30:00.000Z",
+      "source": "21世纪经济报道",
+      "category": "市场",
+      "author": "系统生成"
+    },
+    {
+      "id": "mock-11",
+      "title": "公司新闻11: 企业战略调整",
+      "summary": "这是一条公司新闻，报道了多家大型企业的战略调整和业务转型。",
+      "url": "https://www.cls.cn/detail/mock-11",
+      "pubDate": "2025-05-01T03:00:00.000Z",
+      "source": "财联社",
+      "category": "公司",
+      "author": "系统生成"
+    },
+    {
+      "id": "mock-12",
+      "title": "国际新闻12: 贸易形势分析",
+      "summary": "这是一条国际新闻，分析了全球贸易形势和主要经济体的贸易政策。",
+      "url": "https://www.cls.cn/detail/mock-12",
+      "pubDate": "2025-05-01T02:30:00.000Z",
+      "source": "中国证券报",
+      "category": "国际",
+      "author": "系统生成"
+    },
+    {
+      "id": "mock-13",
+      "title": "财经新闻13: 宏观经济数据",
+      "summary": "这是一条财经新闻，解读了最新发布的宏观经济数据及其意义。",
+      "url": "https://www.cls.cn/detail/mock-13",
+      "pubDate": "2025-05-01T02:00:00.000Z",
+      "source": "上海证券报",
+      "category": "财经",
+      "author": "系统生成"
+    },
+    {
+      "id": "mock-14",
+      "title": "科技新闻14: 数字经济发展",
+      "summary": "这是一条科技新闻，介绍了数字经济的最新发展趋势和创新案例。",
+      "url": "https://www.cls.cn/detail/mock-14",
+      "pubDate": "2025-05-01T01:30:00.000Z",
+      "source": "证券时报",
+      "category": "科技",
+      "author": "系统生成"
+    },
+    {
+      "id": "mock-15",
+      "title": "政策新闻15: 产业政策解读",
+      "summary": "这是一条政策新闻，解读了最新的产业政策及其对相关行业的影响。",
+      "url": "https://www.cls.cn/detail/mock-15",
+      "pubDate": "2025-05-01T01:00:00.000Z",
+      "source": "21世纪经济报道",
+      "category": "政策",
+      "author": "系统生成"
+    },
+    {
+      "id": "mock-16",
+      "title": "市场新闻16: 商品市场行情",
+      "summary": "这是一条市场新闻，分析了主要商品市场的价格走势和供需关系。",
+      "url": "https://www.cls.cn/detail/mock-16",
+      "pubDate": "2025-05-01T00:30:00.000Z",
+      "source": "财联社",
+      "category": "市场",
+      "author": "系统生成"
+    },
+    {
+      "id": "mock-17",
+      "title": "公司新闻17: 企业并购动态",
+      "summary": "这是一条公司新闻，报道了近期重要的企业并购事件和市场反应。",
+      "url": "https://www.cls.cn/detail/mock-17",
+      "pubDate": "2025-05-01T00:00:00.000Z",
+      "source": "中国证券报",
+      "category": "公司",
+      "author": "系统生成"
+    },
+    {
+      "id": "mock-18",
+      "title": "国际新闻18: 全球金融市场",
+      "summary": "这是一条国际新闻，分析了全球主要金融市场的最新动态和投资机会。",
+      "url": "https://www.cls.cn/detail/mock-18",
+      "pubDate": "2025-04-30T23:30:00.000Z",
+      "source": "上海证券报",
+      "category": "国际",
+      "author": "系统生成"
+    },
+    {
+      "id": "mock-19",
+      "title": "财经新闻19: 金融监管动态",
+      "summary": "这是一条财经新闻，报道了最新的金融监管政策和监管动向。",
+      "url": "https://www.cls.cn/detail/mock-19",
+      "pubDate": "2025-04-30T23:00:00.000Z",
+      "source": "证券时报",
+      "category": "财经",
+      "author": "系统生成"
+    },
+    {
+      "id": "mock-20",
+      "title": "科技新闻20: 科技创新趋势",
+      "summary": "这是一条科技新闻，介绍了当前科技创新的主要趋势和重点领域。",
+      "url": "https://www.cls.cn/detail/mock-20",
+      "pubDate": "2025-04-30T22:30:00.000Z",
+      "source": "21世纪经济报道",
+      "category": "科技",
+      "author": "系统生成"
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "pageSize": 20,
+    "total": 100
+  }
+}

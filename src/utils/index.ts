@@ -37,14 +37,13 @@ export class Timer {
   }
 }
 
+// 自定义 API 请求函数
 export const myFetch = $fetch.create({
-  timeout: 60000, // 增加超时时间到60秒
-  retry: 3, // 添加重试次数
-  retryDelay: 1000, // 增加重试延迟
-  baseURL: "/api",
+  baseURL: '/api',
+  retry: 0,
   onRequest({ options }) {
     // 请求开始时的处理
-    console.log(`开始请求: ${options.method || "GET"} ${options.baseURL}${options.url}`)
+    console.log(`开始请求: ${options.method || "GET"} ${options.baseURL}/${options.url || ''}`)
   },
   onRequestError({ error }) {
     // 请求错误时的处理
@@ -52,12 +51,12 @@ export const myFetch = $fetch.create({
   },
   onResponse({ response }) {
     // 响应成功时的处理
-    console.log(`请求成功: ${response.status} ${response._data?.status || ""}`)
+    console.log(`请求成功: ${response.status}`)
   },
   onResponseError({ response, error }) {
     // 响应错误时的处理
     console.error(`响应错误: ${response?.status || "未知"}, ${error}`)
-  },
+  }
 })
 
 export function isiOS() {

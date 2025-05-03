@@ -170,53 +170,56 @@ async function fetchSourceData(sourceId: SourceID, lang: string, signal: AbortSi
 }
 
 export function useEntireQuery(items: SourceID[]) {
-  const { currentLanguage } = useTranslation()
+  const { language } = useTranslation()
   const [loadingItems, setLoadingItems] = useState<Record<string, boolean>>({})
 
-  // 使用 Web Worker 进行数据处理
+  // 临时禁用 Web Workers，改用主线程处理
   useEffect(() => {
     // 检查浏览器是否支持 Web Workers
-    if (typeof Worker !== "undefined" && items.length > 0) {
-      // 创建一个内联 Worker 来处理数据
-      const workerCode = `
-        self.onmessage = function(e) {
-          const { data, lang } = e.data;
-          
-          // 在 Worker 中处理数据
-          const processedData = data.map(item => {
-            // 这里可以添加更复杂的处理逻辑
-            return item;
-          });
-          
-          // 将处理后的数据发送回主线程
-          self.postMessage(processedData);
-        }
-      `
-
-      // 创建 Blob URL
-      const blob = new Blob([workerCode], { type: "application/javascript" })
-      const workerUrl = URL.createObjectURL(blob)
-
-      // 创建 Worker
-      const worker = new Worker(workerUrl)
-
-      // 监听 Worker 的消息
-      worker.onmessage = function (e: MessageEvent) {
-        // 接收处理后的数据
-        const processedData = e.data
-        console.log("Worker 处理完成，数据项数:", processedData.length)
-
-        // 更新缓存或执行其他操作
-        // 这里不直接更新 React Query 缓存，因为 Worker 中无法访问 React 上下文
-      }
-
-      // 清理函数
-      return () => {
-        worker.terminate()
-        URL.revokeObjectURL(workerUrl)
-      }
-    }
-  }, [items, currentLanguage])
+    // if (typeof Worker !== "undefined" && items.length > 0) {
+    //   // 创建一个内联 Worker 来处理数据
+    //   const workerCode = `
+    //     self.onmessage = function(e) {
+    //       const data = e.data;
+    //       
+    //       // 在 Worker 中处理数据
+    //       const processedData = data.map(item => {
+    //         // 这里可以进行复杂的数据处理
+    //         return item;
+    //       });
+    //       
+    //       // 将处理后的数据发送回主线程
+    //       self.postMessage(processedData);
+    //     }
+    //   `
+    //
+    //   // 创建 Blob URL
+    //   const blob = new Blob([workerCode], { type: "application/javascript" })
+    //   const workerUrl = URL.createObjectURL(blob)
+    //
+    //   // 创建 Worker
+    //   const worker = new Worker(workerUrl, { type: 'module' })
+    //
+    //   // 监听 Worker 的消息
+    //   worker.onmessage = function (e: MessageEvent) {
+    //     // 接收处理后的数据
+    //     const processedData = e.data
+    //     console.log("Worker 处理完成，数据项数:", processedData.length)
+    //
+    //     // 更新缓存或执行其他操作
+    //     // 这里不直接更新 React Query 缓存，因为 Worker 中无法访问 React 上下文
+    //   }
+    //
+    //   // 发送数据到 Worker 进行处理
+    //   worker.postMessage(items)
+    //
+    //   // 清理函数
+    //   return () => {
+    //     worker.terminate()
+    //     URL.revokeObjectURL(workerUrl)
+    //   }
+    // }
+  }, [items])
 
   // 监听加载状态变化
   useEffect(() => {
@@ -254,7 +257,7 @@ export function useEntireQuery(items: SourceID[]) {
     queryKey: ["sources", ...items.sort()],
     queryFn: async () => {
       const sources = items
-      const lang = currentLanguage
+      const lang = language
       console.log(`批量获取 ${sources.length} 个源，语言: ${lang}`)
 
       try {

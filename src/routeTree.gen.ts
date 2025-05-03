@@ -8,13 +8,42 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
+import { createFileRoute } from '@tanstack/react-router'
+
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as ContentManagerImport } from './routes/content-manager'
 import { Route as IndexImport } from './routes/index'
+import { Route as NewsIndexImport } from './routes/news/index'
+import { Route as NewsSummaryImport } from './routes/news/summary'
+import { Route as NewsJinjiaImport } from './routes/news/jinjia'
+import { Route as NewsFlashImport } from './routes/news/flash'
+import { Route as NewsArticlesImport } from './routes/news/articles'
+import { Route as NewsAiImport } from './routes/news/ai'
+import { Route as NewsLayoutImport } from './routes/news/_layout'
+import { Route as ContentManagerCreateImport } from './routes/content-manager.create'
 import { Route as CColumnImport } from './routes/c.$column'
+import { Route as NewsArticleIdImport } from './routes/news/article.$id'
+import { Route as ContentManagerEditIdImport } from './routes/content-manager.edit.$id'
+
+// Create Virtual Routes
+
+const NewsImport = createFileRoute('/news')()
 
 // Create/Update Routes
+
+const NewsRoute = NewsImport.update({
+  id: '/news',
+  path: '/news',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ContentManagerRoute = ContentManagerImport.update({
+  id: '/content-manager',
+  path: '/content-manager',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const IndexRoute = IndexImport.update({
   id: '/',
@@ -22,10 +51,69 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const NewsIndexRoute = NewsIndexImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => NewsRoute,
+} as any)
+
+const NewsSummaryRoute = NewsSummaryImport.update({
+  id: '/summary',
+  path: '/summary',
+  getParentRoute: () => NewsRoute,
+} as any)
+
+const NewsJinjiaRoute = NewsJinjiaImport.update({
+  id: '/jinjia',
+  path: '/jinjia',
+  getParentRoute: () => NewsRoute,
+} as any)
+
+const NewsFlashRoute = NewsFlashImport.update({
+  id: '/flash',
+  path: '/flash',
+  getParentRoute: () => NewsRoute,
+} as any)
+
+const NewsArticlesRoute = NewsArticlesImport.update({
+  id: '/articles',
+  path: '/articles',
+  getParentRoute: () => NewsRoute,
+} as any)
+
+const NewsAiRoute = NewsAiImport.update({
+  id: '/ai',
+  path: '/ai',
+  getParentRoute: () => NewsRoute,
+} as any)
+
+const NewsLayoutRoute = NewsLayoutImport.update({
+  id: '/_layout',
+  getParentRoute: () => NewsRoute,
+} as any)
+
+const ContentManagerCreateRoute = ContentManagerCreateImport.update({
+  id: '/create',
+  path: '/create',
+  getParentRoute: () => ContentManagerRoute,
+} as any)
+
 const CColumnRoute = CColumnImport.update({
   id: '/c/$column',
   path: '/c/$column',
   getParentRoute: () => rootRoute,
+} as any)
+
+const NewsArticleIdRoute = NewsArticleIdImport.update({
+  id: '/article/$id',
+  path: '/article/$id',
+  getParentRoute: () => NewsRoute,
+} as any)
+
+const ContentManagerEditIdRoute = ContentManagerEditIdImport.update({
+  id: '/edit/$id',
+  path: '/edit/$id',
+  getParentRoute: () => ContentManagerRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -39,6 +127,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
+    '/content-manager': {
+      id: '/content-manager'
+      path: '/content-manager'
+      fullPath: '/content-manager'
+      preLoaderRoute: typeof ContentManagerImport
+      parentRoute: typeof rootRoute
+    }
     '/c/$column': {
       id: '/c/$column'
       path: '/c/$column'
@@ -46,44 +141,236 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CColumnImport
       parentRoute: typeof rootRoute
     }
+    '/content-manager/create': {
+      id: '/content-manager/create'
+      path: '/create'
+      fullPath: '/content-manager/create'
+      preLoaderRoute: typeof ContentManagerCreateImport
+      parentRoute: typeof ContentManagerImport
+    }
+    '/news': {
+      id: '/news'
+      path: '/news'
+      fullPath: '/news'
+      preLoaderRoute: typeof NewsImport
+      parentRoute: typeof rootRoute
+    }
+    '/news/_layout': {
+      id: '/news/_layout'
+      path: '/news'
+      fullPath: '/news'
+      preLoaderRoute: typeof NewsLayoutImport
+      parentRoute: typeof NewsRoute
+    }
+    '/news/ai': {
+      id: '/news/ai'
+      path: '/ai'
+      fullPath: '/news/ai'
+      preLoaderRoute: typeof NewsAiImport
+      parentRoute: typeof NewsImport
+    }
+    '/news/articles': {
+      id: '/news/articles'
+      path: '/articles'
+      fullPath: '/news/articles'
+      preLoaderRoute: typeof NewsArticlesImport
+      parentRoute: typeof NewsImport
+    }
+    '/news/flash': {
+      id: '/news/flash'
+      path: '/flash'
+      fullPath: '/news/flash'
+      preLoaderRoute: typeof NewsFlashImport
+      parentRoute: typeof NewsImport
+    }
+    '/news/jinjia': {
+      id: '/news/jinjia'
+      path: '/jinjia'
+      fullPath: '/news/jinjia'
+      preLoaderRoute: typeof NewsJinjiaImport
+      parentRoute: typeof NewsImport
+    }
+    '/news/summary': {
+      id: '/news/summary'
+      path: '/summary'
+      fullPath: '/news/summary'
+      preLoaderRoute: typeof NewsSummaryImport
+      parentRoute: typeof NewsImport
+    }
+    '/news/': {
+      id: '/news/'
+      path: '/'
+      fullPath: '/news/'
+      preLoaderRoute: typeof NewsIndexImport
+      parentRoute: typeof NewsImport
+    }
+    '/content-manager/edit/$id': {
+      id: '/content-manager/edit/$id'
+      path: '/edit/$id'
+      fullPath: '/content-manager/edit/$id'
+      preLoaderRoute: typeof ContentManagerEditIdImport
+      parentRoute: typeof ContentManagerImport
+    }
+    '/news/article/$id': {
+      id: '/news/article/$id'
+      path: '/article/$id'
+      fullPath: '/news/article/$id'
+      preLoaderRoute: typeof NewsArticleIdImport
+      parentRoute: typeof NewsImport
+    }
   }
 }
 
 // Create and export the route tree
 
+interface ContentManagerRouteChildren {
+  ContentManagerCreateRoute: typeof ContentManagerCreateRoute
+  ContentManagerEditIdRoute: typeof ContentManagerEditIdRoute
+}
+
+const ContentManagerRouteChildren: ContentManagerRouteChildren = {
+  ContentManagerCreateRoute: ContentManagerCreateRoute,
+  ContentManagerEditIdRoute: ContentManagerEditIdRoute,
+}
+
+const ContentManagerRouteWithChildren = ContentManagerRoute._addFileChildren(
+  ContentManagerRouteChildren,
+)
+
+interface NewsRouteChildren {
+  NewsLayoutRoute: typeof NewsLayoutRoute
+  NewsAiRoute: typeof NewsAiRoute
+  NewsArticlesRoute: typeof NewsArticlesRoute
+  NewsFlashRoute: typeof NewsFlashRoute
+  NewsJinjiaRoute: typeof NewsJinjiaRoute
+  NewsSummaryRoute: typeof NewsSummaryRoute
+  NewsIndexRoute: typeof NewsIndexRoute
+  NewsArticleIdRoute: typeof NewsArticleIdRoute
+}
+
+const NewsRouteChildren: NewsRouteChildren = {
+  NewsLayoutRoute: NewsLayoutRoute,
+  NewsAiRoute: NewsAiRoute,
+  NewsArticlesRoute: NewsArticlesRoute,
+  NewsFlashRoute: NewsFlashRoute,
+  NewsJinjiaRoute: NewsJinjiaRoute,
+  NewsSummaryRoute: NewsSummaryRoute,
+  NewsIndexRoute: NewsIndexRoute,
+  NewsArticleIdRoute: NewsArticleIdRoute,
+}
+
+const NewsRouteWithChildren = NewsRoute._addFileChildren(NewsRouteChildren)
+
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/content-manager': typeof ContentManagerRouteWithChildren
   '/c/$column': typeof CColumnRoute
+  '/content-manager/create': typeof ContentManagerCreateRoute
+  '/news': typeof NewsLayoutRoute
+  '/news/ai': typeof NewsAiRoute
+  '/news/articles': typeof NewsArticlesRoute
+  '/news/flash': typeof NewsFlashRoute
+  '/news/jinjia': typeof NewsJinjiaRoute
+  '/news/summary': typeof NewsSummaryRoute
+  '/news/': typeof NewsIndexRoute
+  '/content-manager/edit/$id': typeof ContentManagerEditIdRoute
+  '/news/article/$id': typeof NewsArticleIdRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/content-manager': typeof ContentManagerRouteWithChildren
   '/c/$column': typeof CColumnRoute
+  '/content-manager/create': typeof ContentManagerCreateRoute
+  '/news': typeof NewsIndexRoute
+  '/news/ai': typeof NewsAiRoute
+  '/news/articles': typeof NewsArticlesRoute
+  '/news/flash': typeof NewsFlashRoute
+  '/news/jinjia': typeof NewsJinjiaRoute
+  '/news/summary': typeof NewsSummaryRoute
+  '/content-manager/edit/$id': typeof ContentManagerEditIdRoute
+  '/news/article/$id': typeof NewsArticleIdRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/content-manager': typeof ContentManagerRouteWithChildren
   '/c/$column': typeof CColumnRoute
+  '/content-manager/create': typeof ContentManagerCreateRoute
+  '/news': typeof NewsRouteWithChildren
+  '/news/_layout': typeof NewsLayoutRoute
+  '/news/ai': typeof NewsAiRoute
+  '/news/articles': typeof NewsArticlesRoute
+  '/news/flash': typeof NewsFlashRoute
+  '/news/jinjia': typeof NewsJinjiaRoute
+  '/news/summary': typeof NewsSummaryRoute
+  '/news/': typeof NewsIndexRoute
+  '/content-manager/edit/$id': typeof ContentManagerEditIdRoute
+  '/news/article/$id': typeof NewsArticleIdRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/c/$column'
+  fullPaths:
+    | '/'
+    | '/content-manager'
+    | '/c/$column'
+    | '/content-manager/create'
+    | '/news'
+    | '/news/ai'
+    | '/news/articles'
+    | '/news/flash'
+    | '/news/jinjia'
+    | '/news/summary'
+    | '/news/'
+    | '/content-manager/edit/$id'
+    | '/news/article/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/c/$column'
-  id: '__root__' | '/' | '/c/$column'
+  to:
+    | '/'
+    | '/content-manager'
+    | '/c/$column'
+    | '/content-manager/create'
+    | '/news'
+    | '/news/ai'
+    | '/news/articles'
+    | '/news/flash'
+    | '/news/jinjia'
+    | '/news/summary'
+    | '/content-manager/edit/$id'
+    | '/news/article/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/content-manager'
+    | '/c/$column'
+    | '/content-manager/create'
+    | '/news'
+    | '/news/_layout'
+    | '/news/ai'
+    | '/news/articles'
+    | '/news/flash'
+    | '/news/jinjia'
+    | '/news/summary'
+    | '/news/'
+    | '/content-manager/edit/$id'
+    | '/news/article/$id'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ContentManagerRoute: typeof ContentManagerRouteWithChildren
   CColumnRoute: typeof CColumnRoute
+  NewsRoute: typeof NewsRouteWithChildren
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ContentManagerRoute: ContentManagerRouteWithChildren,
   CColumnRoute: CColumnRoute,
+  NewsRoute: NewsRouteWithChildren,
 }
 
 export const routeTree = rootRoute
@@ -97,14 +384,76 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/c/$column"
+        "/content-manager",
+        "/c/$column",
+        "/news"
       ]
     },
     "/": {
       "filePath": "index.tsx"
     },
+    "/content-manager": {
+      "filePath": "content-manager.tsx",
+      "children": [
+        "/content-manager/create",
+        "/content-manager/edit/$id"
+      ]
+    },
     "/c/$column": {
       "filePath": "c.$column.tsx"
+    },
+    "/content-manager/create": {
+      "filePath": "content-manager.create.tsx",
+      "parent": "/content-manager"
+    },
+    "/news": {
+      "filePath": "news",
+      "children": [
+        "/news/_layout",
+        "/news/ai",
+        "/news/articles",
+        "/news/flash",
+        "/news/jinjia",
+        "/news/summary",
+        "/news/",
+        "/news/article/$id"
+      ]
+    },
+    "/news/_layout": {
+      "filePath": "news/_layout.tsx",
+      "parent": "/news"
+    },
+    "/news/ai": {
+      "filePath": "news/ai.tsx",
+      "parent": "/news"
+    },
+    "/news/articles": {
+      "filePath": "news/articles.tsx",
+      "parent": "/news"
+    },
+    "/news/flash": {
+      "filePath": "news/flash.tsx",
+      "parent": "/news"
+    },
+    "/news/jinjia": {
+      "filePath": "news/jinjia.tsx",
+      "parent": "/news"
+    },
+    "/news/summary": {
+      "filePath": "news/summary.tsx",
+      "parent": "/news"
+    },
+    "/news/": {
+      "filePath": "news/index.tsx",
+      "parent": "/news"
+    },
+    "/content-manager/edit/$id": {
+      "filePath": "content-manager.edit.$id.tsx",
+      "parent": "/content-manager"
+    },
+    "/news/article/$id": {
+      "filePath": "news/article.$id.tsx",
+      "parent": "/news"
     }
   }
 }

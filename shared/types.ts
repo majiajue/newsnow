@@ -85,11 +85,14 @@ export interface Column {
 }
 
 export interface NewsItem {
-  id: string | number // unique
+  id: string | number
   title: string
   url: string
   mobileUrl?: string
   pubDate?: number | string
+  aiSummary?: string
+  externalUrl?: string
+
   extra?: {
     hover?: string
     date?: number | string
@@ -107,7 +110,7 @@ export interface NewsItem {
     // 来源和关键词
     attribution?: string
     keywords?: string[]
-  }
+  };
 }
 
 export interface SourceResponse {

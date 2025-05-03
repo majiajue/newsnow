@@ -1,3 +1,8 @@
+import { atomWithStorage } from "jotai/utils"
+import { useAtomValue } from "jotai"
+import { useCallback } from "react"
+import { myFetch } from "~/utils"
+
 const userAtom = atomWithStorage<{
   name?: string
   avatar?: string
@@ -19,7 +24,7 @@ enableLoginAtom.onMount = (set) => {
   })
 
   // 实际请求
-  const fetchPromise = myFetch("/enable-login")
+  const fetchPromise = myFetch("enable-login")
     .then((r) => {
       set(r)
     })

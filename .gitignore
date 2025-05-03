@@ -17,4 +17,6 @@ wrangler.toml
 imports.app.d.ts
 .wrangler.toml
 docs/*
+!docs/adsense-compliance-plan.md
+!docs/privacy-policy.md
 ._*
