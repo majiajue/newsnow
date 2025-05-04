@@ -1,113 +1,32 @@
 /**
- * 文章处理定时任务
- * 自动获取财联社文章，使用JinaAI提取内容，用DeepSeek生成摘要和评论，并存储到数据库
+ * 格隆汇文章处理定时任务
+ * 自动获取格隆汇文章，使用JinaAI提取内容，用DeepSeek生成摘要和评论，并存储到数据库
  */
 import { myFetch } from '../utils/fetch';
 import { logger } from '../utils/logger';
 import { load } from 'cheerio';
 import { PrismaClient } from '@prisma/client';
 import { registerTask } from '../utils/taskScheduler';
+import { fetchGelonghuiNews, fetchGelonghuiArticleDetail } from '../utils/crawlers/gelonghui';
+const process = require("process");
 
 // 创建Prisma客户端
 const prisma = new PrismaClient();
 
 // 任务ID
-const TASK_ID = 'article-processor';
+const TASK_ID = 'gelonghui-processor';
 // 任务执行间隔（毫秒）
 const TASK_INTERVAL = 5 * 60 * 1000; // 5分钟
 // 每次处理的文章数量
 const BATCH_SIZE = 5;
 
 /**
- * 从财联社API获取最新文章列表
- */
-async function fetchLatestArticles(): Promise<any[]> {
-  try {
-    // API端点列表
-    const apiUrls = [
-      'https://www.cls.cn/v1/article/list',
-      'https://www.cls.cn/v1/telegraph/list',
-      'https://www.cls.cn/v1/depth/list'
-    ];
-    
-    // 请求头
-    const headers = {
-      'Referer': 'https://www.cls.cn/',
-      'Origin': 'https://www.cls.cn',
-      'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36'
-    };
-    
-    // 请求参数
-    const params = {
-      app: 'CailianpressWeb',
-      os: 'web',
-      sv: '7.7.5',
-      page: '1',
-      rn: '20'
-    };
-    
-    // 尝试所有API端点
-    for (const url of apiUrls) {
-      try {
-        logger.info(`尝试从API获取文章列表: ${url}`);
-        const response = await myFetch(url, { params, headers });
-        
-        // 尝试提取数据
-        let articles: any[] = [];
-        
-        if (response && typeof response === 'object') {
-          // 处理不同的响应格式
-          let items: any[] = [];
-          
-          if (Array.isArray(response.data)) {
-            items = response.data;
-          } else if (response.data?.roll_data?.list && Array.isArray(response.data.roll_data.list)) {
-            items = response.data.roll_data.list;
-          } else if (response.data?.roll_data && Array.isArray(response.data.roll_data)) {
-            items = response.data.roll_data;
-          } else if (response.data?.depth_list && Array.isArray(response.data.depth_list)) {
-            items = response.data.depth_list;
-          } else if (Array.isArray(response)) {
-            items = response;
-          }
-          
-          // 转换数据格式
-          if (items.length > 0) {
-            articles = items
-              .filter(item => !item.is_ad)
-              .map(item => ({
-                id: item.id || '',
-                title: item.title || item.brief || '',
-                summary: item.digest || item.brief || '',
-                url: item.link || item.shareurl || `https://www.cls.cn/detail/${item.id}`,
-                pubDate: item.ctime ? new Date(parseInt(item.ctime) * 1000).toISOString() : new Date().toISOString(),
-                source: item.source || '财联社',
-                category: item.column_name || '财经'
-              }));
-            
-            logger.info(`成功从API获取文章列表: ${url}`, { count: articles.length });
-            return articles;
-          }
-        }
-      } catch (error) {
-        logger.warn(`从API获取文章列表失败: ${url}`, { error: error.message });
-      }
-    }
-    
-    // 所有API都失败
-    logger.error('所有API端点都失败');
-    return [];
-  } catch (error) {
-    logger.error('获取最新文章列表失败', { error: error.message });
-    return [];
-  }
-}
-
-/**
  * 使用JinaAI获取文章详细内容
  */
 async function fetchArticleContent(url: string): Promise<any> {
   try {
+    logger.info(`开始从金佳API获取文章内容: ${url}`);
+    
     // 使用金佳API获取文章内容
     const jinjiaApiUrl = 'https://api.jinjia.co/v1/extract';
     const jinjiaResponse = await myFetch(jinjiaApiUrl, {
@@ -123,6 +42,7 @@ async function fetchArticleContent(url: string): Promise<any> {
     });
 
     if (!jinjiaResponse || typeof jinjiaResponse !== 'object') {
+      logger.error(`金佳API返回无效数据: ${JSON.stringify(jinjiaResponse)}`);
       throw new Error('金佳API返回无效数据');
     }
 
@@ -139,13 +59,18 @@ async function fetchArticleContent(url: string): Promise<any> {
       articleDate = jinjiaResponse.data.date || '';
       articleAuthor = jinjiaResponse.data.author || '';
       articleImage = jinjiaResponse.data.image || '';
+      
+      logger.info(`从金佳API响应的data字段提取内容成功: ${articleTitle}`);
     } else if (jinjiaResponse.title && jinjiaResponse.content) {
       articleTitle = jinjiaResponse.title || '';
       articleContent = jinjiaResponse.content || '';
       articleDate = jinjiaResponse.date || '';
       articleAuthor = jinjiaResponse.author || '';
       articleImage = jinjiaResponse.image || '';
+      
+      logger.info(`从金佳API响应的根字段提取内容成功: ${articleTitle}`);
     } else {
+      logger.error(`无法从金佳API响应中提取文章内容: ${JSON.stringify(jinjiaResponse).substring(0, 200)}...`);
       throw new Error('无法从金佳API响应中提取文章内容');
     }
 
@@ -154,10 +79,14 @@ async function fetchArticleContent(url: string): Promise<any> {
     try {
       const $ = load(articleContent);
       cleanContent = $.text().trim();
+      logger.info(`成功清理HTML内容，清理后长度: ${cleanContent.length}`);
     } catch (e) {
       logger.warn(`清理HTML内容出错: ${e}`);
       cleanContent = articleContent.replace(/<[^>]*>/g, '').trim();
+      logger.info(`使用正则表达式清理HTML内容，清理后长度: ${cleanContent.length}`);
     }
+
+    logger.info(`成功从金佳API获取文章内容: ${articleTitle}`);
 
     return {
       title: articleTitle,
@@ -169,7 +98,17 @@ async function fetchArticleContent(url: string): Promise<any> {
     };
   } catch (error) {
     logger.error(`获取文章内容失败: ${url}`, { error: error.message });
-    throw error;
+    
+    // 使用备选方案：返回一个基本的内容对象，后续处理可以使用爬虫获取的内容
+    logger.info(`使用备选方案获取文章内容: ${url}`);
+    return {
+      title: '', // 将在processArticle中使用article.title
+      content: '', // 将在processArticle中使用articleDetail.content
+      cleanContent: '', // 将在processArticle中使用articleDetail.content并清理
+      pubDate: new Date().toISOString(),
+      author: '格隆汇',
+      imageUrl: ''
+    };
   }
 }
 
@@ -188,7 +127,6 @@ async function generateSummaryAndComment(title: string, content: string): Promis
     
     // 使用DeepSeek API生成摘要和评论
     const deepseekApiUrl = 'https://api.deepseek.com/v1/chat/completions';
-    const process = require("process");
     const deepseekResponse = await myFetch(deepseekApiUrl, {
       method: 'POST',
       headers: {
@@ -326,8 +264,8 @@ async function saveArticleToDatabase(article: any, content: any, ai: any): Promi
         metadata: JSON.stringify({
           cleanContent: content.cleanContent,
           aiComment: ai.comment,
-          imageUrl: content.imageUrl,
-          aiAnalysis: ai.aiAnalysis
+          aiAnalysis: ai.aiAnalysis,
+          imageUrl: content.imageUrl || article.imageUrl
         }),
         status: 'published',
         quality: 0.8
@@ -346,20 +284,38 @@ async function saveArticleToDatabase(article: any, content: any, ai: any): Promi
  */
 async function processArticle(article: any): Promise<void> {
   try {
-    logger.info(`开始处理文章: ${article.title}`);
+    logger.info(`开始处理格隆汇文章: ${article.title}`);
 
     // 1. 获取文章详细内容
+    const articleDetail = await fetchGelonghuiArticleDetail(article.id);
+    if (!articleDetail) {
+      logger.error(`获取格隆汇文章详情失败: ${article.title}`);
+      return;
+    }
+    
+    // 2. 使用JinaAI获取更详细的内容
     const content = await fetchArticleContent(article.url);
     
-    // 2. 生成摘要和评论
-    const ai = await generateSummaryAndComment(content.title || article.title, content.cleanContent);
+    // 3. 生成摘要和评论
+    // 如果JinaAI返回的内容为空，使用爬虫获取的内容
+    const articleContent = articleDetail.content || '';
+    const contentToUse = content.cleanContent || articleContent.replace(/<[^>]*>/g, '').trim();
+    const ai = await generateSummaryAndComment(content.title || article.title, contentToUse);
     
-    // 3. 保存到数据库
-    await saveArticleToDatabase(article, content, ai);
+    // 4. 保存到数据库
+    await saveArticleToDatabase({
+      ...article,
+      content: articleContent
+    }, {
+      ...content,
+      // 确保content字段不为空
+      content: content.content || articleContent,
+      cleanContent: contentToUse
+    }, ai);
     
-    logger.info(`文章处理完成: ${article.title}`);
+    logger.info(`格隆汇文章处理完成: ${article.title}`);
   } catch (error) {
-    logger.error(`处理文章失败: ${article.title}`, { error: error.message });
+    logger.error(`处理格隆汇文章失败: ${article.title}`, { error: error instanceof Error ? error.message : String(error) });
   }
 }
 
@@ -369,14 +325,14 @@ async function processArticle(article: any): Promise<void> {
 async function executeTask(): Promise<void> {
   try {
     // 1. 获取最新文章列表
-    const articles = await fetchLatestArticles();
+    const articles = await fetchGelonghuiNews(1, 20);
     
     if (articles.length === 0) {
-      logger.warn('未获取到文章，跳过本次处理');
+      logger.warn('未获取到格隆汇文章，跳过本次处理');
       return;
     }
     
-    logger.info(`获取到 ${articles.length} 篇文章，将处理前 ${BATCH_SIZE} 篇`);
+    logger.info(`获取到 ${articles.length} 篇格隆汇文章，将处理前 ${BATCH_SIZE} 篇`);
     
     // 2. 获取需要处理的文章
     const articlesToProcess = articles.slice(0, BATCH_SIZE);
@@ -398,11 +354,11 @@ async function executeTask(): Promise<void> {
     const newArticles = articlesToProcess.filter(article => !existingUrls.has(article.url));
     
     if (newArticles.length === 0) {
-      logger.info('所有文章已存在于数据库中，跳过本次处理');
+      logger.info('所有格隆汇文章已存在于数据库中，跳过本次处理');
       return;
     }
     
-    logger.info(`发现 ${newArticles.length} 篇新文章需要处理`);
+    logger.info(`发现 ${newArticles.length} 篇新格隆汇文章需要处理`);
     
     // 4. 逐个处理新文章
     for (const article of newArticles) {
@@ -411,22 +367,22 @@ async function executeTask(): Promise<void> {
       await new Promise(resolve => setTimeout(resolve, 5000));
     }
     
-    logger.info(`本次任务处理完成，共处理 ${newArticles.length} 篇文章`);
+    logger.info(`本次格隆汇任务处理完成，共处理 ${newArticles.length} 篇文章`);
   } catch (error) {
-    logger.error('执行文章处理任务失败', { error: error.message });
+    logger.error('执行格隆汇文章处理任务失败', { error: error.message });
   }
 }
 
 /**
- * 注册文章处理任务
+ * 注册格隆汇文章处理任务
  */
-export function registerArticleProcessorTask(): void {
+export function registerGelonghuiProcessorTask(): void {
   registerTask({
     id: TASK_ID,
-    name: '文章处理器',
+    name: '格隆汇文章处理器',
     interval: TASK_INTERVAL,
     fn: executeTask
   });
   
-  logger.info(`文章处理任务已注册，间隔: ${TASK_INTERVAL / 1000 / 60}分钟`);
+  logger.info(`格隆汇文章处理任务已注册，间隔: ${TASK_INTERVAL / 1000 / 60}分钟`);
 }

@@ -60,16 +60,18 @@ export function Header() {
         </Link>
       </span>
       <span className="justify-self-center">
-        <span className="hidden md:(inline-block)">
+        {/* 导航栏暂时不需要 */}
+        {/* <span className="hidden md:(inline-block)">
           <NavBar />
-        </span>
+        </span> */}
       </span>
-      <span className="justify-self-end flex gap-2 items-center text-xl text-primary-600 dark:text-primary">
+      {/* 右侧功能按钮暂时不需要 */}
+      {/* <span className="justify-self-end flex gap-2 items-center text-xl text-primary-600 dark:text-primary">
         <GoTop />
         <Refresh />
         <LanguageSwitcher />
         <Menu />
-      </span>
+      </span> */}
     </>
   )
 }

@@ -1,6 +1,7 @@
 import ReactDOM from "react-dom/client"
 import { RouterProvider, createRouter } from "@tanstack/react-router"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import { HelmetProvider } from "react-helmet-async"
 import { routeTree } from "./routeTree.gen"
 import { TranslationProvider } from "./components/TranslationProvider"
 
@@ -29,9 +30,11 @@ if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement)
   root.render(
     <QueryClientProvider client={queryClient}>
-      <TranslationProvider>
-        <RouterProvider router={router} />
-      </TranslationProvider>
+      <HelmetProvider>
+        <TranslationProvider>
+          <RouterProvider router={router} />
+        </TranslationProvider>
+      </HelmetProvider>
     </QueryClientProvider>,
   )
 }

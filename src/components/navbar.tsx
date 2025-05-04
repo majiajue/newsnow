@@ -34,6 +34,7 @@ const hardcodedTranslations: Record<string, Record<string, string>> = {
     focus: "关注",
     hottest: "最热",
     realtime: "实时",
+    allSources: "全部来源",
   },
   en: {
     more: "More",
@@ -50,6 +51,7 @@ const hardcodedTranslations: Record<string, Record<string, string>> = {
     focus: "Focus",
     hottest: "Hottest",
     realtime: "Real-time",
+    allSources: "All Sources",
   },
 }
 
@@ -74,6 +76,18 @@ export function NavBar() {
       >
         <Translate text="更多" />
       </button>
+      
+      {/* 添加全部来源链接 - 使用a标签代替Link组件以避免类型错误 */}
+      <a
+        href="/news/all-sources"
+        className={$(
+          "px-2 hover:(bg-primary/10 rounded-md)",
+          location.pathname === "/news/all-sources" ? "color-primary font-bold" : "op-70 dark:op-90",
+        )}
+      >
+        <Translate text={language === "en" ? "All Sources" : "全部来源"} />
+      </a>
+      
       {fixedColumnIds.map((columnId) => {
         // 使用硬编码的翻译或从翻译服务获取
         let columnName = ""

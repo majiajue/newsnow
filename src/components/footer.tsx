@@ -3,6 +3,8 @@ import { useTranslation } from "./TranslationProvider"
 export function Footer() {
   const { t } = useTranslation()
 
+  // 资讯分类菜单暂时不需要
+  /*
   const sources = [
     {
       category: t("科技资讯"),
@@ -50,10 +52,13 @@ export function Footer() {
       ],
     },
   ]
+  */
 
   return (
     <footer className="mt-8 pb-4 text-sm text-neutral-400">
       <div className="max-w-7xl mx-auto px-4">
+        {/* 资讯分类菜单暂时不需要 */}
+        {/*
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
           {sources.map(category => (
             <div key={category.category}>
@@ -75,6 +80,7 @@ export function Footer() {
             </div>
           ))}
         </div>
+        */}
         <div className="text-center pt-4 border-t border-neutral-200 dark:border-neutral-800">
           <span>
             {t("NewsNow  2025 By")}

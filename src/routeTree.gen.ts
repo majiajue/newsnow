@@ -20,6 +20,7 @@ import { Route as NewsSummaryImport } from './routes/news/summary'
 import { Route as NewsJinjiaImport } from './routes/news/jinjia'
 import { Route as NewsFlashImport } from './routes/news/flash'
 import { Route as NewsArticlesImport } from './routes/news/articles'
+import { Route as NewsAllSourcesImport } from './routes/news/all-sources'
 import { Route as NewsAiImport } from './routes/news/ai'
 import { Route as NewsLayoutImport } from './routes/news/_layout'
 import { Route as ContentManagerCreateImport } from './routes/content-manager.create'
@@ -78,6 +79,12 @@ const NewsFlashRoute = NewsFlashImport.update({
 const NewsArticlesRoute = NewsArticlesImport.update({
   id: '/articles',
   path: '/articles',
+  getParentRoute: () => NewsRoute,
+} as any)
+
+const NewsAllSourcesRoute = NewsAllSourcesImport.update({
+  id: '/all-sources',
+  path: '/all-sources',
   getParentRoute: () => NewsRoute,
 } as any)
 
@@ -169,6 +176,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof NewsAiImport
       parentRoute: typeof NewsImport
     }
+    '/news/all-sources': {
+      id: '/news/all-sources'
+      path: '/all-sources'
+      fullPath: '/news/all-sources'
+      preLoaderRoute: typeof NewsAllSourcesImport
+      parentRoute: typeof NewsImport
+    }
     '/news/articles': {
       id: '/news/articles'
       path: '/articles'
@@ -240,6 +254,7 @@ const ContentManagerRouteWithChildren = ContentManagerRoute._addFileChildren(
 interface NewsRouteChildren {
   NewsLayoutRoute: typeof NewsLayoutRoute
   NewsAiRoute: typeof NewsAiRoute
+  NewsAllSourcesRoute: typeof NewsAllSourcesRoute
   NewsArticlesRoute: typeof NewsArticlesRoute
   NewsFlashRoute: typeof NewsFlashRoute
   NewsJinjiaRoute: typeof NewsJinjiaRoute
@@ -251,6 +266,7 @@ interface NewsRouteChildren {
 const NewsRouteChildren: NewsRouteChildren = {
   NewsLayoutRoute: NewsLayoutRoute,
   NewsAiRoute: NewsAiRoute,
+  NewsAllSourcesRoute: NewsAllSourcesRoute,
   NewsArticlesRoute: NewsArticlesRoute,
   NewsFlashRoute: NewsFlashRoute,
   NewsJinjiaRoute: NewsJinjiaRoute,
@@ -268,6 +284,7 @@ export interface FileRoutesByFullPath {
   '/content-manager/create': typeof ContentManagerCreateRoute
   '/news': typeof NewsLayoutRoute
   '/news/ai': typeof NewsAiRoute
+  '/news/all-sources': typeof NewsAllSourcesRoute
   '/news/articles': typeof NewsArticlesRoute
   '/news/flash': typeof NewsFlashRoute
   '/news/jinjia': typeof NewsJinjiaRoute
@@ -284,6 +301,7 @@ export interface FileRoutesByTo {
   '/content-manager/create': typeof ContentManagerCreateRoute
   '/news': typeof NewsIndexRoute
   '/news/ai': typeof NewsAiRoute
+  '/news/all-sources': typeof NewsAllSourcesRoute
   '/news/articles': typeof NewsArticlesRoute
   '/news/flash': typeof NewsFlashRoute
   '/news/jinjia': typeof NewsJinjiaRoute
@@ -301,6 +319,7 @@ export interface FileRoutesById {
   '/news': typeof NewsRouteWithChildren
   '/news/_layout': typeof NewsLayoutRoute
   '/news/ai': typeof NewsAiRoute
+  '/news/all-sources': typeof NewsAllSourcesRoute
   '/news/articles': typeof NewsArticlesRoute
   '/news/flash': typeof NewsFlashRoute
   '/news/jinjia': typeof NewsJinjiaRoute
@@ -319,6 +338,7 @@ export interface FileRouteTypes {
     | '/content-manager/create'
     | '/news'
     | '/news/ai'
+    | '/news/all-sources'
     | '/news/articles'
     | '/news/flash'
     | '/news/jinjia'
@@ -334,6 +354,7 @@ export interface FileRouteTypes {
     | '/content-manager/create'
     | '/news'
     | '/news/ai'
+    | '/news/all-sources'
     | '/news/articles'
     | '/news/flash'
     | '/news/jinjia'
@@ -349,6 +370,7 @@ export interface FileRouteTypes {
     | '/news'
     | '/news/_layout'
     | '/news/ai'
+    | '/news/all-sources'
     | '/news/articles'
     | '/news/flash'
     | '/news/jinjia'
@@ -411,6 +433,7 @@ export const routeTree = rootRoute
       "children": [
         "/news/_layout",
         "/news/ai",
+        "/news/all-sources",
         "/news/articles",
         "/news/flash",
         "/news/jinjia",
@@ -425,6 +448,10 @@ export const routeTree = rootRoute
     },
     "/news/ai": {
       "filePath": "news/ai.tsx",
+      "parent": "/news"
+    },
+    "/news/all-sources": {
+      "filePath": "news/all-sources.tsx",
       "parent": "/news"
     },
     "/news/articles": {
