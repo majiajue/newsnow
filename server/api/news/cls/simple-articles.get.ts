@@ -1,7 +1,7 @@
 import { defineEventHandler, getQuery, setResponseHeader } from 'h3'
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient, prisma } from '../../../utils/prismaClient.js'
 
-const prisma = new PrismaClient()
+// 使用预初始化的 prisma 实例
 
 export default defineEventHandler(async (event) => {
   // 设置响应头

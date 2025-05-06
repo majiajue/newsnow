@@ -5,12 +5,12 @@
 import { myFetch } from '../utils/fetch';
 import { logger } from '../utils/logger';
 import { load } from 'cheerio';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, prisma } from '../utils/prismaClient.js';
 import { registerTask } from '../utils/taskScheduler';
 import { fetchWallStreetNews, fetchWallStreetArticleDetail } from '../utils/crawlers/wallstreet';
 
 // 创建Prisma客户端
-const prisma = new PrismaClient();
+// 使用预初始化的 prisma 实例;
 
 // 任务ID
 const TASK_ID = 'wallstreet-processor';

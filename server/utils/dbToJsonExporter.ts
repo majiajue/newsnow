@@ -2,12 +2,12 @@
  * 数据库到JSON文件导出工具
  * 定期从数据库获取文章并保存到静态JSON文件中
  */
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, prisma } from '../utils/prismaClient.js';
 import fs from 'fs';
 import path from 'path';
 import { consola } from 'consola';
 
-const prisma = new PrismaClient();
+// 使用预初始化的 prisma 实例;
 
 // 静态文件目录
 const PUBLIC_DIR = path.resolve(process.cwd(), 'public');

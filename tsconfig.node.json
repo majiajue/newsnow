@@ -5,7 +5,8 @@
     "baseUrl": ".",
     "paths": {
       "#/*": ["server/*"],
-      "@shared/*": ["shared/*"]
+      "@shared/*": ["shared/*"],
+      "@custom/prisma-client": ["libs/prisma-client"]
     }
   },
   "include": ["server", "*.config.*", "shared", "test", "scripts", "tools", "dist/.nitro/types"]

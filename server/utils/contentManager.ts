@@ -4,11 +4,11 @@
  */
 
 import { logger } from "./logger"
-import { PrismaClient } from "@prisma/client"
+import { PrismaClient, prisma } from '../utils/prismaClient.js'
 import { analyzeContent } from "./contentAnalyzer"
 
 // 初始化Prisma客户端
-const prisma = new PrismaClient()
+// 使用预初始化的 prisma 实例
 
 /**
  * 内容项接口

@@ -5,10 +5,10 @@
  */
 import { defineEventHandler, getQuery, setResponseHeader } from 'h3';
 import { logger } from '#/utils/logger';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, prisma } from '../../../utils/prismaClient.js';
 
 // 创建Prisma客户端
-const prisma = new PrismaClient();
+// 使用预初始化的 prisma 实例;
 
 // 支持的来源列表
 const SUPPORTED_SOURCES = ['财联社', 'FastBull', 'WallStreet', 'Jin10', 'Gelonghui'];

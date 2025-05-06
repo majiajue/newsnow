@@ -3,11 +3,12 @@
 
 generator client {
   provider = "prisma-client-js"
+  output   = "./prisma/client"
 }
 
 datasource db {
   provider = "sqlite"
-  url      = "file:../database/newsnow.db"
+  url      = env("DATABASE_URL")
 }
 
 // 内容模型

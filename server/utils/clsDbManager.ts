@@ -1,8 +1,8 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, prisma } from '../utils/prismaClient.js';
 import { myFetch } from "./fetch";
 import { consola } from "consola";
 
-const prisma = new PrismaClient();
+// 使用预初始化的 prisma 实例;
 
 // 财联社文章类型定义
 export interface CLSArticle {
