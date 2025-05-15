@@ -4,7 +4,7 @@
  */
 
 import { defineEventHandler, readBody } from "h3"
-import { logger } from "../../utils/logger"
+// 使用console替代logger
 import { readArticleContent } from "../../utils/jinaApi"
 import { generateDeepSeekAnalysis } from "../../utils/deepseekAnalyzer"
 
@@ -27,7 +27,7 @@ export default defineEventHandler(async (event) => {
 
     // 如果提供了URL但没有内容，使用Jina Reader获取内容
     if (url && !content) {
-      logger.info(`使用Jina Reader API获取URL内容: ${url}`)
+      console.log(`使用Jina Reader API获取URL内容: ${url}`)
       const contentResult = await readArticleContent(url, { 
         extractLinks: false, 
         extractImages: false 
@@ -45,7 +45,7 @@ export default defineEventHandler(async (event) => {
     }
 
     // 使用DeepSeek生成分析
-    logger.info(`使用DeepSeek分析内容: ${articleTitle}`)
+    console.log(`使用DeepSeek分析内容: ${articleTitle}`)
     const analysisResult = await generateDeepSeekAnalysis(
       articleTitle,
       articleContent,
@@ -67,7 +67,7 @@ export default defineEventHandler(async (event) => {
       timestamp: Date.now()
     }
   } catch (error: any) {
-    logger.error(`DeepSeek分析API处理错误: ${error.message}`)
+    console.error(`DeepSeek分析API处理错误: ${error.message}`)
     return {
       success: false,
       error: `处理请求时出错: ${error.message}`

@@ -9,24 +9,40 @@ import DefaultNewsImage from '../common/DefaultNewsImage';
 interface Article {
   id: string;
   title: string;
-  summary: string;
-  content: string;
   url: string;
-  pubDate: string;
-  source: string;
-  category: string;
-  author: string;
-  imageUrl: string;
-  aiComment: string;
-  metadata?: string; // 元数据是JSON字符串
+  summary?: string; // 添加回来以兼容现有代码
+  content?: string;
+  imageUrl?: string;
+  source?: string;
+  category?: string;
+  author?: string;
+  aiComment?: string | AIAnalysisContent;
+  metadata?: string;
+  timestamp?: number;
+  publishedAt?: string;
+  pubDate?: string; // 添加回来以兼容现有代码
 }
 
 // 文章元数据接口
+interface AIAnalysisContent {
+  summary?: string;
+  comment?: string;
+  keyPoints?: string[] | string;
+  background?: string;
+  impact?: string;
+  opinion?: string;
+  suggestions?: string[] | string;
+  [key: string]: any; // 允许其他字段
+}
+
 interface ArticleMetadata {
-  cleanContent?: string;
-  aiComment?: string;
   aiAnalysis?: string;
-  imageUrl?: string;
+  aiComment?: string | AIAnalysisContent;
+  aiAnalysisContent?: string | AIAnalysisContent;
+  category?: string;
+  source?: string;
+  author?: string;
+  originalTitle?: string;
 }
 
 // API响应接口
@@ -203,64 +219,147 @@ const ArticleDetail: React.FC = () => {
   };
   
   // 获取AI分析内容
-  const getAiAnalysis = (article: Article): string | null => {
+  const getAiAnalysis = (article: Article): any => {
     if (!article) return null;
     
     const metadata = parseMetadata(article);
+    console.log('解析后的元数据:', metadata);
     
-    // 优先使用metadata中的aiAnalysis字段
-    if (metadata.aiAnalysis) {
-      return metadata.aiAnalysis;
-    }
-    
-    // 其次使用metadata中的aiComment字段
-    if (metadata.aiComment) {
-      return metadata.aiComment;
-    }
-    
-    // 最后使用文章的aiComment字段
-    if (article.aiComment) {
-      return article.aiComment;
+    try {
+      // 如果aiComment是对象，直接返回
+      if (typeof article.aiComment === 'object' && article.aiComment !== null) {
+        console.log('文章aiComment已经是对象:', article.aiComment);
+        return article.aiComment;
+      }
+      
+      // 如果aiComment是JSON字符串，尝试解析
+      if (typeof article.aiComment === 'string' && article.aiComment.trim().startsWith('{')) {
+        try {
+          const parsedComment = JSON.parse(article.aiComment);
+          console.log('成功解析aiComment为JSON:', parsedComment);
+          return parsedComment;
+        } catch (e) {
+          console.error('解析aiComment失败:', e);
+        }
+      }
+      
+      // 优先使用metadata中的aiAnalysisContent字段
+      if (metadata.aiAnalysisContent) {
+        return metadata.aiAnalysisContent;
+      }
+      
+      // 其次使用metadata中的aiAnalysis字段
+      if (metadata.aiAnalysis) {
+        return metadata.aiAnalysis;
+      }
+      
+      // 再次使用metadata中的aiComment字段
+      if (metadata.aiComment) {
+        return metadata.aiComment;
+      }
+      
+      // 最后使用文章的aiComment字段如果是字符串
+      if (typeof article.aiComment === 'string') {
+        return article.aiComment;
+      }
+    } catch (e) {
+      console.error('获取AI分析内容时出错:', e);
     }
     
     // 如果都没有，生成一个默认的AI分析内容
-    return `
-摘要：${article.summary || article.title}
-
-评论：这是关于"${article.title}"的财经新闻，提供了相关行业的最新动态。建议投资者关注相关发展，评估可能的市场影响。
-
-关键要点：
-1. ${article.title}反映了${article.category || '财经'}领域的最新发展趋势
-2. 这一动态对市场参与者具有重要参考价值
-3. 投资者应密切关注后续发展
-
-分析背景：
-近期${article.category || '财经'}领域发生了一系列重要变化，本文所报道的内容是这些变化的重要组成部分。从宏观角度看，这些变化将对整体经济环境产生深远影响。
-
-影响评估：
-短期内，该消息可能引起市场波动；中长期来看，将促进相关行业的结构性调整和优化升级。投资者应当理性看待这一变化，避免盲目跟风或恐慌性决策。
-
-专业意见：
-从专业角度分析，这一发展符合当前经济和政策环境的整体趋势。建议投资者结合自身风险偏好和投资目标，审慎决策。
-
-建议行动：
-1. 密切关注后续政策和市场反应
-2. 评估对自身投资组合的潜在影响
-3. 适当调整资产配置策略，分散风险
-`;
+    return JSON.stringify({
+      summary: article.summary || article.title,
+      comment: `这是关于"${article.title}"的财经新闻，提供了相关行业的最新动态。建议投资者关注相关发展，评估可能的市场影响。`,
+      keyPoints: [
+        `${article.title}反映了${article.category || '财经'}领域的最新发展趋势`,
+        `这一动态对市场参与者具有重要参考价值`,
+        `投资者应密切关注后续发展`
+      ],
+      background: `近期${article.category || '财经'}领域发生了一系列重要变化，本文所报道的内容是这些变化的重要组成部分。从宏观角度看，这些变化将对整体经济环境产生深远影响。`,
+      impact: `短期内，该消息可能引起市场波动；中长期来看，将促进相关行业的结构性调整和优化升级。投资者应当理性看待这一变化，避免盲目跟风或恐慌性决策。`,
+      opinion: `从专业角度分析，这一发展符合当前经济和政策环境的整体趋势。建议投资者结合自身风险偏好和投资目标，审慎决策。`,
+      suggestions: [
+        `密切关注后续政策和市场反应`,
+        `评估对自身投资组合的潜在影响`,
+        `适当调整资产配置策略，分散风险`
+      ]
+    });
   };
   
   // 解析AI分析内容中的各个部分
-  const parseAiAnalysisContent = (content: string | null) => {
+  const parseAiAnalysisContent = (content: string | AIAnalysisContent | null): AIAnalysisContent | null => {
     if (!content) return null;
     
+    console.log('开始解析AI分析内容:', content);
+    
+    // 当内容已经是对象时，处理其中可能包含的序号
+    if (typeof content === 'object' && content !== null) {
+      console.log('内容已经是对象格式，处理其中可能的序号:', content);
+      // 创建一个新对象来存储处理后的内容
+      const processedContent: AIAnalysisContent = {};
+      
+      // 处理对象中的每个字段
+      for (const [key, value] of Object.entries(content)) {
+        if (typeof value === 'string') {
+          // 移除字符串中的序号模式 "\n\n数字."
+          processedContent[key] = value.replace(/\n\n\d+\./g, '');
+        } else if (Array.isArray(value)) {
+          // 处理数组中的每个字符串
+          processedContent[key] = value.map(item => 
+            typeof item === 'string' ? item.replace(/\n\n\d+\./g, '') : item
+          );
+        } else {
+          // 保持其他类型的值不变
+          processedContent[key] = value;
+        }
+      }
+      return processedContent;
+    }
+    
+    // 如果是JSON字符串，尝试解析
+    try {
+      if (typeof content === 'string' && content.trim().startsWith('{') && content.trim().endsWith('}')) {
+        console.log('可能是JSON格式，尝试解析');
+        const parsedContent = JSON.parse(content);
+        console.log('成功解析JSON格式:', parsedContent);
+        return parsedContent as AIAnalysisContent;
+      }
+    } catch (e) {
+      console.error('直接解析JSON失败:', e);
+    }
+    
     const sections: { [key: string]: string | string[] } = {};
+    
+    // 尝试先提取摘要和评论
+    const summaryMatch = content.match(/摘要[:：]([\s\S]*?)(?=评论[:：]|关键要点[:：]|分析背景[:：]|影响评估[:：]|专业意见[:：]|建议行动[:：]|$)/i);
+    if (summaryMatch && summaryMatch[1]) {
+      sections.summary = summaryMatch[1].trim();
+    }
+    
+    const commentMatch = content.match(/评论[:：]([\s\S]*?)(?=关键要点[:：]|分析背景[:：]|影响评估[:：]|专业意见[:：]|建议行动[:：]|$)/i);
+    if (commentMatch && commentMatch[1]) {
+      sections.comment = commentMatch[1].trim();
+    }
     
     // 尝试提取关键要点
     const keyPointsMatch = content.match(/关键要点[:：]([\s\S]*?)(?=分析背景[:：]|影响评估[:：]|专业意见[:：]|建议行动[:：]|$)/i);
     if (keyPointsMatch && keyPointsMatch[1]) {
-      const points = keyPointsMatch[1].trim().split(/\d+[\.、．]/);
-      sections.keyPoints = points.filter(p => p.trim().length > 0).map(p => p.trim());
+      // 改进关键要点的分割逻辑
+      const pointsText = keyPointsMatch[1].trim();
+      let points;
+      if (pointsText.includes('\n')) {
+        // 如果有多行，按行分割
+        points = pointsText.split(/\n+/).filter(line => {
+          const trimmedLine = line.trim();
+          return trimmedLine.length > 0 && !trimmedLine.match(/^\d+[\.、．]\s*$/);
+        });
+        // 移除每行前的序号
+        points = points.map(point => point.replace(/^\d+[\.、．]\s*/, '').trim());
+      } else {
+        // 如果没有多行，尝试按序号分割
+        points = pointsText.split(/\d+[\.、．]/).filter(p => p.trim().length > 0).map(p => p.trim());
+      }
+      sections.keyPoints = points;
     }
     
     // 尝试提取分析背景
@@ -284,9 +383,25 @@ const ArticleDetail: React.FC = () => {
     // 尝试提取建议行动
     const suggestionsMatch = content.match(/建议行动[:：]([\s\S]*?)$/i);
     if (suggestionsMatch && suggestionsMatch[1]) {
-      const suggestions = suggestionsMatch[1].trim().split(/\d+[\.、．]/);
-      sections.suggestions = suggestions.filter(s => s.trim().length > 0).map(s => s.trim());
+      // 改进建议行动的分割逻辑
+      const suggestionsText = suggestionsMatch[1].trim();
+      let suggestions;
+      if (suggestionsText.includes('\n')) {
+        // 如果有多行，按行分割
+        suggestions = suggestionsText.split(/\n+/).filter(line => {
+          const trimmedLine = line.trim();
+          return trimmedLine.length > 0 && !trimmedLine.match(/^\d+[\.、．]\s*$/);
+        });
+        // 移除每行前的序号
+        suggestions = suggestions.map(sugg => sugg.replace(/^\d+[\.、．]\s*/, '').trim());
+      } else {
+        // 如果没有多行，尝试按序号分割
+        suggestions = suggestionsText.split(/\d+[\.、．]/).filter(s => s.trim().length > 0).map(s => s.trim());
+      }
+      sections.suggestions = suggestions;
     }
+    
+    console.log('解析后的各部分:', sections);
     
     return sections;
   };
@@ -324,7 +439,7 @@ const ArticleDetail: React.FC = () => {
                   <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                   </svg>
-                  {formatRelativeTime(article.pubDate)}
+                  {article.pubDate ? formatRelativeTime(article.pubDate) : article.publishedAt ? formatRelativeTime(article.publishedAt) : '发布时间未知'}
                 </span>
                 
                 <span className="flex items-center mr-4">
@@ -424,8 +539,80 @@ const ArticleDetail: React.FC = () => {
                 {(() => {
                   // 获取AI分析内容
                   const aiAnalysisContent = getAiAnalysis(article);
-                  // 解析AI分析内容
-                  const aiAnalysisSections = parseAiAnalysisContent(aiAnalysisContent);
+                  console.log('原始AI内容：', article.aiComment);
+                  console.log('元数据：', article.metadata); 
+                  console.log('处理后的AI分析内容：', aiAnalysisContent);
+                  
+                  // 特殊处理情况：如果原始AI内容是对象且包含特定字段
+                  let aiAnalysisSections: AIAnalysisContent | null = null;
+                  
+                  // 判断是否已经是结构化对象
+                  if (typeof article.aiComment === 'object' && article.aiComment !== null) {
+                    // 直接使用对象格式的aiComment
+                    console.log('检测到aiComment是对象格式:', article.aiComment);
+                    aiAnalysisSections = article.aiComment as AIAnalysisContent;
+                  } else {
+                    // 如果不是特定格式，再使用解析函数处理
+                    console.log('使用解析函数处理aiAnalysisContent:', aiAnalysisContent);
+                    aiAnalysisSections = parseAiAnalysisContent(aiAnalysisContent) as AIAnalysisContent;
+                  }
+                  
+                  console.log('最终的AI分析部分：', aiAnalysisSections);
+                  
+                  // 添加调试模式
+                  // 当需要查看原始数据运行时，把这个设置为true
+                  // 当发现AI内容显示有问题时，在控制台运行 localStorage.setItem('aiDebugMode', 'true');
+                  const debugMode = localStorage.getItem('aiDebugMode') === 'true';
+                  
+                  if (debugMode) {
+                    return (
+                      <div>
+                        {!aiAnalysisContent && (
+                          <div className="text-center py-3 text-red-500 font-bold">
+                            <p>暂无AI分析内容</p>
+                          </div>
+                        )}
+                        
+                        <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-200 mt-4">
+                          <h4 className="font-bold text-yellow-700 mb-2">调试信息</h4>
+                          
+                          <div className="mb-3">
+                            <p className="font-semibold">原始AI评论:</p>
+                            <pre className="bg-white p-2 rounded text-xs overflow-auto max-h-32">
+                              {article?.aiComment ? JSON.stringify(article?.aiComment, null, 2) : '无'}  
+                            </pre>
+                          </div>
+                          
+                          <div className="mb-3">
+                            <p className="font-semibold">元数据:</p>
+                            <pre className="bg-white p-2 rounded text-xs overflow-auto max-h-32">
+                              {article?.metadata || '无'}  
+                            </pre>
+                          </div>
+                          
+                          <div className="mb-3">
+                            <p className="font-semibold">处理后的AI分析内容:</p>
+                            <pre className="bg-white p-2 rounded text-xs overflow-auto max-h-32">
+                              {aiAnalysisContent ? aiAnalysisContent : '无'}  
+                            </pre>
+                          </div>
+                          
+                          <div className="mb-3">
+                            <p className="font-semibold">解析后的AI分析部分:</p>
+                            <pre className="bg-white p-2 rounded text-xs overflow-auto max-h-32">
+                              {aiAnalysisSections ? JSON.stringify(aiAnalysisSections, null, 2) : '无'}  
+                            </pre>
+                          </div>
+                        </div>
+                        
+                        {!aiAnalysisContent && (
+                          <div className="text-center py-8 text-gray-500">
+                            <p>暂无AI分析内容</p>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  }
                   
                   if (!aiAnalysisContent) {
                     return (
@@ -446,11 +633,16 @@ const ArticleDetail: React.FC = () => {
                           <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">关键要点</span>
                         </h5>
                         <ul className="space-y-2">
-                          {(aiAnalysisSections?.keyPoints as string[] || [
-                            `${article.title}反映了${article.category || '财经'}领域的最新发展趋势`,
-                            '这一动态对市场参与者具有重要参考价值',
-                            '投资者应密切关注后续发展'
-                          ]).map((point, index) => (
+                          {((aiAnalysisSections && aiAnalysisSections.keyPoints) ? 
+                            (Array.isArray(aiAnalysisSections.keyPoints) ? 
+                              aiAnalysisSections.keyPoints : 
+                              [aiAnalysisSections.keyPoints as string]) : 
+                            [
+                              `${article.title}反映了${article.category || '财经'}领域的最新发展趋势`,
+                              '这一动态对市场参与者具有重要参考价值',
+                              '投资者应密切关注后续发展'
+                            ]
+                          ).map((point: string, index: number) => (
                             <li key={index} className="flex items-start">
                               <span className="flex-shrink-0 w-6 h-6 flex items-center justify-center rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 text-white text-xs font-bold mr-2 mt-0.5">{index + 1}</span>
                               <span className="text-gray-700">{point}</span>
@@ -490,7 +682,7 @@ const ArticleDetail: React.FC = () => {
                           </svg>
                           <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">专业意见</span>
                         </h5>
-                        <p className="text-gray-700">{aiAnalysisSections?.opinion || `从专业角度分析，这一发展符合当前经济和政策环境的整体趋势。建议投资者结合自身风险偏好和投资目标，审慎决策。`}</p>
+                        <p className="text-gray-700">{aiAnalysisSections?.opinion || `从专业角度来看，本文所描述的变化属于行业正常发展的范畴，不会对主要经济指标产生显著影响。然而，特定的细分行业可能会因此出现机会或挑战，应密切关注相关动态。`}</p>
                       </div>
                       
                       {/* 建议行动 */}
@@ -502,11 +694,16 @@ const ArticleDetail: React.FC = () => {
                           <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">建议行动</span>
                         </h5>
                         <ul className="space-y-2">
-                          {(aiAnalysisSections?.suggestions as string[] || [
-                            '密切关注后续政策和市场反应',
-                            '评估对自身投资组合的潜在影响',
-                            '适当调整资产配置策略，分散风险'
-                          ]).map((action, index) => (
+                          {((aiAnalysisSections && aiAnalysisSections.suggestions) ? 
+                            (Array.isArray(aiAnalysisSections.suggestions) ? 
+                              aiAnalysisSections.suggestions : 
+                              [aiAnalysisSections.suggestions as string]) : 
+                            [
+                              '密切关注后续政策和市场反应',
+                              '评估对自身投资组合的潜在影响',
+                              '适当调整资产配置策略，分散风险'
+                            ]
+                          ).map((action: string, index: number) => (
                             <li key={index} className="flex items-start">
                               <span className="flex-shrink-0 w-6 h-6 flex items-center justify-center rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 text-white text-xs font-bold mr-2 mt-0.5">{index + 1}</span>
                               <span className="text-gray-700">{action}</span>

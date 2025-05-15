@@ -2,7 +2,7 @@
  * 数据库到JSON文件导出工具
  * 定期从数据库获取文章并保存到静态JSON文件中
  */
-import { PrismaClient, prisma } from '../utils/prismaClient.js';
+import prisma from '../utils/prismaClient.js';
 import fs from 'fs';
 import path from 'path';
 import { consola } from 'consola';
@@ -28,6 +28,7 @@ export async function exportArticlesToJson() {
     consola.info('开始从数据库导出文章到JSON文件...');
     
     // 查询文章
+    // 使用增强的兼容层调用
     const articles = await prisma.content.findMany({
       where: {
         source: "财联社",
@@ -40,7 +41,7 @@ export async function exportArticlesToJson() {
     });
     
     // 转换为前端需要的格式
-    const formattedArticles = articles.map(article => ({
+    const formattedArticles = articles.map((article: any) => ({
       id: article.id,
       title: article.title,
       summary: article.summary || article.content,

@@ -3,8 +3,24 @@
  * 使用DeepSeek API生成内容摘要和深度分析
  */
 
-import { logger } from "./logger"
+// 导入必要的模块
 import axios from "axios"
+import * as dotenv from 'dotenv'
+import { join } from 'path'
+import { fileURLToPath } from 'url'
+import { dirname } from 'path'
+
+// 获取当前文件的目录
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
+const projectRoot = join(__dirname, '../..')
+
+// 加载环境变量
+dotenv.config({ path: join(projectRoot, '.env.server') })
+
+// 添加调试日志
+console.log('环境变量路径:', join(projectRoot, '.env.server'))
+console.log('DEEPSEEK_API_KEY:', process.env.DEEPSEEK_API_KEY ? '已设置' : '未设置')
 
 // DeepSeek API配置
 const DEEPSEEK_API_KEY = process.env.DEEPSEEK_API_KEY || ''
@@ -23,6 +39,8 @@ export interface DeepSeekAnalysisResult {
   opinion?: string
   suggestions?: string
   generatedAt?: string
+  // 添加原始分析数据字段，可以包含完整的JSON对象
+  analysisData?: any
 }
 
 /**
@@ -39,11 +57,11 @@ export async function generateDeepSeekAnalysis(
 ): Promise<DeepSeekAnalysisResult> {
   try {
     if (!DEEPSEEK_API_KEY) {
-      logger.warn('缺少DEEPSEEK_API_KEY，使用模拟分析数据')
+      console.warn('缺少DEEPSEEK_API_KEY，使用模拟分析数据')
       return generateMockAnalysis(title)
     }
     
-    // 准备提示词
+    // 准备提示词 - 直接要求返回JSON格式
     const prompt = `
 你是一位专业的财经分析师，请对以下文章进行深度分析：
 
@@ -53,18 +71,31 @@ export async function generateDeepSeekAnalysis(
 
 ${url ? `原文链接：${url}` : ''}
 
-请提供以下分析：
-1. 提供5个核心要点（每点30-50字，突出文章价值和专业洞见）
-2. 内容摘要（100字以内）
-3. 背景分析（分析该新闻的宏观背景）
-4. 潜在影响分析（分析该新闻可能产生的短期和长期影响）
-5. 专业观点（基于你的专业知识对内容进行评价）
-6. 建议与展望（针对投资者或相关方的建议）
+你需要生成一个包含以下字段的JSON对象（不要添加额外的格式说明，直接返回可解析的JSON对象）：
+- "summary"：内容摘要（100字以内）
+- "comment"：评论（专业分析评论，100-150字）
+- "keyPoints"：关键要点（数组，3-5个要点，每点30-50字）
+- "background"：分析背景（分析该新闻的宏观背景，100-150字）
+- "impact"：影响评估（分析该新闻可能产生的短期和长期影响，100-150字）
+- "opinion"：专业意见（基于专业知识对内容进行评价，100字左右）
+- "suggestions"：建议行动（数组，针对投资者或相关方的3-5条具体建议）
+
+请直接以JSON格式返回，不要包含任何前导或后缀文本。确保输出是有效的JSON，可以直接被JSON.parse()解析。
+结构示例（你需要填充实际内容）：
+{
+  "summary": "...",
+  "comment": "...",
+  "keyPoints": ["...", "...", "..."],
+  "background": "...",
+  "impact": "...",
+  "opinion": "...",
+  "suggestions": ["...", "...", "..."]
+}
 
 请用中文回答，确保分析专业、客观且有深度。
 `
 
-    logger.info(`调用DeepSeek API分析文章: ${title}`)
+    console.info(`调用DeepSeek API分析文章: ${title}`)
     
     // 调用DeepSeek API
     const response = await axios.post(
@@ -72,7 +103,7 @@ ${url ? `原文链接：${url}` : ''}
       {
         model: 'deepseek-chat',
         messages: [
-          { role: 'system', content: '你是一位专业的财经分析师，擅长对财经新闻进行深度解读和分析。' },
+          { role: 'system', content: '你是一位专业的财经分析师，擅长对财经新闻进行深度解读和分析。你将只输出有效的JSON格式数据，不会添加任何其他文本说明。' },
           { role: 'user', content: prompt }
         ],
         temperature: 0.7,
@@ -89,19 +120,71 @@ ${url ? `原文链接：${url}` : ''}
     
     if (response.data && response.data.choices && response.data.choices[0]) {
       const analysisText = response.data.choices[0].message.content
+      console.log('====== DeepSeek API原始响应 ======');
+      console.log(analysisText);
+      console.log('================================');
       
-      // 解析分析文本
-      const sections = parseAnalysisText(analysisText)
-      return {
-        success: true,
-        ...sections,
-        generatedAt: new Date().toISOString()
+      try {
+        // 尝试直接解析JSON响应
+        // 先清理可能存在的额外字符
+        const jsonStr = analysisText.trim()
+          .replace(/^```json\s*/i, '') // 移除可能的markdown代码块开始标记
+          .replace(/\s*```$/i, '')     // 移除可能的markdown代码块结束标记
+          .trim()
+        
+        console.log('====== 清理后准备解析的JSON字符串 ======');
+        console.log(jsonStr);
+        console.log('================================');
+        
+        const analysisJson = JSON.parse(jsonStr)
+        console.log('====== 成功解析的JSON对象 ======');
+        console.log(JSON.stringify(analysisJson, null, 2));
+        console.log('================================');
+        
+        // 确保所有必要的字段都存在
+        const result: DeepSeekAnalysisResult = {
+          success: true,
+          keyPoints: Array.isArray(analysisJson.keyPoints) ? analysisJson.keyPoints : [analysisJson.keyPoints || ''],
+          summary: analysisJson.summary || '无法生成摘要',
+          background: analysisJson.background || '无法生成背景分析',
+          impact: analysisJson.impact || '无法生成影响分析',
+          opinion: analysisJson.opinion || '无法生成专业观点',
+          suggestions: Array.isArray(analysisJson.suggestions) ? analysisJson.suggestions.join('\n') : (analysisJson.suggestions || '无法生成建议'),
+          generatedAt: new Date().toISOString(),
+          // 添加原始JSON数据以便前端直接使用
+          analysisData: analysisJson
+        }
+        
+        console.log('====== 最终返回的结构化结果 ======');
+        console.log(JSON.stringify(result, null, 2));
+        console.log('================================');
+        
+        return result
+      } catch (jsonError) {
+        console.error(`JSON解析失败，尝试使用文本解析: ${jsonError}`)
+        console.log('====== JSON解析错误详情 ======');
+        console.log(jsonError);
+        console.log('================================');
+        
+        // 如果JSON解析失败，回退到传统的文本解析方法
+        console.log('尝试使用传统文本解析方法...');
+        const sections = parseAnalysisText(analysisText)
+        
+        console.log('====== 文本解析结果 ======');
+        console.log(JSON.stringify(sections, null, 2));
+        console.log('================================');
+        
+        return {
+          success: true,
+          ...sections,
+          generatedAt: new Date().toISOString()
+        }
       }
     }
     
     throw new Error('DeepSeek API返回格式异常')
   } catch (error: any) {
-    logger.error(`DeepSeek分析生成错误: ${error.message}`)
+    console.error(`DeepSeek分析生成错误: ${error.message}`)
     return {
       success: false,
       error: `生成分析失败: ${error.message}`

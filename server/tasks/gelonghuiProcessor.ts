@@ -3,9 +3,9 @@
  * 自动获取格隆汇文章，使用JinaAI提取内容，用DeepSeek生成摘要和评论，并存储到数据库
  */
 import { myFetch } from '../utils/fetch';
-import { logger } from '../utils/logger';
+// 使用console替代logger
 import { load } from 'cheerio';
-import { PrismaClient, prisma } from '../utils/prismaClient.js';
+import prisma from '../utils/prismaClient.js';
 import { registerTask } from '../utils/taskScheduler';
 import { fetchGelonghuiNews, fetchGelonghuiArticleDetail } from '../utils/crawlers/gelonghui';
 const process = require("process");
@@ -25,53 +25,87 @@ const BATCH_SIZE = 5;
  */
 async function fetchArticleContent(url: string): Promise<any> {
   try {
-    logger.info(`开始从金佳API获取文章内容: ${url}`);
+    console.log(`开始从金佳API获取文章内容: ${url}`);
     
-    // 使用金佳API获取文章内容
-    const jinjiaApiUrl = 'https://api.jinjia.co/v1/extract';
-    const jinjiaResponse = await myFetch(jinjiaApiUrl, {
+    // 使用Jina AI API获取文章内容
+    // 将目标URL直接拼接到API地址中
+    const encodedUrl = encodeURIComponent(url);
+    const jinaApiUrl = `https://r.jina.ai/${encodedUrl}`;
+    
+    const jinaResponse = await myFetch(jinaApiUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.JINJIA_API_KEY || ''}`,
+        'Authorization': `Bearer ${process.env.JINA_API_KEY || ''}`,
       },
       body: JSON.stringify({
-        url,
-        fields: ['title', 'content', 'author', 'date', 'image'],
+        respondWith: 'content',
+        withGeneratedAlt: true,
+        retainImages: 'all',
+        withImagesSummary: true,
+        noCache: true
       }),
     });
 
-    if (!jinjiaResponse || typeof jinjiaResponse !== 'object') {
-      logger.error(`金佳API返回无效数据: ${JSON.stringify(jinjiaResponse)}`);
-      throw new Error('金佳API返回无效数据');
+    if (!jinaResponse || typeof jinaResponse !== 'object') {
+      console.error(`Jina AI API返回无效数据: ${JSON.stringify(jinaResponse)}`);
+      throw new Error('Jina AI API返回无效数据');
     }
 
-    // 提取文章内容
+    // 提取文章内容 - Jina API返回格式与之前假设的不同
     let articleContent = '';
     let articleTitle = '';
     let articleDate = '';
     let articleAuthor = '';
     let articleImage = '';
 
-    if (jinjiaResponse.data) {
-      articleTitle = jinjiaResponse.data.title || '';
-      articleContent = jinjiaResponse.data.content || '';
-      articleDate = jinjiaResponse.data.date || '';
-      articleAuthor = jinjiaResponse.data.author || '';
-      articleImage = jinjiaResponse.data.image || '';
+    // 针对Jina API的正确返回格式处理
+    if (jinaResponse.code === 200 && jinaResponse.data) {
+      // 确保articleContent是字符串类型
+      if (typeof jinaResponse.data === 'string') {
+        articleContent = jinaResponse.data;
+      } else if (jinaResponse.data && typeof jinaResponse.data === 'object') {
+        // 如果是对象，尝试将其转为字符串
+        try {
+          articleContent = JSON.stringify(jinaResponse.data);
+          console.log(`将对象转换为字符串，长度: ${articleContent.length} 字节`);
+        } catch (e) {
+          console.warn(`无法将对象转换为字符串: ${e}`);
+          articleContent = '';
+        }
+      } else {
+        // 其他情况，设置为空字符串
+        console.warn(`Jina API返回的data字段不是字符串或对象: ${typeof jinaResponse.data}`);
+        articleContent = '';
+      }
       
-      logger.info(`从金佳API响应的data字段提取内容成功: ${articleTitle}`);
-    } else if (jinjiaResponse.title && jinjiaResponse.content) {
-      articleTitle = jinjiaResponse.title || '';
-      articleContent = jinjiaResponse.content || '';
-      articleDate = jinjiaResponse.date || '';
-      articleAuthor = jinjiaResponse.author || '';
-      articleImage = jinjiaResponse.image || '';
+      // 只有当articleContent是字符串时才尝试提取标题
+      if (typeof articleContent === 'string' && articleContent.length > 0) {
+        // 尝试从内容中提取标题 - 通常第一个h1标签
+        const titleMatch = articleContent.match(/<h1[^>]*>([^<]+)<\/h1>/i);
+        if (titleMatch && titleMatch[1]) {
+          articleTitle = titleMatch[1].trim();
+        }
+      } else {
+        console.warn(`articleContent不是有效的字符串，无法提取标题`);
+      }
       
-      logger.info(`从金佳API响应的根字段提取内容成功: ${articleTitle}`);
+      // 尝试从meta信息中提取作者和日期
+      if (jinaResponse.meta) {
+        articleAuthor = jinaResponse.meta.author || '';
+        articleDate = jinaResponse.meta.date || '';
+      }
+      
+      // 尝试获取第一张图片作为封面
+      const imageMatch = articleContent.match(/<img[^>]+src=['"]([^'"]+)['"][^>]*>/i);
+      if (imageMatch && imageMatch[1]) {
+        articleImage = imageMatch[1];
+      }
+      
+      console.log(`从Jina AI响应提取内容成功: ${articleTitle || '无标题'}`);
     } else {
-      logger.error(`无法从金佳API响应中提取文章内容: ${JSON.stringify(jinjiaResponse).substring(0, 200)}...`);
-      throw new Error('无法从金佳API响应中提取文章内容');
+      console.error(`无法从Jina AI响应中提取文章内容: ${JSON.stringify(jinaResponse).substring(0, 200)}...`);
+      throw new Error('无法从Jina AI响应中提取文章内容');
     }
 
     // 清理文章内容 - 去除HTML标签
@@ -79,14 +113,14 @@ async function fetchArticleContent(url: string): Promise<any> {
     try {
       const $ = load(articleContent);
       cleanContent = $.text().trim();
-      logger.info(`成功清理HTML内容，清理后长度: ${cleanContent.length}`);
+      console.log(`成功清理HTML内容，清理后长度: ${cleanContent.length}`);
     } catch (e) {
-      logger.warn(`清理HTML内容出错: ${e}`);
+      console.warn(`清理HTML内容出错: ${e}`);
       cleanContent = articleContent.replace(/<[^>]*>/g, '').trim();
-      logger.info(`使用正则表达式清理HTML内容，清理后长度: ${cleanContent.length}`);
+      console.log(`使用正则表达式清理HTML内容，清理后长度: ${cleanContent.length}`);
     }
 
-    logger.info(`成功从金佳API获取文章内容: ${articleTitle}`);
+    console.log(`成功从金佳API获取文章内容: ${articleTitle}`);
 
     return {
       title: articleTitle,
@@ -97,10 +131,10 @@ async function fetchArticleContent(url: string): Promise<any> {
       imageUrl: articleImage
     };
   } catch (error) {
-    logger.error(`获取文章内容失败: ${url}`, { error: error.message });
+    console.error(`获取文章内容失败: ${url}`, { error: error.message });
     
     // 使用备选方案：返回一个基本的内容对象，后续处理可以使用爬虫获取的内容
-    logger.info(`使用备选方案获取文章内容: ${url}`);
+    console.log(`使用备选方案获取文章内容: ${url}`);
     return {
       title: '', // 将在processArticle中使用article.title
       content: '', // 将在processArticle中使用articleDetail.content
@@ -115,78 +149,66 @@ async function fetchArticleContent(url: string): Promise<any> {
 /**
  * 使用DeepSeek生成摘要和评论
  */
-async function generateSummaryAndComment(title: string, content: string): Promise<{ summary: string; comment: string; aiAnalysis?: string }> {
+async function generateSummaryAndComment(title: string, content: string): Promise<{ summary: string; comment: string; aiAnalysis?: string; analysisData?: any }> {
   try {
-    logger.info(`开始使用DeepSeek生成摘要和评论: ${title.substring(0, 30)}...`);
+    console.log(`开始使用DeepSeek生成摘要和评论: ${title.substring(0, 30)}...`);
     
     // 如果内容为空，使用标题作为基础内容
     if (!content || content.trim().length === 0) {
       content = title;
-      logger.warn(`文章内容为空，使用标题作为内容: ${title}`);
+      console.warn(`文章内容为空，使用标题作为内容: ${title}`);
     }
     
-    // 使用DeepSeek API生成摘要和评论
-    const deepseekApiUrl = 'https://api.deepseek.com/v1/chat/completions';
-    const deepseekResponse = await myFetch(deepseekApiUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.DEEPSEEK_API_KEY || ''}`,
-      },
-      body: JSON.stringify({
-        model: 'deepseek-chat',
-        messages: [
-          {
-            role: 'system',
-            content: '你是一位专业的财经分析师，擅长分析财经新闻并提供简洁明了的摘要和专业评论。你需要提供以下几个部分：1. 摘要（150字以内）；2. 评论（300字以内）；3. 关键要点（3点）；4. 分析背景；5. 影响评估；6. 专业意见；7. 建议行动（3点）。'
-          },
-          {
-            role: 'user',
-            content: `请对以下财经新闻进行分析，提供完整的分析报告。新闻标题：${title}，新闻内容：${content.substring(0, 3000)}`
-          }
-        ],
-        temperature: 0.7,
-        max_tokens: 1500
-      })
-    });
-
-    if (!deepseekResponse || typeof deepseekResponse !== 'object' || !deepseekResponse.choices || !deepseekResponse.choices[0]) {
-      logger.error(`DeepSeek API返回无效数据: ${JSON.stringify(deepseekResponse)}`);
-      throw new Error('DeepSeek API返回无效数据');
-    }
-
-    const aiResponse = deepseekResponse.choices[0].message.content;
+    // 使用改进的deepseekAnalyzer生成JSON格式的分析内容
+    // 导入generateDeepSeekAnalysis函数
+    const { generateDeepSeekAnalysis } = await import('../utils/deepseekAnalyzer.js');
     
-    // 从AI响应中提取摘要和评论
-    let summary = '';
-    let comment = '';
-    let aiAnalysis = aiResponse; // 保存完整的AI分析内容
+    // 调用改进后的DeepSeek分析器
+    const analysisResult = await generateDeepSeekAnalysis(
+      title,
+      content
+    );
 
-    // 尝试从AI响应中提取摘要和评论
-    const summaryMatch = aiResponse.match(/摘要[:：]([\s\S]*?)(?=评论[:：]|$)/i);
-    const commentMatch = aiResponse.match(/评论[:：]([\s\S]*?)(?=关键要点[:：]|$)/i);
-
-    if (summaryMatch && summaryMatch[1]) {
-      summary = summaryMatch[1].trim();
-    } else {
-      // 如果无法提取，使用前半部分作为摘要
-      summary = aiResponse.substring(0, aiResponse.length / 4).trim();
+    // 检查分析结果
+    if (!analysisResult.success) {
+      console.error(`DeepSeek分析器返回错误: ${analysisResult.error}`);
+      throw new Error(analysisResult.error || 'DeepSeek分析失败');
     }
 
-    if (commentMatch && commentMatch[1]) {
-      comment = commentMatch[1].trim();
-    } else {
-      // 如果无法提取，使用中间部分作为评论
-      comment = aiResponse.substring(aiResponse.length / 4, aiResponse.length / 2).trim();
-    }
+    // 从分析结果中提取摘要和评论
+    // 注意：处理可能的类型问题
+    const summary = analysisResult.summary || title;
+    // 由于DeepSeekAnalysisResult接口中可能没有comment字段，使用类型断言
+    const commentData = (analysisResult as any).analysisData?.comment || '';
+    const comment = commentData || `关于"${title}"的财经新闻分析`;
+    
+    // 直接使用DeepSeek返回的原始JSON数据
+    const aiAnalysis = JSON.stringify(analysisResult.analysisData || {}); // 将analysisData转为JSON字符串
 
-    logger.info(`成功生成摘要和评论: ${title.substring(0, 30)}...`);
-    return { summary, comment, aiAnalysis };
-  } catch (error) {
-    logger.error(`生成摘要和评论失败: ${title}`, { error: error instanceof Error ? error.message : String(error) });
+    console.log(`成功生成摘要和评论: ${title.substring(0, 30)}...`);
+    return { 
+      summary, 
+      comment, 
+      aiAnalysis,
+      // 保存原始JSON分析数据，便于前端直接使用
+      analysisData: {
+        summary: analysisResult.summary,
+        comment: commentData,
+        keyPoints: Array.isArray(analysisResult.keyPoints) ? analysisResult.keyPoints : [],
+        background: analysisResult.background || '',
+        impact: analysisResult.impact || '',
+        opinion: analysisResult.opinion || '',
+        suggestions: Array.isArray(analysisResult.suggestions) ? analysisResult.suggestions : [],
+        generatedAt: analysisResult.generatedAt || new Date().toISOString()
+      }
+    };
+  } catch (error: unknown) {
+    // 安全地处理错误对象
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    console.error(`生成摘要和评论失败: ${title}`, { error: errorMessage });
     
     // 使用备选方案：生成基本的摘要和评论
-    logger.info(`使用备选方案生成摘要和评论: ${title}`);
+    console.log(`使用备选方案生成摘要和评论: ${title}`);
     
     // 从内容中提取摘要
     let summary = '';
@@ -203,33 +225,41 @@ async function generateSummaryAndComment(title: string, content: string): Promis
     // 生成一个基本的评论
     const comment = `这是关于"${title}"的财经新闻，提供了相关行业的最新动态。建议投资者关注相关发展，评估可能的市场影响。`;
     
-    // 生成一个基本的AI分析内容
-    const aiAnalysis = `
-摘要：${summary}
-
-评论：${comment}
-
-关键要点：
-1. ${title}反映了财经领域的最新发展趋势
-2. 这一动态对市场参与者具有重要参考价值
-3. 投资者应密切关注后续发展
-
-分析背景：
-近期财经领域发生了一系列重要变化，本文所报道的内容是这些变化的重要组成部分。从宏观角度看，这些变化将对整体经济环境产生深远影响。
-
-影响评估：
-短期内，该消息可能引起市场波动；中长期来看，将促进相关行业的结构性调整和优化升级。投资者应当理性看待这一变化，避免盲目跟风或恐慌性决策。
-
-专业意见：
-从专业角度分析，这一发展符合当前经济和政策环境的整体趋势。建议投资者结合自身风险偏好和投资目标，审慎决策。
-
-建议行动：
-1. 密切关注后续政策和市场反应
-2. 评估对自身投资组合的潜在影响
-3. 适当调整资产配置策略，分散风险
-`;
+    // 生成预填充的analysisData对象
+    const keyPoints = [
+      `${title}反映了财经领域的最新发展趋势`,
+      `这一动态对市场参与者具有重要参考价值`,
+      `投资者应密切关注后续发展`
+    ];
     
-    return { summary, comment, aiAnalysis };
+    const background = `近期财经领域发生了一系列重要变化，本文所报道的内容是这些变化的重要组成部分。从宏观角度看，这些变化将对整体经济环境产生深远影响。`;
+    
+    const impact = `短期内，该消息可能引起市场波动；中长期来看，将促进相关行业的结构性调整和优化升级。投资者应当理性看待这一变化，避免盲目跟风或恐慌性决策。`;
+    
+    const opinion = `从专业角度分析，这一发展符合当前经济和政策环境的整体趋势。建议投资者结合自身风险偏好和投资目标，审慎决策。`;
+    
+    const suggestions = [
+      `密切关注后续政策和市场反应`,
+      `评估对自身投资组合的潜在影响`,
+      `适当调整资产配置策略，分散风险`
+    ];
+    
+    // 构建分析数据对象
+    const analysisData = {
+      summary: summary,
+      comment: comment,
+      keyPoints: keyPoints,
+      background: background,
+      impact: impact,
+      opinion: opinion,
+      suggestions: suggestions,
+      generatedAt: new Date().toISOString()
+    };
+    
+    // 生成AI分析内容（JSON字符串）
+    const aiAnalysis = JSON.stringify(analysisData);
+    
+    return { summary, comment, aiAnalysis, analysisData };
   }
 }
 
@@ -246,7 +276,7 @@ async function saveArticleToDatabase(article: any, content: any, ai: any): Promi
     });
 
     if (existingContent) {
-      logger.info(`文章已存在，跳过保存: ${article.title}`);
+      console.log(`文章已存在，跳过保存: ${article.title}`);
       return;
     }
 
@@ -272,9 +302,9 @@ async function saveArticleToDatabase(article: any, content: any, ai: any): Promi
       }
     });
 
-    logger.info(`文章已保存到数据库: ${article.title}`, { id: result.id });
+    console.log(`文章已保存到数据库: ${article.title}`, { id: result.id });
   } catch (error) {
-    logger.error(`保存文章到数据库失败: ${article.title}`, { error: error.message });
+    console.error(`保存文章到数据库失败: ${article.title}`, { error: error.message });
     throw error;
   }
 }
@@ -284,38 +314,51 @@ async function saveArticleToDatabase(article: any, content: any, ai: any): Promi
  */
 async function processArticle(article: any): Promise<void> {
   try {
-    logger.info(`开始处理格隆汇文章: ${article.title}`);
+    console.log(`开始处理格隆汇文章: ${article.title}`);
 
-    // 1. 获取文章详细内容
+    // 1. 直接使用爬虫获取文章详细内容，不使用JinaAI
+    console.log(`使用爬虫获取格隆汇文章详情: ${article.id}`);
     const articleDetail = await fetchGelonghuiArticleDetail(article.id);
     if (!articleDetail) {
-      logger.error(`获取格隆汇文章详情失败: ${article.title}`);
+      console.error(`获取格隆汇文章详情失败: ${article.title}`);
       return;
     }
     
-    // 2. 使用JinaAI获取更详细的内容
-    const content = await fetchArticleContent(article.url);
-    
-    // 3. 生成摘要和评论
-    // 如果JinaAI返回的内容为空，使用爬虫获取的内容
+    // 2. 提取和清理爬虫获取的文章内容
     const articleContent = articleDetail.content || '';
-    const contentToUse = content.cleanContent || articleContent.replace(/<[^>]*>/g, '').trim();
-    const ai = await generateSummaryAndComment(content.title || article.title, contentToUse);
+    const cleanContent = articleContent.replace(/<[^>]*>/g, '').trim();
     
-    // 4. 保存到数据库
+    // 如果文章内容太短，可能表示提取失败
+    if (cleanContent.length < 50 && !article.summary) {
+      console.warn(`文章内容太短，可能提取失败: ${article.title}`);
+    }
+    
+    console.log(`成功获取文章内容，原始内容长度: ${articleContent.length}，清理后长度: ${cleanContent.length}`);
+    
+    // 3. 封装文章内容
+    const content = {
+      title: articleDetail.title || article.title,
+      content: articleContent,
+      cleanContent: cleanContent,
+      pubDate: articleDetail.pubDate || article.pubDate,
+      author: articleDetail.author || '格隆汇',
+      imageUrl: articleDetail.imageUrl || ''
+    };
+    
+    // 4. 生成摘要和评论
+    const contentToUse = cleanContent.length > 100 ? cleanContent : article.title + (article.summary ? '. ' + article.summary : '');
+    console.log(`使用内容生成摘要和评论，内容长度: ${contentToUse.length}`);
+    const ai = await generateSummaryAndComment(content.title, contentToUse);
+    
+    // 5. 保存到数据库
     await saveArticleToDatabase({
       ...article,
       content: articleContent
-    }, {
-      ...content,
-      // 确保content字段不为空
-      content: content.content || articleContent,
-      cleanContent: contentToUse
-    }, ai);
+    }, content, ai);
     
-    logger.info(`格隆汇文章处理完成: ${article.title}`);
+    console.log(`格隆汇文章处理完成: ${article.title}`);
   } catch (error) {
-    logger.error(`处理格隆汇文章失败: ${article.title}`, { error: error instanceof Error ? error.message : String(error) });
+    console.error(`处理格隆汇文章失败: ${article.title}`, { error: error instanceof Error ? error.message : String(error) });
   }
 }
 
@@ -328,11 +371,11 @@ async function executeTask(): Promise<void> {
     const articles = await fetchGelonghuiNews(1, 20);
     
     if (articles.length === 0) {
-      logger.warn('未获取到格隆汇文章，跳过本次处理');
+      console.warn('未获取到格隆汇文章，跳过本次处理');
       return;
     }
     
-    logger.info(`获取到 ${articles.length} 篇格隆汇文章，将处理前 ${BATCH_SIZE} 篇`);
+    console.log(`获取到 ${articles.length} 篇格隆汇文章，将处理前 ${BATCH_SIZE} 篇`);
     
     // 2. 获取需要处理的文章
     const articlesToProcess = articles.slice(0, BATCH_SIZE);
@@ -354,11 +397,11 @@ async function executeTask(): Promise<void> {
     const newArticles = articlesToProcess.filter(article => !existingUrls.has(article.url));
     
     if (newArticles.length === 0) {
-      logger.info('所有格隆汇文章已存在于数据库中，跳过本次处理');
+      console.log('所有格隆汇文章已存在于数据库中，跳过本次处理');
       return;
     }
     
-    logger.info(`发现 ${newArticles.length} 篇新格隆汇文章需要处理`);
+    console.log(`发现 ${newArticles.length} 篇新格隆汇文章需要处理`);
     
     // 4. 逐个处理新文章
     for (const article of newArticles) {
@@ -367,9 +410,9 @@ async function executeTask(): Promise<void> {
       await new Promise(resolve => setTimeout(resolve, 5000));
     }
     
-    logger.info(`本次格隆汇任务处理完成，共处理 ${newArticles.length} 篇文章`);
+    console.log(`本次格隆汇任务处理完成，共处理 ${newArticles.length} 篇文章`);
   } catch (error) {
-    logger.error('执行格隆汇文章处理任务失败', { error: error.message });
+    console.error('执行格隆汇文章处理任务失败', { error: error.message });
   }
 }
 

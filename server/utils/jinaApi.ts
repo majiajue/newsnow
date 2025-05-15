@@ -3,7 +3,7 @@
  * 提供与Jina AI API交互的功能，包括内容获取、分段、嵌入和分类
  */
 
-import { logger } from "./logger"
+// 使用console替代logger
 import axios from "axios"
 import { JINA_API, JINA_BACKUP } from "../config/jinaApi"
 
@@ -20,7 +20,7 @@ function generateMockData(type: string): any {
   // 根据JINA_BACKUP配置添加延迟
   if (JINA_BACKUP.MOCK_DELAY > 0) {
     const delay = Math.random() * JINA_BACKUP.MOCK_DELAY
-    logger.info(`使用模拟数据，延迟${delay.toFixed(0)}ms`)
+    console.log(`使用模拟数据，延迟${delay.toFixed(0)}ms`)
   }
 
   switch (type) {
@@ -98,7 +98,7 @@ export async function readArticleContent(url: string, options: {
   extractLinks?: boolean,
   extractImages?: boolean
 } = {}) {
-  logger.info(`调用Jina Reader API`, { url });
+  console.log(`调用Jina Reader API`, { url });
   
   const { extractLinks = true, extractImages = true } = options
 
@@ -135,7 +135,7 @@ export async function readArticleContent(url: string, options: {
 
     clearTimeout(timeoutId)
 
-    logger.info(`Jina API调用成功`, {
+    console.log(`Jina API调用成功`, {
       url,
       contentLength: response.data.data?.content?.length || 0,
       status: response.status
@@ -154,7 +154,7 @@ export async function readArticleContent(url: string, options: {
 
     return { success: false, error: '内容解析失败' }
   } catch (error: any) {
-    logger.error(`Jina API调用失败`, {
+    console.error(`Jina API调用失败`, {
       url,
       error: error.response?.data || error.message,
       status: error.response?.status
@@ -162,7 +162,7 @@ export async function readArticleContent(url: string, options: {
     
     // 如果配置使用模拟数据，则返回模拟数据
     if (JINA_BACKUP.USE_MOCK) {
-      logger.info(`使用模拟数据替代失败的Reader API调用: ${url}`)
+      console.log(`使用模拟数据替代失败的Reader API调用: ${url}`)
       return generateMockData('reader')
     }
     
@@ -180,7 +180,7 @@ export async function searchContent(query: string, options: {
   numResults?: number,
   site?: string
 } = {}) {
-  logger.info(`调用Jina Search API`, { query });
+  console.log(`调用Jina Search API`, { query });
   
   const { numResults = 5, site } = options
 

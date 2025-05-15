@@ -3,8 +3,8 @@
  * 提供内容的存储、检索、分类和版本管理功能
  */
 
-import { logger } from "./logger"
-import { PrismaClient, prisma } from '../utils/prismaClient.js'
+// 使用console替代logger
+import prisma from '../utils/prismaClient.js'
 import { analyzeContent } from "./contentAnalyzer"
 
 // 初始化Prisma客户端

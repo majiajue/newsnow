@@ -3,8 +3,8 @@
  * 返回已经通过定时任务处理过的文章，包含摘要和评论
  */
 import { defineEventHandler, getQuery, setResponseHeader } from 'h3';
-import { logger } from '#/utils/logger';
-import { PrismaClient, prisma } from '../../../utils/prismaClient.js';
+// 使用console替代logger
+import prisma from '../../../utils/prismaClient.js';
 
 // 创建Prisma客户端
 // 使用预初始化的 prisma 实例;

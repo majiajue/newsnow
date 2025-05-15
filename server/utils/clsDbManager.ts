@@ -1,4 +1,4 @@
-import { PrismaClient, prisma } from '../utils/prismaClient.js';
+import prisma from '../utils/prismaClient.js';
 import { myFetch } from "./fetch";
 import { consola } from "consola";
 

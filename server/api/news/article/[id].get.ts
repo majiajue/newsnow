@@ -1,6 +1,6 @@
 import { defineEventHandler, getRouterParam } from "h3"
-import { PrismaClient, prisma } from '../../../utils/prismaClient.js'
-import { logger } from '../../../utils/logger'
+import prisma from '../../../utils/prismaClient.js'
+// 使用console替代logger
 
 // 创建Prisma客户端
 // 使用预初始化的 prisma 实例
@@ -86,7 +86,7 @@ export default defineEventHandler(async (event) => {
       }
     }
 
-    logger.info(`获取文章详情`, { id })
+    console.info(`获取文章详情`, { id })
 
     // 首先尝试从 content 表查询
     const content = await prisma.content.findUnique({
@@ -101,7 +101,7 @@ export default defineEventHandler(async (event) => {
       try {
         metadata = JSON.parse(content.metadata || '{}') as ArticleMetadata
       } catch (error) {
-        logger.warn(`解析文章元数据失败: ${content.id}`, { error: (error as Error).message })
+        console.warn(`解析文章元数据失败: ${content.id}`, { error: (error as Error).message })
       }
 
       // 将 content 转换为统一的文章格式
@@ -117,6 +117,8 @@ export default defineEventHandler(async (event) => {
         author: content.author || '财联社',
         imageUrl: metadata.imageUrl || '',
         aiComment: metadata.aiComment || '',
+        metadata: content.metadata, // 保持原始字符串格式，不要解析
+        aiAnalysis: metadata.aiAnalysis // 添加AI分析内容
       }
 
       return {
@@ -150,7 +152,7 @@ export default defineEventHandler(async (event) => {
           }
         }
       } catch (error) {
-        logger.error(`获取硬编码文章失败: ${id}`, { error: (error as Error).message });
+        console.error(`获取硬编码文章失败: ${id}`, { error: (error as Error).message });
       }
     }
 
@@ -160,7 +162,7 @@ export default defineEventHandler(async (event) => {
       message: "未找到指定文章",
     }
   } catch (error) {
-    logger.error(`获取文章详情失败`, { error: (error as Error).message })
+    console.error(`获取文章详情失败`, { error: (error as Error).message })
     return {
       code: 500,
       message: `获取文章详情失败: ${(error as Error).message}`,

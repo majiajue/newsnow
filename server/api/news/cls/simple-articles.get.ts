@@ -1,5 +1,5 @@
 import { defineEventHandler, getQuery, setResponseHeader } from 'h3'
-import { PrismaClient, prisma } from '../../../utils/prismaClient.js'
+import prisma from '../../../utils/prismaClient.js'
 
 // 使用预初始化的 prisma 实例
 

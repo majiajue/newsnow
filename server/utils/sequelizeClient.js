@@ -147,7 +147,7 @@ const ReadingRecord = sequelize.define('ReadingRecord', {
   readAt: {
     type: DataTypes.DATE,
     allowNull: false,
-    defaultValue: Sequelize.fn('datetime', 'now')
+    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
   },
   readDuration: {
     type: DataTypes.INTEGER,
@@ -316,7 +316,7 @@ function processSelect(select) {
     .map(([field]) => field);
 }
 
-// 模拟 Prisma 客户端
+// 使用 Sequelize 执行 Prisma 客户端
 class PrismaClient {
   constructor() {
     this.content = {
@@ -374,7 +374,7 @@ class PrismaClient {
   // Content 模型方法
   async contentFindUnique({ where, select }) {
     await this.initPromise;
-    console.log('模拟 content.findUnique 调用', { where, select });
+    console.log('使用 Sequelize 执行 content.findUnique 调用', { where, select });
     
     const attributes = processSelect(select);
     const result = await Content.findOne({
@@ -387,7 +387,7 @@ class PrismaClient {
   
   async contentFindFirst({ where, orderBy, select, skip, take }) {
     await this.initPromise;
-    console.log('模拟 content.findFirst 调用', { where });
+    console.log('使用 Sequelize 执行 content.findFirst 调用', { where });
     
     const attributes = processSelect(select);
     const result = await Content.findOne({
@@ -403,7 +403,7 @@ class PrismaClient {
   
   async contentFindMany({ where, orderBy, select, skip, take }) {
     await this.initPromise;
-    console.log('模拟 content.findMany 调用', { where, orderBy, take });
+    console.log('使用 Sequelize 执行 content.findMany 调用', { where, orderBy, take });
     
     const attributes = processSelect(select);
     const results = await Content.findAll({
@@ -419,7 +419,7 @@ class PrismaClient {
   
   async contentCreate({ data }) {
     await this.initPromise;
-    console.log('模拟 content.create 调用', { data });
+    console.log('使用 Sequelize 执行 content.create 调用', { data });
     
     const result = await Content.create(data);
     return result.toJSON();
@@ -427,7 +427,7 @@ class PrismaClient {
   
   async contentUpdate({ where, data }) {
     await this.initPromise;
-    console.log('模拟 content.update 调用', { where, data });
+    console.log('使用 Sequelize 执行 content.update 调用', { where, data });
     
     const [count, updated] = await Content.update(data, {
       where: processWhereCondition(where),
@@ -445,7 +445,7 @@ class PrismaClient {
   
   async contentUpsert({ where, create, update }) {
     await this.initPromise;
-    console.log('模拟 content.upsert 调用', { where });
+    console.log('使用 Sequelize 执行 content.upsert 调用', { where });
     
     const existing = await Content.findOne({
       where: processWhereCondition(where)
@@ -462,7 +462,7 @@ class PrismaClient {
   
   async contentDelete({ where }) {
     await this.initPromise;
-    console.log('模拟 content.delete 调用', { where });
+    console.log('使用 Sequelize 执行 content.delete 调用', { where });
     
     const existing = await Content.findOne({
       where: processWhereCondition(where)
@@ -477,7 +477,7 @@ class PrismaClient {
   
   async contentCount({ where }) {
     await this.initPromise;
-    console.log('模拟 content.count 调用', { where });
+    console.log('使用 Sequelize 执行 content.count 调用', { where });
     
     const count = await Content.count({
       where: processWhereCondition(where)
@@ -489,7 +489,7 @@ class PrismaClient {
   // User 模型方法
   async userFindUnique({ where, select }) {
     await this.initPromise;
-    console.log('模拟 user.findUnique 调用', { where });
+    console.log('使用 Sequelize 执行 user.findUnique 调用', { where });
     
     const attributes = processSelect(select);
     const result = await User.findOne({
@@ -502,7 +502,7 @@ class PrismaClient {
   
   async userFindFirst({ where, orderBy, select, skip, take }) {
     await this.initPromise;
-    console.log('模拟 user.findFirst 调用', { where });
+    console.log('使用 Sequelize 执行 user.findFirst 调用', { where });
     
     const attributes = processSelect(select);
     const result = await User.findOne({
@@ -518,7 +518,7 @@ class PrismaClient {
   
   async userFindMany({ where, orderBy, select, skip, take }) {
     await this.initPromise;
-    console.log('模拟 user.findMany 调用', { where });
+    console.log('使用 Sequelize 执行 user.findMany 调用', { where });
     
     const attributes = processSelect(select);
     const results = await User.findAll({
@@ -534,7 +534,7 @@ class PrismaClient {
   
   async userCreate({ data }) {
     await this.initPromise;
-    console.log('模拟 user.create 调用', { data });
+    console.log('使用 Sequelize 执行 user.create 调用', { data });
     
     const result = await User.create(data);
     return result.toJSON();
@@ -542,7 +542,7 @@ class PrismaClient {
   
   async userUpdate({ where, data }) {
     await this.initPromise;
-    console.log('模拟 user.update 调用', { where, data });
+    console.log('使用 Sequelize 执行 user.update 调用', { where, data });
     
     const [count, updated] = await User.update(data, {
       where: processWhereCondition(where),
@@ -560,7 +560,7 @@ class PrismaClient {
   
   async userUpsert({ where, create, update }) {
     await this.initPromise;
-    console.log('模拟 user.upsert 调用', { where });
+    console.log('使用 Sequelize 执行 user.upsert 调用', { where });
     
     const existing = await User.findOne({
       where: processWhereCondition(where)
@@ -577,7 +577,7 @@ class PrismaClient {
   
   async userDelete({ where }) {
     await this.initPromise;
-    console.log('模拟 user.delete 调用', { where });
+    console.log('使用 Sequelize 执行 user.delete 调用', { where });
     
     const existing = await User.findOne({
       where: processWhereCondition(where)
@@ -592,7 +592,7 @@ class PrismaClient {
   
   async userCount({ where }) {
     await this.initPromise;
-    console.log('模拟 user.count 调用', { where });
+    console.log('使用 Sequelize 执行 user.count 调用', { where });
     
     const count = await User.count({
       where: processWhereCondition(where)
@@ -604,7 +604,7 @@ class PrismaClient {
   // ReadingRecord 模型方法
   async readingRecordFindUnique({ where, select }) {
     await this.initPromise;
-    console.log('模拟 readingRecord.findUnique 调用', { where });
+    console.log('使用 Sequelize 执行 readingRecord.findUnique 调用', { where });
     
     const attributes = processSelect(select);
     const result = await ReadingRecord.findOne({
@@ -617,7 +617,7 @@ class PrismaClient {
   
   async readingRecordFindFirst({ where, orderBy, select, skip, take }) {
     await this.initPromise;
-    console.log('模拟 readingRecord.findFirst 调用', { where });
+    console.log('使用 Sequelize 执行 readingRecord.findFirst 调用', { where });
     
     const attributes = processSelect(select);
     const result = await ReadingRecord.findOne({
@@ -633,7 +633,7 @@ class PrismaClient {
   
   async readingRecordFindMany({ where, orderBy, select, skip, take }) {
     await this.initPromise;
-    console.log('模拟 readingRecord.findMany 调用', { where });
+    console.log('使用 Sequelize 执行 readingRecord.findMany 调用', { where });
     
     const attributes = processSelect(select);
     const results = await ReadingRecord.findAll({
@@ -649,7 +649,7 @@ class PrismaClient {
   
   async readingRecordCreate({ data }) {
     await this.initPromise;
-    console.log('模拟 readingRecord.create 调用', { data });
+    console.log('使用 Sequelize 执行 readingRecord.create 调用', { data });
     
     const result = await ReadingRecord.create(data);
     return result.toJSON();
@@ -657,7 +657,7 @@ class PrismaClient {
   
   async readingRecordUpdate({ where, data }) {
     await this.initPromise;
-    console.log('模拟 readingRecord.update 调用', { where, data });
+    console.log('使用 Sequelize 执行 readingRecord.update 调用', { where, data });
     
     const [count, updated] = await ReadingRecord.update(data, {
       where: processWhereCondition(where),
@@ -675,7 +675,7 @@ class PrismaClient {
   
   async readingRecordUpsert({ where, create, update }) {
     await this.initPromise;
-    console.log('模拟 readingRecord.upsert 调用', { where });
+    console.log('使用 Sequelize 执行 readingRecord.upsert 调用', { where });
     
     const existing = await ReadingRecord.findOne({
       where: processWhereCondition(where)
@@ -692,7 +692,7 @@ class PrismaClient {
   
   async readingRecordDelete({ where }) {
     await this.initPromise;
-    console.log('模拟 readingRecord.delete 调用', { where });
+    console.log('使用 Sequelize 执行 readingRecord.delete 调用', { where });
     
     const existing = await ReadingRecord.findOne({
       where: processWhereCondition(where)
@@ -707,7 +707,7 @@ class PrismaClient {
   
   async readingRecordCount({ where }) {
     await this.initPromise;
-    console.log('模拟 readingRecord.count 调用', { where });
+    console.log('使用 Sequelize 执行 readingRecord.count 调用', { where });
     
     const count = await ReadingRecord.count({
       where: processWhereCondition(where)
@@ -719,7 +719,7 @@ class PrismaClient {
   // ContentStats 模型方法
   async contentStatsFindUnique({ where, select }) {
     await this.initPromise;
-    console.log('模拟 contentStats.findUnique 调用', { where });
+    console.log('使用 Sequelize 执行 contentStats.findUnique 调用', { where });
     
     const attributes = processSelect(select);
     const result = await ContentStats.findOne({
@@ -732,7 +732,7 @@ class PrismaClient {
   
   async contentStatsFindFirst({ where, orderBy, select, skip, take }) {
     await this.initPromise;
-    console.log('模拟 contentStats.findFirst 调用', { where });
+    console.log('使用 Sequelize 执行 contentStats.findFirst 调用', { where });
     
     const attributes = processSelect(select);
     const result = await ContentStats.findOne({
@@ -748,7 +748,7 @@ class PrismaClient {
   
   async contentStatsFindMany({ where, orderBy, select, skip, take }) {
     await this.initPromise;
-    console.log('模拟 contentStats.findMany 调用', { where });
+    console.log('使用 Sequelize 执行 contentStats.findMany 调用', { where });
     
     const attributes = processSelect(select);
     const results = await ContentStats.findAll({
@@ -764,7 +764,7 @@ class PrismaClient {
   
   async contentStatsCreate({ data }) {
     await this.initPromise;
-    console.log('模拟 contentStats.create 调用', { data });
+    console.log('使用 Sequelize 执行 contentStats.create 调用', { data });
     
     const result = await ContentStats.create(data);
     return result.toJSON();
@@ -772,7 +772,7 @@ class PrismaClient {
   
   async contentStatsUpdate({ where, data }) {
     await this.initPromise;
-    console.log('模拟 contentStats.update 调用', { where, data });
+    console.log('使用 Sequelize 执行 contentStats.update 调用', { where, data });
     
     const [count, updated] = await ContentStats.update(data, {
       where: processWhereCondition(where),
@@ -790,7 +790,7 @@ class PrismaClient {
   
   async contentStatsUpsert({ where, create, update }) {
     await this.initPromise;
-    console.log('模拟 contentStats.upsert 调用', { where });
+    console.log('使用 Sequelize 执行 contentStats.upsert 调用', { where });
     
     const existing = await ContentStats.findOne({
       where: processWhereCondition(where)
@@ -807,7 +807,7 @@ class PrismaClient {
   
   async contentStatsDelete({ where }) {
     await this.initPromise;
-    console.log('模拟 contentStats.delete 调用', { where });
+    console.log('使用 Sequelize 执行 contentStats.delete 调用', { where });
     
     const existing = await ContentStats.findOne({
       where: processWhereCondition(where)
@@ -822,7 +822,7 @@ class PrismaClient {
   
   async contentStatsCount({ where }) {
     await this.initPromise;
-    console.log('模拟 contentStats.count 调用', { where });
+    console.log('使用 Sequelize 执行 contentStats.count 调用', { where });
     
     const count = await ContentStats.count({
       where: processWhereCondition(where)

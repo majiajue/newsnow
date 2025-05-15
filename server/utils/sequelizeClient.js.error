@@ -1,0 +1,1070 @@
+// sequelizeClient.js - 使用 Sequelize ORM 实现的数据库客户端
+import { Sequelize, DataTypes, Op } from 'sequelize';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+// 导入AI分析工具
+import { generateDeepSeekAnalysis } from './deepseekAnalyzer.js';
+// 使用console替代logger
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// 确保数据库目录存在
+const dbDir = path.join(__dirname, '../../database');
+if (!fs.existsSync(dbDir)) {
+  fs.mkdirSync(dbDir, { recursive: true });
+}
+
+// 创建 Sequelize 实例
+const sequelize = new Sequelize({
+  dialect: 'sqlite',
+  storage: path.join(dbDir, 'newsnow.db'),
+  logging: false
+});
+
+// 定义模型
+const Content = sequelize.define('Content', {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  title: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  content: {
+    type: DataTypes.TEXT,
+    allowNull: true
+  },
+  summary: {
+    type: DataTypes.TEXT,
+    allowNull: true
+  },
+  source: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  sourceUrl: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true
+  },
+  author: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  publishDate: {
+    type: DataTypes.DATE,
+    allowNull: false
+  },
+  categories: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  metadata: {
+    type: DataTypes.TEXT,
+    allowNull: true,
+    get() {
+      const value = this.getDataValue('metadata');
+      return value ? JSON.parse(value) : null;
+    },
+    set(value) {
+      this.setDataValue('metadata', value ? JSON.stringify(value) : null);
+    }
+  },
+  status: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    defaultValue: 'draft'
+  },
+  quality: {
+    type: DataTypes.FLOAT,
+    allowNull: true
+  }
+}, {
+  tableName: 'content',
+  timestamps: true,
+  indexes: [
+    { fields: ['sourceUrl'], unique: true },
+    { fields: ['source'] },
+    { fields: ['publishDate'] },
+    { fields: ['status'] }
+  ]
+});
+
+const User = sequelize.define('User', {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  email: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true
+  },
+  name: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  preferences: {
+    type: DataTypes.TEXT,
+    allowNull: true,
+    get() {
+      const value = this.getDataValue('preferences');
+      return value ? JSON.parse(value) : null;
+    },
+    set(value) {
+      this.setDataValue('preferences', value ? JSON.stringify(value) : null);
+    }
+  }
+}, {
+  tableName: 'user',
+  timestamps: true
+});
+
+const ReadingRecord = sequelize.define('ReadingRecord', {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  userId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: User,
+      key: 'id'
+    }
+  },
+  contentId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: Content,
+      key: 'id'
+    }
+  },
+  readAt: {
+    type: DataTypes.DATE,
+    allowNull: false,
+    defaultValue: Sequelize.fn('datetime', 'now')
+  },
+  readDuration: {
+    type: DataTypes.INTEGER,
+    allowNull: true
+  }
+}, {
+  tableName: 'readingRecord',
+  timestamps: true,
+  indexes: [
+    { fields: ['userId'] },
+    { fields: ['contentId'] },
+    { fields: ['readAt'] },
+    { fields: ['userId', 'contentId'], unique: true }
+  ]
+});
+
+const ContentStats = sequelize.define('ContentStats', {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  contentId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: Content,
+      key: 'id'
+    },
+    unique: true
+  },
+  viewCount: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    defaultValue: 0
+  },
+  likeCount: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    defaultValue: 0
+  },
+  shareCount: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    defaultValue: 0
+  }
+}, {
+  tableName: 'contentStats',
+  timestamps: true,
+  indexes: [
+    { fields: ['contentId'], unique: true }
+  ]
+});
+
+// 设置关联关系
+User.hasMany(ReadingRecord, { foreignKey: 'userId' });
+ReadingRecord.belongsTo(User, { foreignKey: 'userId' });
+
+Content.hasMany(ReadingRecord, { foreignKey: 'contentId' });
+ReadingRecord.belongsTo(Content, { foreignKey: 'contentId' });
+
+Content.hasOne(ContentStats, { foreignKey: 'contentId' });
+ContentStats.belongsTo(Content, { foreignKey: 'contentId' });
+
+// 初始化数据库
+async function initDatabase() {
+  try {
+    // 输出数据库文件路径
+    console.log('数据库文件路径：', path.join(dbDir, 'newsnow.db'));
+    
+    // 检查数据库文件是否存在
+    const dbExists = fs.existsSync(path.join(dbDir, 'newsnow.db'));
+    console.log('数据库文件' + (dbExists ? '已存在' : '不存在，将创建新数据库'));
+    
+    // 连接数据库
+    await sequelize.authenticate();
+    console.log('数据库连接成功');
+    
+    // 设置日志
+    sequelize.options.logging = process.env.SEQUELIZE_LOGGING === 'true' ? console.log : false;
+    
+    // 同步模型
+    await sequelize.sync();
+    console.log('完成数据库同步，所有模型已创建');
+  } catch (error) {
+    console.error('初始化数据库时出错：', error);
+    throw error;
+  }
+}
+
+// 处理 where 条件
+function processWhereCondition(where) {
+  if (!where) return {};
+  
+  const sequelizeWhere = {};
+  
+  for (const [key, value] of Object.entries(where)) {
+    if (value === null) {
+      sequelizeWhere[key] = null;
+    } else if (typeof value === 'object' && !Array.isArray(value)) {
+      // 处理嵌套条件
+      const nestedConditions = {};
+      
+      for (const [op, opValue] of Object.entries(value)) {
+        switch (op) {
+          case 'equals':
+            sequelizeWhere[key] = opValue;
+            break;
+          case 'not':
+            nestedConditions[Op.not] = opValue;
+            break;
+          case 'in':
+            nestedConditions[Op.in] = opValue;
+            break;
+          case 'notIn':
+            nestedConditions[Op.notIn] = opValue;
+            break;
+          case 'lt':
+            nestedConditions[Op.lt] = opValue;
+            break;
+          case 'lte':
+            nestedConditions[Op.lte] = opValue;
+            break;
+          case 'gt':
+            nestedConditions[Op.gt] = opValue;
+            break;
+          case 'gte':
+            nestedConditions[Op.gte] = opValue;
+            break;
+          case 'contains':
+            nestedConditions[Op.substring] = opValue;
+            break;
+          case 'startsWith':
+            nestedConditions[Op.startsWith] = opValue;
+            break;
+          case 'endsWith':
+            nestedConditions[Op.endsWith] = opValue;
+            break;
+          default:
+            // 不支持的操作符
+            break;
+        }
+      }
+      
+      if (Object.keys(nestedConditions).length > 0) {
+        sequelizeWhere[key] = nestedConditions;
+      }
+    } else {
+      // 简单条件
+      sequelizeWhere[key] = value;
+    }
+  }
+  
+  return sequelizeWhere;
+}
+
+// 处理 orderBy
+function processOrderBy(orderBy) {
+  if (!orderBy) return undefined;
+  
+  if (typeof orderBy === 'object' && !Array.isArray(orderBy)) {
+    const [[field, direction]] = Object.entries(orderBy);
+    return [[field, direction.toUpperCase()]];
+  }
+  
+  return undefined;
+}
+
+// 处理 select
+function processSelect(select) {
+  if (!select) return undefined;
+  
+  return Object.entries(select)
+    .filter(([_, include]) => include)
+    .map(([field]) => field);
+}
+
+// 使用 Sequelize 执行 Prisma 客户端
+class PrismaClient {
+  constructor() {
+    this.content = {
+      findUnique: this.contentFindUnique.bind(this),
+      findFirst: this.contentFindFirst.bind(this),
+      findMany: this.contentFindMany.bind(this),
+      create: this.contentCreate.bind(this),
+      update: this.contentUpdate.bind(this),
+      upsert: this.contentUpsert.bind(this),
+      delete: this.contentDelete.bind(this),
+      count: this.contentCount.bind(this)
+    };
+    
+    this.user = {
+      findUnique: this.userFindUnique.bind(this),
+      findFirst: this.userFindFirst.bind(this),
+      findMany: this.userFindMany.bind(this),
+      create: this.userCreate.bind(this),
+      update: this.userUpdate.bind(this),
+      upsert: this.userUpsert.bind(this),
+      delete: this.userDelete.bind(this),
+      count: this.userCount.bind(this)
+    };
+    
+    this.readingRecord = {
+      findUnique: this.readingRecordFindUnique.bind(this),
+      findFirst: this.readingRecordFindFirst.bind(this),
+      findMany: this.readingRecordFindMany.bind(this),
+      create: this.readingRecordCreate.bind(this),
+      update: this.readingRecordUpdate.bind(this),
+      upsert: this.readingRecordUpsert.bind(this),
+      delete: this.readingRecordDelete.bind(this),
+      count: this.readingRecordCount.bind(this)
+    };
+    
+    this.contentStats = {
+      findUnique: this.contentStatsFindUnique.bind(this),
+      findFirst: this.contentStatsFindFirst.bind(this),
+      findMany: this.contentStatsFindMany.bind(this),
+      create: this.contentStatsCreate.bind(this),
+      update: this.contentStatsUpdate.bind(this),
+      upsert: this.contentStatsUpsert.bind(this),
+      delete: this.contentStatsDelete.bind(this),
+      count: this.contentStatsCount.bind(this)
+    };
+    
+    // 初始化数据库
+    this.initialized = false;
+    this.initPromise = initDatabase().then(success => {
+      this.initialized = success;
+      return success;
+    });
+  }
+  
+  // Content 模型方法
+  async contentFindUnique({ where, select }) {
+    await this.initPromise;
+    console.log('使用 Sequelize 执行 content.findUnique 调用', { where });
+    
+    const options = {
+      where: processWhereCondition(where),
+      attributes: processSelect(select)
+    };
+    
+    const content = await Content.findOne(options);
+    return content ? content.toJSON() : null;
+  }
+  
+  async contentFindFirst({ where, orderBy, select, skip, take }) {
+    await this.initPromise;
+    console.log('使用 Sequelize 执行 content.findFirst 调用', { where });
+    
+    const options = {
+      where: processWhereCondition(where),
+      order: processOrderBy(orderBy),
+      attributes: processSelect(select),
+      offset: skip || 0,
+      limit: take || 1
+    };
+    
+    const content = await Content.findOne(options);
+    return content ? content.toJSON() : null;
+  }
+  
+  async contentFindMany({ where, orderBy, select, skip, take }) {
+    await this.initPromise;
+    console.log('使用 Sequelize 执行 content.findMany 调用', { where });
+    
+    const options = {
+      where: processWhereCondition(where),
+      order: processOrderBy(orderBy),
+      attributes: processSelect(select),
+      offset: skip || 0,
+      limit: take
+    };
+    
+    const contents = await Content.findAll(options);
+    return contents.map(content => content.toJSON());
+  }
+  
+  async contentCreate({ data }) {
+    await this.initPromise;
+    console.log('使用 Sequelize 执行 content.create 调用', { data: data.title || '数据太大不显示' });
+    
+    // 使用 AI 处理内容
+    const processedData = await processContentWithAI(data);
+    
+    // 记录数据大小
+    const dataSize = JSON.stringify(processedData).length;
+    console.log(`文章数据大小: ${dataSize} 字节`);
+    
+    try {
+      const result = await Content.create(processedData);
+      console.log(`文章已成功保存到数据库: ${result.id}`);
+      return result.toJSON();
+    } catch (error) {
+      console.error('创建文章时出错:', error.message);
+      throw error;
+    }
+  }
+  
+  async userCreate({ data }) {
+    await this.initPromise;
+    console.log('使用 Sequelize 执行 user.create 调用', { data });
+    
+    const result = await User.create(data);
+    return result.toJSON();
+  }
+  
+  async contentCount({ where }) {
+    await this.initPromise;
+    console.log('使用 Sequelize 执行 content.count 调用', { where });
+    
+    const count = await Content.count({
+      where: processWhereCondition(where)
+    });
+    
+    return count;
+  }
+  
+  // User 模型方法
+  async userFindUnique({ where, select }) {
+    await this.initPromise;
+    console.log('使用 Sequelize 执行 user.findUnique 调用', { where });
+    
+    const options = {
+      where: processWhereCondition(where),
+      attributes: processSelect(select)
+    };
+    
+    const user = await User.findOne(options);
+    return user ? user.toJSON() : null;
+  }
+  
+  async userFindFirst({ where, orderBy, select, skip, take }) {
+    await this.initPromise;
+    console.log('使用 Sequelize 执行 user.findFirst 调用', { where });
+    
+    const options = {
+      where: processWhereCondition(where),
+      order: processOrderBy(orderBy),
+      attributes: processSelect(select),
+      offset: skip || 0,
+      limit: take || 1
+    };
+    
+    const user = await User.findOne(options);
+    return user ? user.toJSON() : null;
+  }
+  
+  async userFindMany({ where, orderBy, select, skip, take }) {
+    await this.initPromise;
+    console.log('使用 Sequelize 执行 user.findMany 调用', { where });
+    
+    const options = {
+      where: processWhereCondition(where),
+      order: processOrderBy(orderBy),
+      attributes: processSelect(select),
+      offset: skip || 0,
+      limit: take
+    };
+    
+    const users = await User.findAll(options);
+    return users.map(user => user.toJSON());
+  }
+  
+  async userCreate({ data }) {
+    await this.initPromise;
+    console.log('使用 Sequelize 执行 user.create 调用', { data });
+    
+    const result = await User.create(data);
+    return result.toJSON();
+  }
+  
+  async userUpdate({ where, data }) {
+    await this.initPromise;
+    console.log('使用 Sequelize 执行 user.update 调用', { where, data });
+    
+    const [count, updated] = await User.update(data, {
+      where: processWhereCondition(where),
+      returning: true
+    });
+    
+    if (count === 0) return null;
+    
+    const result = await User.findOne({
+      where: processWhereCondition(where)
+    });
+    
+    return result ? result.toJSON() : null;
+  }
+  
+  async userUpsert({ where, create, update }) {
+    await this.initPromise;
+    console.log('使用 Sequelize 执行 user.upsert 调用', { where });
+    
+    const existing = await User.findOne({
+      where: processWhereCondition(where)
+    });
+    
+    if (existing) {
+      await existing.update(update);
+      return existing.toJSON();
+    } else {
+      const result = await User.create(create);
+      return result.toJSON();
+    }
+  }
+  
+  async userDelete({ where }) {
+    await this.initPromise;
+    console.log('使用 Sequelize 执行 user.delete 调用', { where });
+    
+    const existing = await User.findOne({
+      where: processWhereCondition(where)
+    });
+    
+    if (!existing) return null;
+    
+    const result = existing.toJSON();
+    await existing.destroy();
+    return result;
+  }
+  
+  async userCount({ where }) {
+    await this.initPromise;
+    console.log('使用 Sequelize 执行 user.count 调用', { where });
+    
+    const count = await User.count({
+      where: processWhereCondition(where)
+    });
+    
+    return count;
+  }
+  
+  // ReadingRecord 模型方法
+  async readingRecordFindUnique({ where, select }) {
+    await this.initPromise;
+    console.log('使用 Sequelize 执行 readingRecord.findUnique 调用', { where });
+    
+    const attributes = processSelect(select);
+    const result = await ReadingRecord.findOne({
+      where: processWhereCondition(where),
+      attributes
+    });
+    
+    return result ? result.toJSON() : null;
+  }
+  
+  async readingRecordFindFirst({ where, orderBy, select, skip, take }) {
+    await this.initPromise;
+    console.log('使用 Sequelize 执行 readingRecord.findFirst 调用', { where });
+    
+    const attributes = processSelect(select);
+    const result = await ReadingRecord.findOne({
+      where: processWhereCondition(where),
+      order: processOrderBy(orderBy),
+      attributes,
+      offset: skip,
+      limit: take ? 1 : undefined
+    });
+    
+    return result ? result.toJSON() : null;
+  }
+  
+  async readingRecordFindMany({ where, orderBy, select, skip, take }) {
+    await this.initPromise;
+    console.log('使用 Sequelize 执行 readingRecord.findMany 调用', { where });
+    
+    const attributes = processSelect(select);
+    const results = await ReadingRecord.findAll({
+      where: processWhereCondition(where),
+      order: processOrderBy(orderBy),
+      attributes,
+      offset: skip,
+      limit: take
+    });
+    
+    return results.map(result => result.toJSON());
+  }
+  
+  async readingRecordCreate({ data }) {
+    await this.initPromise;
+    console.log('使用 Sequelize 执行 readingRecord.create 调用', { data });
+    
+    const result = await ReadingRecord.create(data);
+    return result.toJSON();
+  }
+  
+  async readingRecordUpdate({ where, data }) {
+    await this.initPromise;
+    console.log('使用 Sequelize 执行 readingRecord.update 调用', { where, data });
+    
+    const [count, updated] = await ReadingRecord.update(data, {
+      where: processWhereCondition(where),
+      returning: true
+    });
+    
+    if (count === 0) return null;
+    
+    const result = await ReadingRecord.findOne({
+      where: processWhereCondition(where)
+    });
+    
+    return result ? result.toJSON() : null;
+  }
+  
+  async readingRecordUpsert({ where, create, update }) {
+    await this.initPromise;
+    console.log('使用 Sequelize 执行 readingRecord.upsert 调用', { where });
+    
+    const existing = await ReadingRecord.findOne({
+      where: processWhereCondition(where)
+    });
+    
+    if (existing) {
+      await existing.update(update);
+      return existing.toJSON();
+    } else {
+      const result = await ReadingRecord.create(create);
+      return result.toJSON();
+    }
+  }
+  
+  async readingRecordDelete({ where }) {
+    await this.initPromise;
+    console.log('使用 Sequelize 执行 readingRecord.delete 调用', { where });
+    
+    const existing = await ReadingRecord.findOne({
+      where: processWhereCondition(where)
+    });
+    
+    if (!existing) return null;
+    
+    const result = existing.toJSON();
+    await existing.destroy();
+    return result;
+  }
+  
+  async readingRecordCount({ where }) {
+    await this.initPromise;
+    console.log('使用 Sequelize 执行 readingRecord.count 调用', { where });
+    
+    const count = await ReadingRecord.count({
+      where: processWhereCondition(where)
+    });
+    
+    return count;
+  }
+  
+  // ContentStats 模型方法
+  async contentStatsFindUnique({ where, select }) {
+    await this.initPromise;
+    console.log('使用 Sequelize 执行 contentStats.findUnique 调用', { where });
+    
+    const attributes = processSelect(select);
+    const result = await ContentStats.findOne({
+      where: processWhereCondition(where),
+      attributes
+    });
+    
+    return result ? result.toJSON() : null;
+  }
+  
+  async contentStatsFindFirst({ where, orderBy, select, skip, take }) {
+    await this.initPromise;
+    console.log('使用 Sequelize 执行 contentStats.findFirst 调用', { where });
+    
+    const attributes = processSelect(select);
+    const result = await ContentStats.findOne({
+      where: processWhereCondition(where),
+      order: processOrderBy(orderBy),
+      attributes,
+      offset: skip,
+      limit: take ? 1 : undefined
+    });
+    
+    return result ? result.toJSON() : null;
+  }
+  
+  async contentStatsFindMany({ where, orderBy, select, skip, take }) {
+    await this.initPromise;
+    console.log('使用 Sequelize 执行 contentStats.findMany 调用', { where });
+    
+    const attributes = processSelect(select);
+    const results = await ContentStats.findAll({
+      where: processWhereCondition(where),
+      order: processOrderBy(orderBy),
+      attributes,
+      offset: skip,
+      limit: take
+    });
+    
+    return results.map(result => result.toJSON());
+  }
+  
+  // 添加 contentUpdate 方法
+  async contentUpdate({ where, data }) {
+    await this.initPromise;
+    console.log('使用 Sequelize 执行 content.update 调用', { where, data: data.title || '数据太大不显示' });
+    
+    try {
+      // 更新前检查文章是否需要AI处理
+      let processedData = data;
+      const existing = await Content.findOne({
+        where: processWhereCondition(where)
+      });
+      
+      if (existing && data.content && data.content !== existing.content) {
+        // 内容发生变化，需要重新处理
+        processedData = await processContentWithAI({
+          ...existing.toJSON(),
+          ...data
+        });
+      }
+      
+      const [count, updated] = await Content.update(processedData, {
+        where: processWhereCondition(where),
+        returning: true
+      });
+      
+      if (count === 0) return null;
+      
+      const result = await Content.findOne({
+        where: processWhereCondition(where)
+      });
+      
+      console.log(`文章更新成功: ID=${result?.id}`);
+      return result ? result.toJSON() : null;
+    } catch (error) {
+      console.error('更新文章时出错:', error.message);
+      throw error;
+    }
+  }
+  
+  // 添加 contentUpsert 方法
+  async contentUpsert({ where, create, update }) {
+    await this.initPromise;
+    console.log('使用 Sequelize 执行 content.upsert 调用', { where });
+    
+    try {
+      const existing = await Content.findOne({
+        where: processWhereCondition(where)
+      });
+      
+      if (existing) {
+        console.log(`找到现有文章，执行更新: ${existing.id}`);
+        // 如果是更新操作，只有在内容发生变化时才进行 AI 处理
+        if (update.content && update.content !== existing.content) {
+          update = await processContentWithAI({
+            ...existing.toJSON(),
+            ...update
+          });
+        }
+        await existing.update(update);
+        return existing.toJSON();
+      } else {
+        console.log('未找到现有文章，创建新文章');
+        // 对新创建的内容进行 AI 处理
+        const processedData = await processContentWithAI(create);
+        const result = await Content.create(processedData);
+        console.log(`新文章已创建: ${result.id}`);
+        return result.toJSON();
+      }
+    } catch (error) {
+      console.error('出错: Upsert操作失败', error.message);
+      throw error;
+    }
+  }
+  
+  // 添加 contentDelete 方法
+  async contentDelete({ where }) {
+    await this.initPromise;
+    console.log('使用 Sequelize 执行 content.delete 调用', { where });
+    
+    try {
+      const existing = await Content.findOne({
+        where: processWhereCondition(where)
+      });
+      
+      if (!existing) {
+        console.log('未找到要删除的文章');
+        return null;
+      }
+      
+      const result = existing.toJSON();
+      await existing.destroy();
+      console.log(`文章已删除: ${existing.id}`);
+      return result;
+    } catch (error) {
+      console.error('删除文章时出错:', error.message);
+      throw error;
+    }
+  }
+  
+  async contentStatsCreate({ data }) {
+    await this.initPromise;
+    console.log('使用 Sequelize 执行 contentStats.create 调用', { data });
+    
+    try {
+      const result = await ContentStats.create(data);
+      console.log(`文章统计数据已创建: ${result.id}`);
+      return result.toJSON();
+    } catch (error) {
+      console.error('创建文章统计数据时出错:', error.message);
+      throw error;
+    }
+  }
+  
+  async contentStatsUpdate({ where, data }) {
+    await this.initPromise;
+    console.log('使用 Sequelize 执行 contentStats.update 调用', { where, data });
+    
+    try {
+      const [count, updated] = await ContentStats.update(data, {
+        where: processWhereCondition(where),
+        returning: true
+      });
+      
+      if (count === 0) {
+        console.log('未找到统计数据记录，更新操作未影响任何行');
+        return null;
+      }
+      
+      console.log(`统计数据已更新: ${updated[0].id}`);
+      return updated[0].toJSON();
+    } catch (error) {
+      console.error('更新统计数据时出错:', error.message);
+      throw error;
+    }
+  }
+  
+  async contentStatsUpsert({ where, create, update }) {
+    await this.initPromise;
+    console.log('使用 Sequelize 执行 contentStats.upsert 调用', { where });
+    
+    try {
+      const existing = await ContentStats.findOne({
+        where: processWhereCondition(where)
+      });
+      
+      if (existing) {
+        console.log(`找到现有统计数据，执行更新: ${existing.id}`);
+        await existing.update(update);
+        return existing.toJSON();
+      } else {
+        console.log('未找到现有统计数据，创建新记录');
+        const result = await ContentStats.create(create);
+        console.log(`新统计数据已创建: ${result.id}`);
+        return result.toJSON();
+      }
+    } catch (error) {
+      console.error('出错: 统计数据Upsert操作失败', error.message);
+      throw error;
+    }
+  }
+  
+  async contentStatsDelete({ where }) {
+    await this.initPromise;
+    console.log('使用 Sequelize 执行 contentStats.delete 调用', { where });
+    
+    try {
+      const existing = await ContentStats.findOne({
+        where: processWhereCondition(where)
+      });
+      
+      if (!existing) {
+        console.log('未找到要删除的统计数据');
+        return null;
+      }
+      
+      const result = existing.toJSON();
+      await existing.destroy();
+      console.log(`统计数据已删除: ${existing.id}`);
+      return result;
+    } catch (error) {
+      console.error('删除统计数据时出错:', error.message);
+      throw error;
+    }
+  }
+  
+  async contentStatsCount({ where }) {
+    await this.initPromise;
+    console.log('使用 Sequelize 执行 contentStats.count 调用', { where });
+    
+    const count = await ContentStats.count({
+      where: processWhereCondition(where)
+    });
+    
+    return count;
+  }
+  
+  // 连接/断开连接方法
+  async connect() {
+    await this.initPromise;
+    console.log('Sequelize 客户端已连接');
+  }
+  
+  async disconnect() {
+    await sequelize.close();
+    console.log('Sequelize 客户端已断开连接');
+  }
+}
+
+// 使用 AI 处理内容
+async function processContentWithAI(data) {
+  try {
+    console.log(`开始 AI 处理内容: ${data.title}`);
+    
+    // 解析现有的 metadata
+    let metadata = {};
+    if (data.metadata) {
+      if (typeof data.metadata === 'string') {
+        try {
+          metadata = JSON.parse(data.metadata);
+        } catch (e) {
+          console.error(`解析 metadata 失败: ${e.message}`);
+        }
+      } else {
+        metadata = data.metadata;
+      }
+    }
+    
+    // 只有在有标题和内容的情况下才进行AI分析
+    if (data.title && data.content) {
+      console.log(`使用 DeepSeek 分析内容: ${data.title}`);
+      const analysisResult = await generateDeepSeekAnalysis(
+        data.title,
+        data.content,
+        data.sourceUrl
+      );
+      
+      if (analysisResult.success) {
+        // 将分析结果保存到 metadata
+        metadata.analysis = {
+          keyPoints: analysisResult.keyPoints || [],
+          summary: analysisResult.summary || '',
+          background: analysisResult.background || '',
+          impact: analysisResult.impact || '',
+          opinion: analysisResult.opinion || '',
+          suggestions: analysisResult.suggestions || [],
+          generatedAt: analysisResult.generatedAt || new Date().toISOString()
+        };
+        
+        // 生成AI分析文本
+        metadata.aiAnalysis = generateAiAnalysisText(metadata.analysis);
+        
+        // 如果没有摘要，使用 DeepSeek 生成的摘要
+        if (!data.summary && analysisResult.summary) {
+          data.summary = analysisResult.summary;
+        }
+        
+        // 设置内容质量分数
+        if (!data.quality) {
+          data.quality = 0.8; // 基于AI分析的默认质量分数
+        }
+      } else {
+        console.warn(`DeepSeek 分析失败: ${analysisResult.error}`);
+        // 生成基本的AI评论
+        metadata.aiComment = `这是关于"${data.title}"的财经新闻，提供了相关行业的最新动态。建议投资者关注相关发展，评估可能的市场影响。`;
+      }
+    } else {
+      // 没有足够的内容进行分析，生成基本评论
+      console.log(`内容不足，生成基本AI评论`);
+      metadata.aiComment = `这是关于"${data.title || '未知主题'}"的内容。`;
+    }
+    
+    // 将处理后的 metadata 保存回数据
+    if (typeof data.metadata === 'string') {
+      data.metadata = JSON.stringify(metadata);
+    } else {
+      data.metadata = metadata;
+    }
+    
+    return data;
+  } catch (error) {
+    console.error(`AI 处理内容出错: ${error.message}`);
+    // 出错时仍然保存原始数据
+    return data;
+  }
+}
+
+// 生成AI分析文本
+function generateAiAnalysisText(analysis) {
+  if (!analysis) return '';
+  
+  const keyPointsText = analysis.keyPoints && analysis.keyPoints.length > 0
+    ? analysis.keyPoints.map((point, index) => `${index + 1}. ${point}`).join('\n')
+    : '- 暂无关键要点';
+  
+  return `### 1. 摘要  \n${analysis.summary || '暂无摘要'}\n\n` +
+         `### 2. 评论  \n${analysis.opinion || '暂无评论'}\n\n` +
+         `### 3. 关键要点  \n${keyPointsText}\n\n` +
+         `### 4. 分析背景  \n${analysis.background || '暂无背景分析'}\n\n` +
+         `### 5. 影响评估  \n${analysis.impact || '暂无影响评估'}\n\n` +
+         `### 6. 专业意见  \n${analysis.opinion || '暂无专业意见'}\n\n` +
+         `### 7. 建议行动  \n${analysis.suggestions && analysis.suggestions.length > 0 ? analysis.suggestions.join('\n') : '暂无建议行动'}`;
+}
+
+// 创建并导出 PrismaClient 实例
+const prisma = new PrismaClient();
+console.log('已切换到 Sequelize ORM，所有数据将持久化到 SQLite 数据库');
+
+// 尝试初始化数据库连接
+sequelize.authenticate()
+  .then(() => {
+    console.log('数据库连接成功，正在同步模型...');
+    return sequelize.sync();
+  })
+  .then(() => {
+    console.log('所有模型已成功同步到数据库');
+  })
+  .catch(err => {
+    console.error('数据库连接错误:', err);
+  });
+
+export { PrismaClient };
+export default prisma;
