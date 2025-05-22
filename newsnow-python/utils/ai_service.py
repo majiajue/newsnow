@@ -9,7 +9,12 @@ import os
 import json
 import requests
 from datetime import datetime
-from ..config.settings import (
+# 修改为绝对导入路径
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from config.settings import (
     ENABLE_DEEPSEEK, 
     ENABLE_LOCAL_MODEL, 
     LOCAL_MODEL_PATH,

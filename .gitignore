@@ -20,10 +20,18 @@ docs/*
 !docs/adsense-compliance-plan.md
 !docs/privacy-policy.md
 ._*
-*# Python忽略项
+# Python忽略项
 __pycache__/
 *.py[cod]
 *$py.class
 .env
 venv/
 .venv/
+
+# ESLint忽略内容
+.eslintcache
+# 忽略 ESLint 检查警告
+lint-results.json
+lint-report.html
+# 禁用 ESLint 检查
+.eslintignore

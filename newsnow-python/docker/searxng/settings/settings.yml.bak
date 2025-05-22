@@ -1,0 +1,108 @@
+general:
+  debug: false
+  instance_name: "财经新闻搜索"
+  privacypolicy_url: false
+  donation_url: false
+  contact_url: false
+  enable_metrics: true
+
+search:
+  safe_search: 0
+  autocomplete: "google"
+  default_lang: "zh-CN"
+  ban_time_on_fail: 5
+  max_ban_time_on_fail: 120
+  categories_as_tabs:
+    - general
+    - finance
+    - news
+  default_categories:
+    - finance
+    - news
+  formats:
+    - html
+    - json
+
+server:
+  port: 8080
+  bind_address: "0.0.0.0"
+  secret_key: "请更改为随机字符串"
+  base_url: http://localhost:8080/
+  image_proxy: true
+  http_protocol_version: "1.0"
+  method: "GET"
+  default_http_headers:
+    X-Content-Type-Options: nosniff
+    X-XSS-Protection: 1; mode=block
+    X-Download-Options: noopen
+    X-Robots-Tag: noindex, nofollow
+    Referrer-Policy: no-referrer
+
+doi_resolvers:
+  default: oadoi.org
+  resolvers:
+    oadoi.org:
+      name: Open Access DOI resolver
+      url: https://oadoi.org/
+
+engines:
+  - name: google_finance
+    engine: google
+    shortcut: gf
+    categories: [finance]
+    weight: 3
+    timeout: 5.0
+    disabled: false
+    language: zh-CN
+    use_mobile_ui: false
+    params:
+      q: "{query} 财经 金融 新闻"
+  
+  - name: baidu_finance
+    engine: baidu
+    shortcut: bf
+    categories: [finance]
+    weight: 3
+    disabled: false
+    language: zh-CN
+    timeout: 5.0
+    params:
+      q: "{query} 财经 股市 金融"
+
+  - name: bing_finance
+    engine: bing
+    shortcut: bing
+    categories: [finance, news]
+    weight: 2
+    disabled: false
+    language: zh-CN
+    timeout: 5.0
+    params:
+      q: "{query} 财经 金融"
+
+  - name: google_news
+    engine: google_news
+    shortcut: gn
+    categories: [news, finance]
+    weight: 3
+    timeout: 5.0
+    disabled: false
+    language: zh-CN
+
+  - name: wikipedia
+    engine: wikipedia
+    shortcut: wp
+    categories: [general, finance]
+    weight: 1
+
+ui:
+  static_use_hash: true
+  default_locale: "zh-Hans-CN"
+  default_theme: "simple"
+  theme_args:
+    simple_style: "auto"
+  results_on_new_tab: false
+  center_alignment: true
+  infinite_scroll: true
+  query_in_title: true
+  translations: {}

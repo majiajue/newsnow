@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  searxng:
+    image: searxng/searxng:latest
+    container_name: searxng
+    networks:
+      - searxng
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./settings:/etc/searxng
+    environment:
+      - BASE_URL=http://localhost:8080/
+      - INSTANCE_NAME=NewsnowSearch
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
+      - SETGID
+      - SETUID
+    restart: unless-stopped
+
+networks:
+  searxng:
+    driver: bridge

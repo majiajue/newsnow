@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>财经市场分析 - NewNow财经</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --primary-color: #2c3e50;
+      --secondary-color: #3498db;
+      --accent-color: #e74c3c;
+      --finance-color: #27ae60;
+      --bg-color: #f5f5f5;
+      --text-color: #333;
+      --card-bg: #ffffff;
+      --border-color: #eaeaea;
+      --positive-color: #27ae60;
+      --negative-color: #e74c3c;
+      --neutral-color: #7f8c8d;
+    }
+    
+    body {
+      font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+    
+    .navbar {
+      background-color: var(--primary-color);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    .navbar-brand {
+      font-weight: bold;
+      color: white !important;
+    }
+    
+    .nav-link {
+      color: rgba(255, 255, 255, 0.85) !important;
+    }
+    
+    .nav-link:hover {
+      color: white !important;
+    }
+    
+    .news-container {
+      max-width: 900px;
+      margin: 0 auto;
+      background-color: var(--card-bg);
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      padding: 30px;
+    }
+    
+    .news-header {
+      margin-bottom: 25px;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 20px;
+    }
+    
+    .news-title {
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+      line-height: 1.3;
+    }
+    
+    .news-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    
+    .news-source, .news-date, .news-author {
+      color: var(--light-text);
+      font-size: 0.9rem;
+    }
+    
+    .news-tags {
+      margin-bottom: 15px;
+    }
+    
+    .news-tag {
+      display: inline-block;
+      padding: 4px 10px;
+      background-color: #e3f2fd;
+      color: #0d6efd;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      margin-right: 8px;
+      margin-bottom: 8px;
+    }
+    
+    .news-tag.finance {
+      background-color: #e8f5e9;
+      color: #27ae60;
+    }
+    
+    .news-tag.market {
+      background-color: #fff8e1;
+      color: #f39c12;
+    }
+    
+    .news-content {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      margin-bottom: 30px;
+    }
+    
+    .news-content p {
+      margin-bottom: 20px;
+    }
+    
+    .news-content img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      margin: 20px 0;
+    }
+    
+    .analysis-section {
+      margin-top: 40px;
+      border-radius: 8px;
+      padding: 0;
+      border: 1px solid var(--border-color);
+    }
+    
+    .analysis-header {
+      background-color: #f8f9fa;
+      padding: 15px 20px;
+      border-bottom: 1px solid var(--border-color);
+      border-radius: 8px 8px 0 0;
+    }
+    
+    .analysis-title {
+      margin: 0;
+      font-size: 1.4rem;
+      color: var(--primary-color);
+      font-weight: 600;
+    }
+    
+    .analysis-content {
+      padding: 25px;
+    }
+    
+    .analysis-summary {
+      background-color: #f8f9fa;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 25px;
+      border-left: 4px solid var(--secondary-color);
+    }
+    
+    .summary-title {
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: var(--primary-color);
+    }
+    
+    .impact-analysis {
+      margin-bottom: 25px;
+    }
+    
+    .affected-industries {
+      margin-bottom: 25px;
+    }
+    
+    .industry-card {
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      margin-bottom: 15px;
+      overflow: hidden;
+    }
+    
+    .industry-header {
+      padding: 10px 15px;
+      background-color: #f5f5f5;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .industry-name {
+      font-weight: 600;
+      margin: 0;
+    }
+    
+    .industry-body {
+      padding: 15px;
+    }
+    
+    .industry-companies {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    
+    .company-tag {
+      background-color: #f8f9fa;
+      border: 1px solid var(--border-color);
+      padding: 3px 10px;
+      border-radius: 15px;
+      font-size: 0.85rem;
+    }
+    
+    .impact-badge {
+      font-size: 0.8rem;
+      padding: 3px 10px;
+      border-radius: 15px;
+      font-weight: 500;
+    }
+    
+    .impact-high {
+      background-color: rgba(231, 76, 60, 0.15);
+      color: #c0392b;
+    }
+    
+    .impact-medium {
+      background-color: rgba(243, 156, 18, 0.15);
+      color: #d35400;
+    }
+    
+    .impact-low {
+      background-color: rgba(39, 174, 96, 0.15);
+      color: #27ae60;
+    }
+    
+    .investment-advice {
+      background-color: rgba(52, 152, 219, 0.1);
+      border-radius: 8px;
+      padding: 20px;
+      border-left: 4px solid var(--secondary-color);
+    }
+    
+    .sentiment-indicator {
+      display: flex;
+      align-items: center;
+      margin-top: 15px;
+    }
+    
+    .sentiment-label {
+      margin-right: 10px;
+      font-weight: 600;
+    }
+    
+    .sentiment-value {
+      font-weight: 600;
+      padding: 3px 12px;
+      border-radius: 20px;
+    }
+    
+    .sentiment-positive {
+      background-color: rgba(39, 174, 96, 0.15);
+      color: var(--positive-color);
+    }
+    
+    .sentiment-neutral {
+      background-color: rgba(127, 140, 141, 0.15);
+      color: var(--neutral-color);
+    }
+    
+    .sentiment-negative {
+      background-color: rgba(231, 76, 60, 0.15);
+      color: var(--negative-color);
+    }
+    
+    .related-news {
+      margin-top: 40px;
+    }
+    
+    .related-title {
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--primary-color);
+      font-weight: 600;
+    }
+    
+    .related-item {
+      margin-bottom: 15px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .related-item:last-child {
+      border-bottom: none;
+    }
+    
+    .related-item-title {
+      font-size: 1.1rem;
+      margin-bottom: 5px;
+    }
+    
+    .related-item-title a {
+      color: var(--text-color);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    
+    .related-item-title a:hover {
+      color: var(--secondary-color);
+    }
+    
+    .related-item-meta {
+      font-size: 0.8rem;
+      color: var(--light-text);
+    }
+    
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      color: var(--secondary-color);
+      text-decoration: none;
+      font-weight: 500;
+      margin-bottom: 20px;
+      transition: all 0.2s;
+    }
+    
+    .back-btn:hover {
+      color: var(--primary-color);
+    }
+    
+    .back-btn i {
+      margin-right: 5px;
+    }
+    
+    /* 响应式调整 */
+    @media (max-width: 768px) {
+      .news-container {
+        padding: 20px;
+      }
+      
+      .news-title {
+        font-size: 1.8rem;
+      }
+      
+      .news-content {
+        font-size: 1rem;
+      }
+      
+      .analysis-content {
+        padding: 15px;
+      }
+      
+      .analysis-title {
+        font-size: 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- 导航栏 -->
+  <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">NewNow财经</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="news-list.html">首页</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">股市</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">外汇</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">商品</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">经济</a>
+          </li>
+        </ul>
+        <form class="d-flex">
+          <input class="form-control me-2" type="search" placeholder="搜索财经新闻..." aria-label="Search">
+          <button class="btn btn-outline-light" type="submit">搜索</button>
+        </form>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 主内容区 -->
+  <div class="container my-4">
+    <a href="news-list.html" class="back-btn"><i class="bi bi-arrow-left"></i> 返回新闻列表</a>
+    
+    <div class="news-container">
+      <!-- 新闻头部 -->
+      <header class="news-header">
+        <h1 class="news-title">美联储宣布维持利率不变，暗示年内仍有可能降息</h1>
+        <div class="news-meta">
+          <span class="news-source"><i class="bi bi-newspaper"></i> 金十财经</span>
+          <span class="news-date"><i class="bi bi-calendar3"></i> 2025-05-19</span>
+          <span class="news-author"><i class="bi bi-person"></i> 财经编辑</span>
+        </div>
+        <div class="news-tags">
+          <span class="news-tag finance">金融</span>
+          <span class="news-tag market">美联储</span>
+        </div>
+      </header>
+      
+      <!-- 新闻内容 -->
+      <div class="news-content">
+        <p>美联储在最新的货币政策会议上决定维持基准利率在5.25%-5.50%区间不变，符合市场预期。美联储主席鲍威尔在会后新闻发布会上表示，尽管通胀有所放缓，但仍高于2%的目标，需要谨慎对待降息。不过，他也暗示如果经济数据继续向好，年内仍有可能实施降息。此消息公布后，美股小幅上涨，10年期国债收益率略有下降。</p>
+        
+        <p>此次决定标志着美联储自2022年3月以来的紧缩周期可能正在接近尾声。市场现在预计，如果通胀数据继续改善，美联储最早可能在9月开始首次降息。然而，鲍威尔强调，降息的时间和幅度将完全取决于经济数据的表现。</p>
+        
+        <p>分析人士普遍认为，美联储的这一决定反映了其在控制通胀和维持经济增长之间寻求平衡的谨慎态度。随着劳动力市场逐渐降温，通胀压力有所缓解，美联储有更大的空间来调整货币政策，以避免经济硬着陆。</p>
+      </div>
+      
+      <!-- AI分析部分 -->
+      <div class="analysis-section">
+        <div class="analysis-header">
+          <h3 class="analysis-title"><i class="bi bi-graph-up"></i> 财经AI分析</h3>
+        </div>
+        <div class="analysis-content" id="analysis-container">
+          <!-- 这里的内容将由JavaScript动态填充 -->
+          <div class="text-center p-5">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">正在加载分析...</span>
+            </div>
+            <p class="mt-3 text-secondary">正在生成专业财经分析，请稍候...</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 相关新闻 -->
+      <div class="related-news">
+        <h3 class="related-title">相关新闻</h3>
+        <div id="related-news-container">
+          <!-- 这里的内容将由JavaScript动态填充 -->
+          <div class="text-center p-3">
+            <div class="spinner-border spinner-border-sm text-secondary" role="status">
+              <span class="visually-hidden">正在加载...</span>
+            </div>
+            <span class="ms-2 text-secondary">正在加载相关新闻...</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- 页脚 -->
+  <footer>
+    <div class="container py-4">
+      <div class="row">
+        <div class="col-md-6">
+          <h5 class="text-white">NewNow财经</h5>
+          <p class="text-white-50">AI增强的财经分析平台，为您提供深度解读和专业分析</p>
+        </div>
+        <div class="col-md-6 text-md-end">
+          <p class="text-white-50">&copy; 2025 NewNow 平台</p>
+          <p class="small text-white-50">技术支持：DeepSeek AI + 金十财经</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="finance-detail.js"></script>
+</body>
+</html>

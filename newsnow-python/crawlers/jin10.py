@@ -12,7 +12,12 @@ import random
 import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
-from ..config.settings import USER_AGENT, REQUEST_TIMEOUT
+# 修改为绝对导入路径
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from config.settings import USER_AGENT, REQUEST_TIMEOUT
 
 class Jin10Crawler:
     """金十数据爬虫类"""
@@ -22,14 +27,14 @@ class Jin10Crawler:
         self.headers = {
             "User-Agent": USER_AGENT,
             "Referer": "https://www.jin10.com/",
-            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+            "Accept": "*/*",
             "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8"
         }
         self.base_url = "https://www.jin10.com"
-        self.flash_api = "https://flash-api.jin10.com/get_flash_list"
-        self.article_api = "https://www.jin10.com/details/article/{}"
+        self.flash_url = "https://flash.jin10.com"
+        self.js_api = "https://www.jin10.com/flash_newest.js"
     
-    def get_latest_news(self, limit=20):
+    def get_latest_news(self, page=1, limit=20):
         """
         获取最新快讯
         
@@ -40,16 +45,12 @@ class Jin10Crawler:
             list: 快讯列表
         """
         try:
-            params = {
-                "channel": "-1",
-                "vxiats": int(time.time()),
-                "max_time": "",
-                "limit": limit
-            }
+            # 使用时间戳确保获取最新数据
+            timestamp = int(time.time() * 1000)
+            url = f"{self.js_api}?t={timestamp}"
             
             response = requests.get(
-                self.flash_api,
-                params=params,
+                url,
                 headers=self.headers,
                 timeout=REQUEST_TIMEOUT
             )
@@ -58,34 +59,74 @@ class Jin10Crawler:
                 print(f"获取金十快讯失败: HTTP {response.status_code}")
                 return []
             
-            data = response.json()
+            # 处理JS文件内容，提取JSON数据
+            raw_data = response.text
+            json_str = raw_data.replace("var newest = ", "").replace(";", "").strip()
+            
+            # 解析JSON数据
+            data = json.loads(json_str)
             
             # 格式化快讯数据
             news_list = []
-            for item in data.get("data", []):
+            for item in data:
+                # 检查是否有标题或内容
+                title_content = item.get("data", {}).get("title") or item.get("data", {}).get("content")
+                if not title_content:
+                    continue
+                
+                # 检查是否属于频道5（可能是广告或其他不需要的内容）
+                channels = item.get("channel", [])
+                if 5 in channels:
+                    continue
+                
                 # 提取必要字段
                 news_id = item.get("id", "")
-                title = item.get("content", "").strip()
-                timestamp = item.get("time", 0)
-                pub_date = datetime.fromtimestamp(timestamp).isoformat()
+                text = title_content.replace("<b>", "").replace("</b>", "")
+                
+                # 尝试提取【】中的标题
+                title_match = re.match(r"^【([^】]*)】(.*)$", text)
+                if title_match:
+                    title = title_match.group(1)
+                    summary = title_match.group(2)
+                else:
+                    title = text
+                    summary = text
+                
+                # 解析时间
+                pub_date = datetime.now()
+                try:
+                    pub_date = datetime.fromisoformat(item.get("time").replace("Z", "+00:00"))
+                except Exception as e:
+                    print(f"解析金十数据时间失败: {item.get('time')}, {str(e)}")
                 
                 # 构建文章URL
-                url = f"{self.base_url}/flash/{news_id}"
+                url = f"{self.flash_url}/detail/{news_id}"
                 
                 # 构建快讯数据
                 news = {
                     "id": news_id,
                     "title": title,
+                    "summary": summary,
                     "url": url,
-                    "pubDate": pub_date,
-                    "source": "金十数据",
-                    "category": "快讯",
-                    "summary": title,  # 快讯通常标题即是内容
+                    "pubDate": pub_date.isoformat(),
+                    "source": "Jin10",
+                    "category": "财经",
+                    "author": "金十数据",
+                    "imageUrl": item.get("data", {}).get("pic", ""),
+                    "tags": item.get("tags", []),
+                    "important": bool(item.get("important", 0))
                 }
                 
                 news_list.append(news)
             
-            return news_list
+            # 分页处理
+            start_index = (page - 1) * limit
+            end_index = start_index + limit
+            paginated_news = news_list[start_index:end_index]
+            
+            print(f"成功获取到 {len(paginated_news)} 条金十数据新闻")
+            
+            return paginated_news
         
         except Exception as e:
             print(f"获取金十快讯异常: {str(e)}")
@@ -102,72 +143,8 @@ class Jin10Crawler:
         Returns:
             list: 文章列表
         """
-        try:
-            # 文章列表页URL
-            url = f"{self.base_url}/catalogue/index?type=3&page={page}&limit={limit}"
-            
-            response = requests.get(
-                url,
-                headers=self.headers,
-                timeout=REQUEST_TIMEOUT
-            )
-            
-            if response.status_code != 200:
-                print(f"获取金十文章列表失败: HTTP {response.status_code}")
-                return []
-            
-            soup = BeautifulSoup(response.text, "html.parser")
-            
-            # 格式化文章数据
-            articles = []
-            for article_div in soup.select("div.jin-article-catalog-item"):
-                try:
-                    # 提取文章ID和链接
-                    article_link = article_div.select_one("a.article-title")
-                    if not article_link:
-                        continue
-                    
-                    article_url = article_link.get("href", "")
-                    article_id = re.search(r"/(\d+)", article_url)
-                    if not article_id:
-                        continue
-                    article_id = article_id.group(1)
-                    
-                    # 提取标题
-                    title = article_link.text.strip()
-                    
-                    # 提取发布时间
-                    pub_date_elem = article_div.select_one("span.time")
-                    pub_date = pub_date_elem.text.strip() if pub_date_elem else ""
-                    
-                    # 提取摘要
-                    summary_elem = article_div.select_one("div.item-content")
-                    summary = summary_elem.text.strip() if summary_elem else ""
-                    
-                    # 构建完整URL
-                    full_url = f"{self.base_url}{article_url}" if article_url.startswith("/") else article_url
-                    
-                    # 构建文章数据
-                    article = {
-                        "id": article_id,
-                        "title": title,
-                        "url": full_url,
-                        "pubDate": pub_date,
-                        "source": "金十数据",
-                        "category": "文章",
-                        "summary": summary
-                    }
-                    
-                    articles.append(article)
-                except Exception as e:
-                    print(f"解析金十文章异常: {str(e)}")
-                    continue
-            
-            return articles
-        
-        except Exception as e:
-            print(f"获取金十文章列表异常: {str(e)}")
-            return []
+        # 金十数据的新实现使用JS文件获取数据，直接调用get_latest_news方法
+        return self.get_latest_news(limit=limit)
     
     def get_article_detail(self, article_id):
         """
@@ -180,7 +157,7 @@ class Jin10Crawler:
             dict: 文章详情
         """
         try:
-            url = self.article_api.format(article_id)
+            url = f"{self.flash_url}/detail/{article_id}"
             
             # 添加随机延迟，避免请求过快
             time.sleep(random.uniform(1, 3))
@@ -197,57 +174,56 @@ class Jin10Crawler:
             
             soup = BeautifulSoup(response.text, "html.parser")
             
-            # 提取文章标题
-            title_elem = soup.select_one("h1.article-title")
-            title = title_elem.text.strip() if title_elem else ""
+            # 提取文章信息
+            title = soup.select_one(".flash-detail-title").text.strip()
+            content = soup.select_one(".flash-detail-content").get_text() if soup.select_one(".flash-detail-content") else ""
+            html_content = str(soup.select_one(".flash-detail-content")) if soup.select_one(".flash-detail-content") else f"<p>{title}</p>"
+            pub_date_text = soup.select_one(".flash-detail-time").text.strip() if soup.select_one(".flash-detail-time") else ""
             
-            # 提取发布时间
-            pub_date_elem = soup.select_one("span.publish-time")
-            pub_date = pub_date_elem.text.strip() if pub_date_elem else ""
-            
-            # 提取作者
-            author_elem = soup.select_one("span.author")
-            author = author_elem.text.strip() if author_elem else "金十数据"
-            
-            # 提取文章内容
-            content_elem = soup.select_one("div.jin-article")
-            
-            # 如果是快讯类型，可能没有详细内容区域
-            if not content_elem:
-                # 尝试获取快讯内容
-                flash_content = soup.select_one("div.flash-detail-content")
-                if flash_content:
-                    content = str(flash_content)
+            # 尝试解析发布时间
+            pub_date = datetime.now()
+            try:
+                # 先尝试直接解析
+                parsed_date = datetime.fromisoformat(pub_date_text.replace("Z", "+00:00"))
+                
+                # 检查日期是否有效
+                if parsed_date.year > 2000:
+                    pub_date = parsed_date
                 else:
-                    # 如果都没找到，使用标题作为内容
-                    content = f"<p>{title}</p>"
+                    # 如果直接解析失败，尝试其他格式
+                    print(f"直接解析金十数据文章时间失败: {pub_date_text}，使用当前时间")
+            except Exception as e:
+                print(f"解析金十数据文章时间失败: {pub_date_text}，使用当前时间: {str(e)}")
+            
+            # 提取文章中的第一张图片作为封面图
+            image_url = ""
+            img_elem = soup.select_one(".flash-detail-content img")
+            if img_elem:
+                image_url = img_elem.get("src", "")
+            
+            # 提取文章摘要
+            summary = ""
+            first_p = soup.select_one(".flash-detail-content p")
+            if first_p:
+                summary = first_p.text.strip()
             else:
-                content = str(content_elem)
-            
-            # 提取图片URL
-            img_elem = soup.select_one("div.jin-article img")
-            image_url = img_elem.get("src", "") if img_elem else ""
-            
-            # 提取标签
-            tags = []
-            tags_elems = soup.select("div.article-tag-list span.tag")
-            for tag_elem in tags_elems:
-                tag = tag_elem.text.strip()
-                if tag:
-                    tags.append(tag)
+                summary = content[:200] + "..." if len(content) > 200 else content
             
             # 构建文章详情
             article_detail = {
                 "id": article_id,
                 "title": title,
-                "pubDate": pub_date,
-                "author": author,
-                "content": content,
-                "imageUrl": image_url,
-                "tags": tags,
-                "source": "金十数据"
+                "content": html_content,
+                "summary": summary,
+                "url": url,
+                "pubDate": pub_date.isoformat(),
+                "source": "Jin10",
+                "category": "财经",
+                "author": "金十数据",
+                "imageUrl": image_url
             }
             
+            print(f"成功获取到金十数据文章详情: {title}")
             return article_detail
         
         except Exception as e:

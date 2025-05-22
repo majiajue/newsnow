@@ -13,7 +13,12 @@ import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
 from urllib.parse import urljoin
-from ..config.settings import USER_AGENT, REQUEST_TIMEOUT
+# 修改为绝对导入路径
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from config.settings import USER_AGENT, REQUEST_TIMEOUT
 
 class CLSCrawler:
     """财联社爬虫类"""

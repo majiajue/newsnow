@@ -13,7 +13,12 @@ import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
 from urllib.parse import urlencode
-from ..config.settings import USER_AGENT, REQUEST_TIMEOUT
+# 修改为绝对导入路径
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from config.settings import USER_AGENT, REQUEST_TIMEOUT
 
 class WallstreetCrawler:
     """华尔街见闻爬虫类"""

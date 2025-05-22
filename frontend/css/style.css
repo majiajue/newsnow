@@ -1,0 +1,672 @@
+/* NewNow财经前端样式 - 基于TailwindCSS和Shadcn风格 */
+
+:root {
+  /* 核心色彩 - TailwindCSS启发的色彩系统 */
+  --color-primary: #2563eb;       /* Blue-600 */
+  --color-primary-light: #3b82f6; /* Blue-500 */
+  --color-primary-dark: #1d4ed8;  /* Blue-700 */
+  --color-primary-bg: #dbeafe;    /* Blue-100 */
+  
+  --color-secondary: #4f46e5;     /* Indigo-600 */
+  --color-secondary-light: #6366f1; /* Indigo-500 */
+  --color-secondary-dark: #4338ca;  /* Indigo-700 */
+  
+  --color-accent: #f97316;        /* Orange-500 */
+  --color-accent-light: #fb923c;  /* Orange-400 */
+  --color-accent-dark: #ea580c;   /* Orange-600 */
+  
+  --color-success: #10b981;       /* Emerald-500 */
+  --color-success-light: #34d399; /* Emerald-400 */
+  --color-success-dark: #059669;  /* Emerald-600 */
+  
+  --color-danger: #ef4444;        /* Red-500 */
+  --color-danger-light: #f87171;  /* Red-400 */
+  --color-danger-dark: #dc2626;   /* Red-600 */
+  
+  --color-warning: #f59e0b;       /* Amber-500 */
+  --color-warning-light: #fbbf24; /* Amber-400 */
+  --color-warning-dark: #d97706;  /* Amber-600 */
+  
+  /* 中性色 */
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5db;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #6b7280;
+  --color-gray-600: #4b5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #1f2937;
+  --color-gray-900: #111827;
+  
+  /* 金融专用色彩 */
+  --color-positive: #10b981;      /* 股票上涨 */
+  --color-negative: #ef4444;      /* 股票下跌 */
+  --color-neutral: #6b7280;       /* 持平 */
+  
+  /* 背景和文本 */
+  --bg-color: var(--color-gray-50);
+  --text-color: var(--color-gray-900);
+  --text-muted: var(--color-gray-500);
+  --card-bg: #ffffff;
+  --border-color: var(--color-gray-200);
+  
+  /* Shadcn风格的圆角 */
+  --radius-sm: 0.125rem;  /* 2px */
+  --radius: 0.375rem;     /* 6px */
+  --radius-md: 0.5rem;    /* 8px */
+  --radius-lg: 0.75rem;   /* 12px */
+  --radius-full: 9999px;  /* 圆形 */
+  
+  /* 阴影效果 */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  
+  /* 过渡效果 */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* Google AdSense 兼容性 - 确保广告区域空间 */
+  --adsense-bg: transparent;
+  --adsense-padding: 0;
+  --adsense-margin: 1.5rem 0;
+}
+
+body {
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  line-height: 1.6;
+  font-size: 16px;
+  letter-spacing: -0.011em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 导航栏样式 - Shadcn风格 */
+.navbar {
+  background-color: var(--color-primary);
+  box-shadow: var(--shadow);
+  padding: 0.75rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  transition: all var(--transition);
+}
+
+.navbar-brand {
+  font-weight: 700;
+  color: white !important;
+  font-size: 1.25rem;
+  letter-spacing: -0.025em;
+}
+
+.nav-link {
+  color: rgba(255, 255, 255, 0.85) !important;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius);
+  transition: all var(--transition-fast);
+}
+
+.nav-link:hover {
+  color: white !important;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.nav-link.active {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: white !important;
+}
+
+/* 页面标题样式 - Shadcn风格 */
+.content-title {
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+  font-weight: 700;
+  color: var(--color-gray-900);
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.025em;
+}
+
+.content-header {
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+/* 广告区域 - 顶部横幅 */
+.ad-container-top {
+  margin: var(--adsense-margin);
+  padding: var(--adsense-padding);
+  background: var(--adsense-bg);
+  overflow: hidden;
+  text-align: center;
+  border-radius: var(--radius);
+  position: relative;
+  min-height: 90px;
+}
+
+.ad-container-top::before {
+  content: '广告';
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 0.7rem;
+  padding: 2px 5px;
+  background-color: var(--color-gray-200);
+  color: var(--color-gray-500);
+  border-radius: var(--radius-sm);
+  opacity: 0.8;
+}
+
+/* 文章卡片样式 - TailwindCSS风格 */
+.article-card {
+  background-color: var(--card-bg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  transition: all var(--transition);
+  border: 1px solid var(--border-color);
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+  position: relative;
+}
+
+.article-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-gray-300);
+}
+
+.article-image {
+  height: 180px;
+  overflow: hidden;
+  position: relative;
+}
+
+.article-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s;
+}
+
+.article-card:hover .article-image img {
+  transform: scale(1.05);
+}
+
+.article-content {
+  padding: 20px;
+}
+
+.article-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+
+.article-title a {
+  color: var(--text-color);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.article-title a:hover {
+  color: var(--secondary-color);
+}
+
+.article-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.article-summary {
+  color: #555;
+  margin-bottom: 15px;
+  line-height: 1.5;
+}
+
+.article-source {
+  display: inline-block;
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background-color: rgba(52, 152, 219, 0.1);
+  color: var(--secondary-color);
+}
+
+.article-date {
+  color: #888;
+}
+
+.article-tags {
+  margin-top: 15px;
+}
+
+.article-tag {
+  display: inline-block;
+  padding: 3px 8px;
+  background-color: #e3f2fd;
+  color: #0d6efd;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  margin-right: 8px;
+  margin-bottom: 8px;
+}
+
+.article-tag.finance {
+  background-color: #e8f5e9;
+  color: #27ae60;
+}
+
+.article-tag.market {
+  background-color: #fff8e1;
+  color: #f39c12;
+}
+
+/* 侧边栏样式 - Shadcn风格 */
+.sidebar-section {
+  background-color: var(--card-bg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  margin-bottom: 1.5rem;
+  padding: 1.25rem;
+  border: 1px solid var(--border-color);
+  transition: all var(--transition);
+}
+
+.sidebar-section:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-gray-300);
+}
+
+.sidebar-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  padding-bottom: 0.625rem;
+  border-bottom: 2px solid var(--color-primary);
+  color: var(--color-gray-800);
+  letter-spacing: -0.025em;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sidebar-title i {
+  color: var(--color-primary);
+}
+
+/* 广告区域 - 侧边栏 */
+.ad-container-sidebar {
+  margin: var(--adsense-margin);
+  padding: var(--adsense-padding);
+  background: var(--adsense-bg);
+  overflow: hidden;
+  text-align: center;
+  border-radius: var(--radius);
+  position: relative;
+  min-height: 250px;
+  width: 100%;
+}
+
+.ad-container-sidebar::before {
+  content: '广告';
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 0.7rem;
+  padding: 2px 5px;
+  background-color: var(--color-gray-200);
+  color: var(--color-gray-500);
+  border-radius: var(--radius-sm);
+  opacity: 0.8;
+  z-index: 1;
+}
+
+/* 快讯项样式 */
+.flash-item {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.flash-item:last-child {
+  border-bottom: none;
+}
+
+.flash-title {
+  font-size: 0.95rem;
+  margin-bottom: 5px;
+}
+
+.flash-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.more-link {
+  color: var(--secondary-color);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.more-link:hover {
+  color: var(--primary-color);
+}
+
+/* 统计面板样式 */
+.stats-panel {
+  padding: 10px 0;
+}
+
+.stats-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--border-color);
+}
+
+.stats-item:last-child {
+  border-bottom: none;
+}
+
+.stats-label {
+  color: #555;
+}
+
+.stats-value {
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+/* 文章内容区广告位 - Google AdSense友好 */
+.ad-container-content {
+  margin: 2rem 0;
+  padding: var(--adsense-padding);
+  background: var(--adsense-bg);
+  overflow: hidden;
+  text-align: center;
+  border-radius: var(--radius);
+  position: relative;
+  min-height: 120px;
+  width: 100%;
+  clear: both; /* 确保广告位不被浮动元素影响 */
+  z-index: 1;
+}
+
+.ad-container-content::before {
+  content: '广告';
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 0.7rem;
+  padding: 2px 5px;
+  background-color: var(--color-gray-200);
+  color: var(--color-gray-500);
+  border-radius: var(--radius-sm);
+  opacity: 0.8;
+}
+
+/* AI分析部分样式 - Shadcn风格 */
+.analysis-section {
+  margin-top: 2.5rem;
+  border-radius: var(--radius-lg);
+  padding: 0;
+  border: 1px solid var(--color-gray-200);
+  box-shadow: var(--shadow);
+  background-color: var(--card-bg);
+  overflow: hidden;
+  transition: all var(--transition);
+}
+
+.analysis-section:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-gray-300);
+}
+
+.analysis-header {
+  background-color: var(--color-gray-50);
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--color-gray-200);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.analysis-title {
+  margin: 0;
+  font-size: 1.25rem;
+  color: var(--color-primary-dark);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+}
+
+.analysis-title i {
+  color: var(--color-primary);
+}
+
+.analysis-content {
+  padding: 1.5rem;
+}
+
+.analysis-summary {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 25px;
+  border-left: 4px solid var(--secondary-color);
+}
+
+.summary-title {
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: var(--primary-color);
+}
+
+.impact-analysis {
+  margin-bottom: 25px;
+}
+
+.affected-industries {
+  margin-bottom: 25px;
+}
+
+.industry-card {
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  margin-bottom: 15px;
+  overflow: hidden;
+}
+
+.industry-header {
+  padding: 10px 15px;
+  background-color: #f5f5f5;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.industry-name {
+  font-weight: 600;
+  margin: 0;
+}
+
+.industry-body {
+  padding: 15px;
+}
+
+.industry-companies {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.company-tag {
+  background-color: #f8f9fa;
+  border: 1px solid var(--border-color);
+  padding: 3px 10px;
+  border-radius: 15px;
+  font-size: 0.85rem;
+}
+
+.impact-badge {
+  font-size: 0.8rem;
+  padding: 3px 10px;
+  border-radius: 15px;
+  font-weight: 500;
+}
+
+.impact-high {
+  background-color: rgba(231, 76, 60, 0.15);
+  color: #c0392b;
+}
+
+.impact-medium {
+  background-color: rgba(243, 156, 18, 0.15);
+  color: #d35400;
+}
+
+.impact-low {
+  background-color: rgba(39, 174, 96, 0.15);
+  color: #27ae60;
+}
+
+.investment-advice {
+  background-color: rgba(52, 152, 219, 0.1);
+  border-radius: 8px;
+  padding: 20px;
+  border-left: 4px solid var(--secondary-color);
+}
+
+.sentiment-indicator {
+  display: flex;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.sentiment-label {
+  margin-right: 10px;
+  font-weight: 600;
+}
+
+.sentiment-value {
+  font-weight: 600;
+  padding: 3px 12px;
+  border-radius: 20px;
+}
+
+.sentiment-positive {
+  background-color: rgba(39, 174, 96, 0.15);
+  color: var(--positive-color);
+}
+
+.sentiment-neutral {
+  background-color: rgba(127, 140, 141, 0.15);
+  color: var(--neutral-color);
+}
+
+.sentiment-negative {
+  background-color: rgba(231, 76, 60, 0.15);
+  color: var(--negative-color);
+}
+
+/* 页脚样式 */
+footer {
+  background-color: var(--primary-color);
+  color: white;
+  margin-top: 40px;
+}
+
+/* 搜索结果页样式 */
+.search-info {
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.search-query {
+  font-weight: 600;
+  color: var(--secondary-color);
+}
+
+.search-count {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .article-image {
+    height: 160px;
+  }
+  
+  .article-title {
+    font-size: 1.2rem;
+  }
+  
+  .content-title {
+    font-size: 1.5rem;
+  }
+  
+  .analysis-content {
+    padding: 15px;
+  }
+  
+  .analysis-title {
+    font-size: 1.2rem;
+  }
+}
+
+/* 加载动画样式 */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+}
+
+/* 404页面样式 */
+.error-container {
+  text-align: center;
+  padding: 100px 20px;
+}
+
+.error-code {
+  font-size: 5rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin-bottom: 20px;
+}
+
+.error-message {
+  font-size: 1.5rem;
+  margin-bottom: 30px;
+  color: #555;
+}
+
+.error-action {
+  margin-top: 30px;
+}
