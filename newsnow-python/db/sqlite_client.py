@@ -263,6 +263,32 @@ class SQLiteClient:
         except Exception as e:
             logger.error(f"检查文章是否存在异常: {str(e)}")
             return False
+            
+    def check_article_exists(self, url):
+        """
+        通过URL检查文章是否已存在
+        
+        Args:
+            url (str): 文章URL
+            
+        Returns:
+            bool: 文章是否存在
+        """
+        try:
+            with sqlite3.connect(self.db_path) as conn:
+                cursor = conn.cursor()
+                
+                cursor.execute(
+                    'SELECT COUNT(*) FROM articles WHERE url = ?',
+                    (url,)
+                )
+                
+                count = cursor.fetchone()[0]
+                return count > 0
+                
+        except Exception as e:
+            logger.error(f"通过URL检查文章是否存在异常: {str(e)}")
+            return False
     
     def flash_exists(self, news_id, source):
         """

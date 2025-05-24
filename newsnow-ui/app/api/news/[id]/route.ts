@@ -3,12 +3,15 @@ import { NextResponse } from 'next/server';
 // 后端API基础URL
 const API_BASE_URL = 'http://localhost:5000';
 
-export async function GET(
-  request: Request,
-  { params }: { params: { id: string } }
-) {
+type Params = {
+  params: {
+    id: string;
+  }
+}
+
+export async function GET(request: Request, { params }: Params) {
   try {
-    const { id } = params;
+    const id = params.id;
     
     if (!id) {
       return NextResponse.json(

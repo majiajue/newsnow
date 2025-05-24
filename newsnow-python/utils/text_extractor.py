@@ -6,8 +6,14 @@
 """
 
 import re
+import os
+import sys
 from bs4 import BeautifulSoup
-from ..config.settings import MIN_ARTICLE_LENGTH
+
+# 添加项目根目录到 Python 路径
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from config.settings import MIN_ARTICLE_LENGTH
 
 def extract_clean_content(html_content):
     """

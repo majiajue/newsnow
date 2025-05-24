@@ -71,6 +71,16 @@ const NewsList = ({
   loading: boolean;
   className?: string;
 }) => {
+  const router = useRouter();
+
+  // 处理新闻点击
+  const handleNewsClick = useCallback((newsId: string) => {
+    // 提取ID的最后部分，去除路径前缀
+    const idParts = newsId.split('/');
+    const simpleId = idParts[idParts.length - 1];
+    router.push(`/news/${simpleId}`);
+  }, [router]);
+
   if (loading) {
     return (
       <div className={cn("grid gap-4 md:grid-cols-2 lg:grid-cols-3", className)}>
@@ -83,18 +93,24 @@ const NewsList = ({
   
   return (
     <div className={cn("grid gap-4 md:grid-cols-2 lg:grid-cols-3", className)}>
-      {news && news.length > 0 ? news.map((item) => (
-        <NewsCard
-          key={item.id}
-          title={item.title}
-          description={item.description}
-          source={item.source}
-          date={item.publishedAt || ''}
-          imageUrl={item.imageUrl}
-          category={item.category}
-          onClick={() => window.open(item.url, '_blank')}
-        />
-      )) : (
+      {news && news.length > 0 ? news.map((item) => {
+        // 提取ID的最后部分，去除路径前缀
+        const idParts = item.id.split('/');
+        const simpleId = idParts[idParts.length - 1];
+        
+        return (
+          <NewsCard
+            key={item.id}
+            title={item.title}
+            description={item.description}
+            source={item.source}
+            date={item.publishedAt || ''}
+            imageUrl={item.imageUrl}
+            category={item.category}
+            href={`/news/${simpleId}`}
+          />
+        );
+      }) : (
         <div className="col-span-3 py-10 text-center text-gray-500">
           暂无新闻数据
         </div>
@@ -573,12 +589,17 @@ export default function Page() {
                   <div className="p-5">
                     <div className="grid gap-5">
                       {/* 新闻列表 */}
-                      {news && news.length > 0 ? news.map((item) => (
-                        <div 
-                          key={item.id}
-                          className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all duration-200 hover:border-blue-300 dark:hover:border-blue-700 cursor-pointer"
-                          onClick={() => window.open(item.url, '_blank')}
-                        >
+                      {news && news.length > 0 ? news.map((item) => {
+                        // 提取ID的最后部分，去除路径前缀
+                        const idParts = item.id.split('/');
+                        const simpleId = idParts[idParts.length - 1];
+                        
+                        return (
+                          <div 
+                            key={item.id}
+                            className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all duration-200 hover:border-blue-300 dark:hover:border-blue-700 cursor-pointer"
+                            onClick={() => router.push(`/news/${simpleId}`)}
+                          >
                           <div className="p-4 sm:p-5">
                             <div className="flex flex-col sm:flex-row gap-4">
                               {item.imageUrl && (
@@ -605,7 +626,8 @@ export default function Page() {
                             </div>
                           </div>
                         </div>
-                      )) : null}
+                      );
+                      }) : null}
                     </div>
                   </div>
                 )}

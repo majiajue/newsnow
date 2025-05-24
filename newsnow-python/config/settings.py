@@ -15,6 +15,7 @@ API_KEY = os.environ.get("API_KEY", "your_api_key_here")  # 实际环境中应�
 # 爬虫和处理配置
 CRAWL_INTERVAL = int(os.environ.get("CRAWL_INTERVAL", "30"))  # 抓取间隔（分钟）
 PROCESS_INTERVAL = int(os.environ.get("PROCESS_INTERVAL", "15"))  # 处理间隔（分钟）
+SEARCH_INTERVAL = int(os.environ.get("SEARCH_INTERVAL", "60"))  # 搜索间隔（分钟）
 MAX_BATCH_SIZE = int(os.environ.get("MAX_BATCH_SIZE", "20"))  # 每次处理的最大文章数量
 USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36"
 REQUEST_TIMEOUT = 30  # 请求超时时间（秒）

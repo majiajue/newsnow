@@ -20,11 +20,12 @@ export async function fetchApi<T = any>(
   options: RequestInit = {}
 ): Promise<{ data: T | null; error: string | null }> {
   try {
-    // 使用绝对URL连接到端口5001的后端服务
+    // 直接访问后端服务
     const baseUrl = 'http://localhost:5001';
     const url = `${baseUrl}${endpoint}`;
     console.log(`发送请求到: ${url}`);
     
+    // 使用 fetch API
     const response = await fetch(url, {
       ...options,
       headers: {
@@ -32,8 +33,7 @@ export async function fetchApi<T = any>(
         'Accept': 'application/json',
         ...options.headers,
       },
-      // 添加跨域请求配置
-      mode: 'cors'
+      mode: 'cors', // 显式指定跨域模式
     });
     
     console.log(`响应状态: ${response.status} ${response.statusText}`);
@@ -44,7 +44,6 @@ export async function fetchApi<T = any>(
     }
 
     const data: ApiResponse<T> = await response.json();
-    console.log('响应数据:', data);
     
     if (data.error) {
       throw new Error(data.error || data.message || '请求失败');
@@ -96,7 +95,30 @@ export async function fetchNewsList(params: NewsListParams) {
  * 获取新闻详情
  */
 export async function fetchNewsDetail(id: string) {
-  return fetchApi<NewsDetail>(`/api/news/${id}`);
+  // 首先检查 ID 是否包含路径前缀
+  // 如果是类似 4329730_1 的格式，添加前缀
+  // 如果已经是完整路径，保持不变
+  
+  // 先解码以确保处理正确
+  let decodedId = id;
+  try {
+    if (id.includes('%')) {
+      decodedId = decodeURIComponent(id);
+    }
+  } catch (e) {
+    console.warn('解码 ID 失败，使用原始 ID:', id);
+  }
+  
+  // 检查是否已经是完整路径
+  const hasPath = decodedId.includes('/cn/news-detail/') || decodedId.startsWith('/cn/news-detail/');
+  
+  // 如果不是完整路径，添加前缀
+  const fullId = hasPath ? decodedId : `/cn/news-detail/${decodedId}`;
+  
+  console.log('获取新闻详情，使用ID:', fullId);
+  
+  // 使用正确的路径获取新闻详情
+  return fetchApi<NewsDetail>(`/api/news/${encodeURIComponent(fullId)}`);
 }
 
 // 类型定义
@@ -138,5 +160,28 @@ export async function fetchNewsSources() {
  * 获取相关新闻
  */
 export async function fetchRelatedNews(id: string) {
-  return fetchApi<NewsItem[]>(`/api/news/${id}/related`);
+  // 首先检查 ID 是否包含路径前缀
+  // 如果是类似 4329730_1 的格式，添加前缀
+  // 如果已经是完整路径，保持不变
+  
+  // 先解码以确保处理正确
+  let decodedId = id;
+  try {
+    if (id.includes('%')) {
+      decodedId = decodeURIComponent(id);
+    }
+  } catch (e) {
+    console.warn('解码 ID 失败，使用原始 ID:', id);
+  }
+  
+  // 检查是否已经是完整路径
+  const hasPath = decodedId.includes('/cn/news-detail/') || decodedId.startsWith('/cn/news-detail/');
+  
+  // 如果不是完整路径，添加前缀
+  const fullId = hasPath ? decodedId : `/cn/news-detail/${decodedId}`;
+  
+  console.log('获取相关新闻，使用ID:', fullId);
+  
+  // 使用正确的路径获取相关新闻
+  return fetchApi<NewsItem[]>(`/api/news/${encodeURIComponent(fullId)}/related`);
 }

@@ -8,26 +8,48 @@
 import time
 import json
 import logging
+import os
+import sys
 from datetime import datetime
-from ..utils.text_extractor import extract_clean_content, is_content_valid
-from ..utils.ai_service import generate_analysis
-from ..db.sqlite_client import SQLiteClient
-from ..config.settings import MAX_BATCH_SIZE
+
+# 添加项目根目录到 Python 路径
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from utils.text_extractor import extract_clean_content, is_content_valid
+from utils.ai_service import generate_analysis
+from utils.improved_ai_service import FinanceAnalyzer
+from db.sqlite_client import SQLiteClient
+from config.settings import MAX_BATCH_SIZE, ENABLE_DEEPSEEK
 
 logger = logging.getLogger(__name__)
 
 class ArticleProcessor:
     """文章处理器类"""
     
-    def __init__(self, db_path=None):
+    def __init__(self, db_path=None, use_deepseek=None):
         """
         初始化处理器
         
         Args:
             db_path (str, optional): 数据库文件路径，默认为 None，使用默认路径
+            use_deepseek (bool, optional): 是否使用 DeepSeek AI 服务，默认使用配置文件中的设置
         """
         self.db_client = SQLiteClient(db_path)
-        logger.info("文章处理器初始化完成")
+        
+        # 确定是否使用 DeepSeek
+        self.use_deepseek = ENABLE_DEEPSEEK if use_deepseek is None else use_deepseek
+        
+        # 初始化 DeepSeek AI 服务
+        if self.use_deepseek:
+            api_key = os.environ.get("DEEPSEEK_API_KEY")
+            if api_key:
+                self.finance_analyzer = FinanceAnalyzer(api_key=api_key)
+                logger.info("初始化 DeepSeek AI 服务成功")
+            else:
+                self.use_deepseek = False
+                logger.warning("未找到 DeepSeek API 密钥，将使用默认分析服务")
+        
+        logger.info(f"文章处理器初始化完成，使用 DeepSeek: {self.use_deepseek}")
     
     def get_unprocessed_articles(self, limit=MAX_BATCH_SIZE, source=None):
         """
@@ -84,7 +106,38 @@ class ArticleProcessor:
         try:
             # 生成分析
             analysis_start_time = time.time()
-            analysis = generate_analysis(title, clean_content, source)
+            
+            # 使用 DeepSeek 或默认分析服务
+            if self.use_deepseek:
+                logger.info(f"使用 DeepSeek AI 服务分析文章: {title}")
+                
+                # 调用金融分析器
+                finance_analysis = self.finance_analyzer.analyze_finance_article(
+                    title=title,
+                    content=clean_content,
+                    source=source,
+                    json_output=True
+                )
+                
+                # 如果 DeepSeek 分析失败，回退到默认分析
+                if "error" in finance_analysis:
+                    logger.warning(f"DeepSeek 分析失败: {finance_analysis.get('error')}，使用默认分析")
+                    analysis = generate_analysis(title, clean_content, source)
+                else:
+                    # 使用 DeepSeek 分析结果
+                    analysis = {
+                        "summary": finance_analysis.get("summary", ""),
+                        "key_points": finance_analysis.get("key_points", []),
+                        "background": finance_analysis.get("background", ""),
+                        "impact": finance_analysis.get("impact", ""),
+                        "opinion": finance_analysis.get("opinion", ""),
+                        "comment": finance_analysis.get("comment", ""),
+                        "suggestions": finance_analysis.get("suggestions", []),
+                    }
+            else:
+                # 使用默认分析服务
+                analysis = generate_analysis(title, clean_content, source)
+            
             analysis_time = time.time() - analysis_start_time
             logger.info(f"分析完成，耗时: {analysis_time:.2f}秒")
             

@@ -11,8 +11,8 @@ from typing import Dict, List, Any, Optional, Type
 # 导入所有爬虫类
 from .jin10 import Jin10Crawler
 from .gelonghui import GelonghuiCrawler
-from .wallstreet import WallStreetCrawler
-from .fastbull import FastBullCrawler
+from .wallstreet import WallstreetCrawler  # 注意类名是 WallstreetCrawler 而不是 WallStreetCrawler
+from .fastbull import FastbullCrawler  # 注意类名是 FastbullCrawler 而不是 FastBullCrawler
 from .cls import CLSCrawler
 # 修改为绝对导入路径
 import sys
@@ -36,8 +36,8 @@ class CrawlerFactory:
         self._crawlers = {
             "jin10": Jin10Crawler(),
             "gelonghui": GelonghuiCrawler(),
-            "wallstreet": WallStreetCrawler(),
-            "fastbull": FastBullCrawler(),
+            "wallstreet": WallstreetCrawler(),  # 修正类名
+            "fastbull": FastbullCrawler(),  # 修正类名
             "cls": CLSCrawler()
         }
     

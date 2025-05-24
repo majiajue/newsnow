@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Calendar, Clock, ExternalLink } from "lucide-react"
 import Image from "next/image"
+import Link from "next/link"
 
 export interface NewsCardProps extends React.HTMLAttributes<HTMLDivElement> {
   title: string
@@ -16,6 +17,7 @@ export interface NewsCardProps extends React.HTMLAttributes<HTMLDivElement> {
   category?: string
   className?: string
   onClick?: () => void
+  href?: string
 }
 
 const NewsCard = React.forwardRef<HTMLDivElement, NewsCardProps>(
@@ -30,21 +32,30 @@ const NewsCard = React.forwardRef<HTMLDivElement, NewsCardProps>(
       category = "财经",
       className,
       onClick,
+      href,
       ...props
     },
     ref
   ) => {
+    const CardWrapper = ({ children }: { children: React.ReactNode }) => {
+      if (href) {
+        return <Link href={href} className="h-full">{children}</Link>;
+      }
+      return <>{children}</>;
+    };
+
     return (
-      <Card
-        ref={ref}
-        className={cn(
-          "group overflow-hidden transition-all hover:shadow-lg dark:hover:shadow-neutral-800/50",
-          "h-full flex flex-col",
-          className
-        )}
-        onClick={onClick}
-        {...props}
-      >
+      <CardWrapper>
+        <Card
+          ref={ref}
+          className={cn(
+            "group overflow-hidden transition-all hover:shadow-lg dark:hover:shadow-neutral-800/50",
+            "h-full flex flex-col cursor-pointer",
+            className
+          )}
+          onClick={onClick}
+          {...props}
+        >
         <div className="relative aspect-video overflow-hidden">
           {imageUrl ? (
             <Image
@@ -99,7 +110,8 @@ const NewsCard = React.forwardRef<HTMLDivElement, NewsCardProps>(
             </Button>
           </div>
         </CardFooter>
-      </Card>
+        </Card>
+      </CardWrapper>
     )
   }
 )
