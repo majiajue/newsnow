@@ -100,9 +100,6 @@ export const metadata: Metadata = {
     },
   },
   other: {
-    'google-site-verification': 'your-google-verification-code',
-    'baidu-site-verification': 'your-baidu-verification-code',
-    'msvalidate.01': 'your-bing-verification-code',
     'apple-mobile-web-app-capable': 'yes',
     'apple-mobile-web-app-status-bar-style': 'default',
     'apple-mobile-web-app-title': 'NewsNow',
@@ -134,12 +131,7 @@ export default function RootLayout({
         <meta name="language" content="zh-CN" />
         <meta name="content-language" content="zh-CN" />
         
-        {/* 搜索引擎验证 */}
-        <meta name="google-site-verification" content="your-google-verification-code" />
-        <meta name="baidu-site-verification" content="your-baidu-verification-code" />
-        <meta name="msvalidate.01" content="your-bing-verification-code" />
-        <meta name="360-site-verification" content="your-360-verification-code" />
-        <meta name="sogou_site_verification" content="your-sogou-verification-code" />
+        {/* 搜索引擎验证 - 已移除 */}
         
         {/* 社交媒体和分享 */}
         <meta property="fb:app_id" content="your-facebook-app-id" />
