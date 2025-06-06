@@ -17,7 +17,7 @@ from bs4 import BeautifulSoup
 USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
 REQUEST_TIMEOUT = 10
 DEEPSEEK_API_KEY = os.environ.get("DEEPSEEK_API_KEY")
-SEARXNG_URL = "http://localhost:8080/search"
+SEARXNG_URL = os.environ.get("SEARXNG_URL", "http://searxng:8080/search")
 
 class FinanceCrawler:
     """财经爬虫基类"""

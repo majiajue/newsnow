@@ -1,6 +1,10 @@
 import React from 'react';
 import { Button } from './button';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import dynamic from 'next/dynamic';
+
+// 动态导入图标
+const ChevronLeft = dynamic(() => import('lucide-react').then(mod => mod.ChevronLeft), { ssr: false });
+const ChevronRight = dynamic(() => import('lucide-react').then(mod => mod.ChevronRight), { ssr: false });
 
 interface PaginationProps {
   currentPage: number;

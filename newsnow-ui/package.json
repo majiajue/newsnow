@@ -6,7 +6,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "postinstall": "echo '已安装依赖，使用--legacy-peer-deps处理兼容性问题'"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.13",

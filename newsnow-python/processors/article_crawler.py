@@ -50,49 +50,100 @@ class ArticleCrawler:
         logger.info(f"开始抓取 {source_name} 的最新文章")
         
         try:
-            # 获取最新文章
-            articles = self.crawler_factory.get_latest_articles(source, limit=limit)
-            
-            if not articles:
-                logger.warning(f"{source_name} 未获取到文章")
+            # 获取爬虫实例
+            crawler_instance = self.crawler_factory.get_crawler(source)
+            if not crawler_instance:
+                logger.error(f"无法为来源 {source_name} ({source}) 获取爬虫实例")
                 return {
                     "source": source,
-                    "total": 0,
-                    "saved": 0,
+                    "total_fetched_summaries": 0,
+                    "summaries_saved_for_later": 0,
+                    "immediately_processed": 0,
+                    "error": f"No crawler instance for source {source}",
+                    "time": time.time() - start_time
+                }
+
+            # 获取最新文章摘要 (e.g., from Jin10Crawler.get_latest_news())
+            article_summaries = crawler_instance.get_latest_articles(limit=limit)
+            
+            if not article_summaries:
+                logger.warning(f"{source_name} 未获取到文章摘要")
+                return {
+                    "source": source,
+                    "total_fetched_summaries": 0,
+                    "summaries_saved_for_later": 0,
+                    "immediately_processed": 0,
                     "time": time.time() - start_time
                 }
             
-            logger.info(f"从 {source_name} 获取到 {len(articles)} 篇文章")
+            logger.info(f"从 {source_name} 获取到 {len(article_summaries)} 篇文章摘要")
             
-            # 保存文章到数据库
-            saved_count = 0
-            for article in articles:
+            summaries_saved_for_later_count = 0
+            immediately_processed_count = 0
+
+            for article_summary in article_summaries:
                 try:
-                    # 检查文章是否已存在
-                    if self.db_client.article_exists(article.get("id"), source):
+                    # 确保我们有一个有效的 article_id
+                    article_id = article_summary.get("article_id") or article_summary.get("id")
+                    if not article_id:
+                        logger.warning(f"文章摘要缺少ID: {article_summary.get('title', 'N/A')}, 来自 {source_name}, 跳过.")
+                        continue
+
+                    # 检查文章是否已存在 (使用 article_id 和 source)
+                    if self.db_client.article_exists(article_id, source):
+                        logger.debug(f"文章 {article_id} ({source_name}) 已存在，跳过.")
                         continue
                     
-                    # 保存文章
-                    save_result = self.db_client.save_article(article)
-                    if save_result:
-                        saved_count += 1
+                    # 条件处理：即时处理或保存摘要
+                    if hasattr(crawler_instance, 'supports_immediate_processing') and \
+                       crawler_instance.supports_immediate_processing:
+                        
+                        logger.info(f"{source_name} 支持即时处理。调用 get_article_detail for ID: {article_id}")
+                        # crawler_instance.get_article_detail 将处理获取、搜索、AI分析和保存
+                        detailed_article_data = crawler_instance.get_article_detail(article_id)
+                        
+                        if detailed_article_data and detailed_article_data.get("processed_immediately"):
+                            logger.info(f"文章 {article_id} ({source_name}) 已通过爬虫即时处理并保存.")
+                            immediately_processed_count += 1
+                        elif detailed_article_data: # 可能已保存但AI分析失败或未标记
+                            logger.warning(f"文章 {article_id} ({source_name}) 由爬虫处理，但未明确标记为 'processed_immediately'. 检查爬虫日志。保存状态: {detailed_article_data.get('id') is not None}")
+                            # Decide if this counts towards a specific counter, e.g. if it was saved at all
+                            if self.db_client.article_exists(article_id, source): # Check if it ended up saved
+                                logger.info(f"文章 {article_id} ({source_name}) 确认已保存，但即时处理标志缺失或为false.")
+                                # Potentially count as 'summaries_saved_for_later_count' if processed=0, or a new category
+                        else:
+                            logger.error(f"即时处理文章 {article_id} ({source_name}) 失败。爬虫 {crawler_instance.__class__.__name__} 返回 None.")
+                            self.db_client.add_article_log(article_id, "error", f"Immediate processing by {crawler_instance.__class__.__name__} for {source_name} failed.")
                     else:
-                        logger.warning(f"保存文章失败: {article.get('title')}")
+                        # 为不支持即时处理的爬虫保存摘要
+                        logger.info(f"{source_name} 不支持即时处理。保存文章摘要 ID: {article_id}")
+                        # article_summary 应该包含足够的信息供 save_article (如 title, url, source, published_at)
+                        save_result = self.db_client.save_article(article_summary) # 这会保存 processed=0
+                        if save_result:
+                            summaries_saved_for_later_count += 1
+                        else:
+                            logger.warning(f"保存文章摘要失败: {article_summary.get('title', 'N/A')} (ID: {article_id}) from {source_name}")
                 
                 except Exception as e:
-                    logger.error(f"保存文章异常: {str(e)}")
+                    current_id_for_log = article_summary.get("article_id") or article_summary.get("id", "N/A")
+                    logger.error(f"处理文章摘要 ID {current_id_for_log} ({source_name}) 时发生异常: {str(e)}", exc_info=True)
+                    if current_id_for_log != "N/A":
+                        self.db_client.add_article_log(current_id_for_log, "error", f"ArticleCrawler loop exception for {source_name}: {str(e)}")
                     continue
             
-            # 统计结果
+            # 更新统计结果
             result = {
                 "source": source,
-                "total": len(articles),
-                "saved": saved_count,
+                "total_fetched_summaries": len(article_summaries),
+                "summaries_saved_for_later": summaries_saved_for_later_count,
+                "immediately_processed": immediately_processed_count,
                 "time": time.time() - start_time
             }
             
-            logger.info(f"{source_name} 抓取完成: 获取 {result['total']} 篇, "
-                       f"新增 {result['saved']} 篇, 耗时 {result['time']:.2f}秒")
+            logger.info(f"{source_name} 抓取完成: 获取 {result['total_fetched_summaries']} 篇摘要, "
+                       f"{result['summaries_saved_for_later']} 篇已保存待处理, "
+                       f"{result['immediately_processed']} 篇已即时处理, "
+                       f"耗时 {result['time']:.2f}秒")
             
             return result
         

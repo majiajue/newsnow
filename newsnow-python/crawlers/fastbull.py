@@ -10,6 +10,7 @@ import json
 import time
 import random
 import requests
+import logging
 from bs4 import BeautifulSoup
 from datetime import datetime
 from urllib.parse import urljoin
@@ -19,6 +20,12 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from config.settings import USER_AGENT, REQUEST_TIMEOUT
+from utils.search_service import SearchService
+from utils.enhanced_ai_service import EnhancedFinanceAnalyzer as FinanceAnalyzer
+from db.sqlite_client import SQLiteClient
+
+# 配置日志
+logger = logging.getLogger(__name__)
 
 class FastbullCrawler:
     """FastBull爬虫类"""
@@ -34,6 +41,11 @@ class FastbullCrawler:
         self.base_url = "https://www.fastbull.com"
         self.news_url = "https://www.fastbull.com/cn/news"
         self.express_url = "https://www.fastbull.com/cn/express-news"
+        
+        # 初始化服务
+        self.search_service = SearchService()
+        self.finance_analyzer = FinanceAnalyzer()
+        self.db_client = SQLiteClient()
     
     def get_latest_articles(self, page=1, limit=20):
         """
@@ -217,13 +229,14 @@ class FastbullCrawler:
         Returns:
             dict: 文章详情
         """
+        logger.warning(f"!!!!!!!!!! [FastBull ENTRYPOINT TEST VIA LOGGER] Entering get_article_detail for ID: {article_id_or_url} !!!!!!!!!!!")
         try:
             # 构建URL
             url = article_id_or_url
             if not url.startswith("http"):
                 url = f"{self.base_url}{url}"
             
-            print(f"开始获取FastBull文章详情: {url}")
+            print(f"[FastBull Debug] Article ID: {article_id_or_url} - Starting to fetch article detail from: {url}")
             
             # 添加随机延迟，避免请求过快
             time.sleep(random.uniform(1, 3))
@@ -234,9 +247,12 @@ class FastbullCrawler:
                 timeout=REQUEST_TIMEOUT
             )
             
+            print(f"[FastBull Debug] Article ID: {article_id_or_url} - HTTP Status: {response.status_code}")
             if response.status_code != 200:
-                print(f"获取FastBull文章详情失败: HTTP {response.status_code}")
+                print(f"[FastBull Error] 获取FastBull文章详情失败: HTTP {response.status_code} for URL: {url}")
                 return None
+            
+            print(f"[FastBull Debug] Article ID: {article_id_or_url} - Successfully fetched HTML content.")
             
             # 解析HTML
             soup = BeautifulSoup(response.text, "html.parser")
@@ -250,11 +266,15 @@ class FastbullCrawler:
             
             # 如果没有找到新闻详情，尝试获取快讯详情
             if not title:
+                print(f"[FastBull Debug] Article ID: {article_id_or_url} - No news detail found, trying express detail...")
                 title = soup.select_one('.express-detail-title').text.strip() if soup.select_one('.express-detail-title') else ""
                 content = soup.select_one('.express-detail-content').get_text() if soup.select_one('.express-detail-content') else ""
                 html_content = str(soup.select_one('.express-detail-content')) if soup.select_one('.express-detail-content') else ""
                 pub_date_text = soup.select_one('.express-detail-time').text.strip() if soup.select_one('.express-detail-time') else ""
                 author = soup.select_one('.express-detail-source').text.strip() if soup.select_one('.express-detail-source') else "FastBull"
+            
+            print(f"[FastBull Debug] Article ID: {article_id_or_url} - Extracted title: {title}")
+            print(f"[FastBull Debug] Article ID: {article_id_or_url} - Content length: {len(content)} characters")
             
             # 尝试解析发布时间
             pub_date = datetime.now()
@@ -267,9 +287,11 @@ class FastbullCrawler:
                     pub_date = parsed_date
                 else:
                     # 如果直接解析失败，尝试其他格式
-                    print(f"直接解析FastBull文章时间失败: {pub_date_text}，使用当前时间")
+                    print(f"[FastBull Warn] Article ID: {article_id_or_url} - 直接解析文章时间失败: {pub_date_text}，使用当前时间")
             except Exception as e:
-                print(f"解析FastBull文章时间失败: {pub_date_text}，使用当前时间: {str(e)}")
+                print(f"[FastBull Warn] Article ID: {article_id_or_url} - 解析文章时间失败: {pub_date_text}，使用当前时间: {str(e)}")
+            
+            print(f"[FastBull Debug] Article ID: {article_id_or_url} - Publish date: {pub_date.isoformat()}")
             
             # 提取文章中的第一张图片作为封面图
             image_url = ""
@@ -285,9 +307,8 @@ class FastbullCrawler:
             else:
                 summary = content[:200] + "..." if len(content) > 200 else content
             
-            print(f"成功获取到FastBull文章详情: {title}")
-            
-            return {
+            # 构建基础文章详情
+            article_detail = {
                 "id": article_id_or_url,
                 "title": title,
                 "content": html_content,
@@ -299,6 +320,53 @@ class FastbullCrawler:
                 "author": author,
                 "imageUrl": image_url
             }
+            
+            print(f"[FastBull Debug] Article ID: {article_id_or_url} - Starting search enhancement...")
+            
+            # 使用SearxNG进行搜索增强
+            try:
+                search_results = self.search_service.search_related_news(title)
+                if search_results:
+                    article_detail["search_results"] = search_results
+                    print(f"[FastBull Debug] Article ID: {article_id_or_url} - Search enhancement completed with {len(search_results)} results.")
+                else:
+                    print(f"[FastBull Warn] Article ID: {article_id_or_url} - Search enhancement returned no results.")
+            except Exception as e:
+                print(f"[FastBull Error] Article ID: {article_id_or_url} - Search enhancement failed: {str(e)}")
+                article_detail["search_results"] = []
+            
+            print(f"[FastBull Debug] Article ID: {article_id_or_url} - Starting AI analysis...")
+            
+            # 使用DeepSeek进行AI分析
+            try:
+                analysis_result = self.finance_analyzer.analyze_article(article_detail)
+                if analysis_result:
+                    article_detail.update(analysis_result)
+                    print(f"[FastBull Debug] Article ID: {article_id_or_url} - AI analysis completed successfully.")
+                else:
+                    print(f"[FastBull Warn] Article ID: {article_id_or_url} - AI analysis returned no results.")
+            except Exception as e:
+                print(f"[FastBull Error] Article ID: {article_id_or_url} - AI analysis failed: {str(e)}")
+            
+            print(f"[FastBull Debug] Article ID: {article_id_or_url} - Starting database save...")
+            
+            # 保存到数据库
+            try:
+                save_result = self.db_client.save_article(article_detail)
+                if save_result:
+                    article_detail["processed_immediately"] = True
+                    print(f"[FastBull Debug] Article ID: {article_id_or_url} - Successfully saved to database with immediate processing flag.")
+                else:
+                    article_detail["processed_immediately"] = False
+                    print(f"[FastBull Warn] Article ID: {article_id_or_url} - Failed to save to database.")
+            except Exception as e:
+                print(f"[FastBull Error] Article ID: {article_id_or_url} - Database save failed: {str(e)}")
+                article_detail["processed_immediately"] = False
+            
+            print(f"[FastBull Debug] Article ID: {article_id_or_url} - Processing completed successfully.")
+            return article_detail
+            
         except Exception as e:
-            print(f"获取FastBull文章详情异常: {str(e)}")
+            print(f"[FastBull Error] 获取FastBull文章详情异常: {str(e)}")
+            logger.error(f"获取FastBull文章详情异常: {str(e)}")
             return None

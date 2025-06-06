@@ -10,6 +10,7 @@ import json
 import time
 import random
 import requests
+import logging
 from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
 # 修改为绝对导入路径
@@ -18,6 +19,12 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from config.settings import USER_AGENT, REQUEST_TIMEOUT
+from utils.search_service import SearchService
+from utils.enhanced_ai_service import EnhancedFinanceAnalyzer as FinanceAnalyzer
+from db.sqlite_client import SQLiteClient
+
+# 配置日志
+logger = logging.getLogger(__name__)
 
 class GelonghuiCrawler:
     """格隆汇爬虫类"""
@@ -32,6 +39,11 @@ class GelonghuiCrawler:
         }
         self.base_url = "https://www.gelonghui.com"
         self.api_url = "https://www.gelonghui.com/api/v3"
+        
+        # 初始化服务
+        self.search_service = SearchService()
+        self.finance_analyzer = FinanceAnalyzer()
+        self.db_client = SQLiteClient()
     
     def get_latest_articles(self, page=1, limit=20):
         """
@@ -146,67 +158,171 @@ class GelonghuiCrawler:
         Returns:
             dict: 文章详情
         """
+        logger.warning(f"!!!!!!!!!! [Gelonghui ENTRYPOINT TEST VIA LOGGER] Entering get_article_detail for ID: {article_id} !!!!!!!!!!!")
         try:
-            # 构建API URL
-            url = f"{self.api_url}/post/{article_id}"
+            # 构建文章详情URL - 支持多种格式
+            possible_urls = [
+                f"{self.base_url}/p/{article_id}",
+                f"{self.base_url}/live/{article_id}",
+                f"{self.base_url}/news/{article_id}",
+                f"{self.base_url}/article/{article_id}"
+            ]
             
-            # 添加随机延迟，避免请求过快
-            time.sleep(random.uniform(1, 3))
+            response = None
+            url = None
             
-            response = requests.get(
-                url,
-                headers=self.headers,
-                timeout=REQUEST_TIMEOUT
-            )
+            # 尝试不同的URL格式
+            for test_url in possible_urls:
+                try:
+                    print(f"[Gelonghui Debug] Article ID: {article_id} - Trying URL: {test_url}")
+                    test_response = requests.get(
+                        test_url,
+                        headers=self.headers,
+                        timeout=REQUEST_TIMEOUT,
+                        allow_redirects=True
+                    )
+                    
+                    if test_response.status_code == 200:
+                        response = test_response
+                        url = test_url
+                        print(f"[Gelonghui Debug] Article ID: {article_id} - Found working URL: {url}")
+                        break
+                    else:
+                        print(f"[Gelonghui Debug] Article ID: {article_id} - URL failed with status {test_response.status_code}: {test_url}")
+                        
+                except Exception as e:
+                    print(f"[Gelonghui Debug] Article ID: {article_id} - URL request failed: {test_url} - {e}")
+                    continue
             
-            if response.status_code != 200:
-                print(f"获取格隆汇文章详情失败: HTTP {response.status_code}")
+            if not response or response.status_code != 200:
+                print(f"[Gelonghui Error] Article ID: {article_id} - All URL attempts failed")
                 return None
+
+            print(f"[Gelonghui Debug] Article ID: {article_id} - HTTP Status: {response.status_code}")
             
-            data = response.json()
-            if data.get("code") != 0:
-                print(f"获取格隆汇文章详情失败: {data.get('message', '未知错误')}")
-                return None
+            # 使用BeautifulSoup解析HTML
+            soup = BeautifulSoup(response.text, 'html.parser')
             
-            # 提取文章详情
-            post_data = data.get("data", {})
+            # 提取标题
+            title_elem = soup.select_one('h1.article-title, .article-title, h1')
+            title = title_elem.text.strip() if title_elem else ""
             
-            title = post_data.get("title", "").strip()
-            content = post_data.get("content", "")
-            summary = post_data.get("summary", "").strip()
-            pub_timestamp = post_data.get("timestamp", 0)
-            pub_date = datetime.fromtimestamp(pub_timestamp).isoformat() if pub_timestamp else ""
-            image_url = post_data.get("cover", {}).get("url", "")
-            author = post_data.get("author", {}).get("name", "格隆汇")
+            # 提取内容
+            content_elem = soup.select_one('.article-content, .content, .post-content')
+            if content_elem:
+                # 清理内容
+                for script in content_elem(["script", "style"]):
+                    script.decompose()
+                content = content_elem.get_text(strip=True)
+                html_content = str(content_elem)
+            else:
+                content = ""
+                html_content = ""
             
-            # 提取标签
-            tags = []
-            for tag in post_data.get("tags", []):
-                tag_name = tag.get("name", "").strip()
-                if tag_name:
-                    tags.append(tag_name)
+            print(f"[Gelonghui Debug] Article ID: {article_id} - Extracted title: {title}")
+            print(f"[Gelonghui Debug] Article ID: {article_id} - Content length: {len(content)} characters")
             
-            # 如果内容为空，使用摘要
-            if not content and summary:
-                content = f"<p>{summary}</p>"
+            # 提取发布时间
+            pub_date = datetime.now()
+            time_elem = soup.select_one('.publish-time, .time, time')
+            if time_elem:
+                time_text = time_elem.text.strip()
+                try:
+                    # 尝试解析时间
+                    if '分钟前' in time_text:
+                        minutes = int(time_text.replace('分钟前', '').strip())
+                        pub_date = datetime.now() - timedelta(minutes=minutes)
+                    elif '小时前' in time_text:
+                        hours = int(time_text.replace('小时前', '').strip())
+                        pub_date = datetime.now() - timedelta(hours=hours)
+                    elif '天前' in time_text:
+                        days = int(time_text.replace('天前', '').strip())
+                        pub_date = datetime.now() - timedelta(days=days)
+                    else:
+                        # 尝试解析具体日期格式
+                        pub_date = datetime.strptime(time_text, '%Y-%m-%d %H:%M:%S')
+                except:
+                    pub_date = datetime.now()
             
-            # 构建文章详情
+            print(f"[Gelonghui Debug] Article ID: {article_id} - Publish date: {pub_date.isoformat()}")
+            
+            # 提取文章中的第一张图片作为封面图
+            image_url = ""
+            img_elem = soup.select_one('img')
+            if img_elem:
+                image_url = img_elem.get("src", "")
+            
+            # 提取文章摘要
+            summary = ""
+            if content:
+                summary = content[:200] + "..." if len(content) > 200 else content
+            
+            # 构建基础文章详情
             article_detail = {
                 "id": article_id,
                 "title": title,
-                "pubDate": pub_date,
-                "author": author,
-                "content": content,
+                "content": html_content,
                 "summary": summary,
-                "imageUrl": image_url,
-                "tags": tags,
-                "source": "格隆汇"
+                "url": url,
+                "pubDate": pub_date.isoformat(),
+                "source": "格隆汇",
+                "category": "财经",
+                "author": "格隆汇",
+                "imageUrl": image_url
             }
             
+            print(f"[Gelonghui Debug] Article ID: {article_id} - Starting search enhancement...")
+            
+            # 使用SearxNG进行搜索增强
+            try:
+                search_results = self.search_service.search_related_news(title)
+                if search_results:
+                    article_detail["search_results"] = search_results
+                    print(f"[Gelonghui Debug] Article ID: {article_id} - Search enhancement completed with {len(search_results)} results.")
+                else:
+                    print(f"[Gelonghui Warn] Article ID: {article_id} - Search enhancement returned no results.")
+            except Exception as e:
+                print(f"[Gelonghui Error] Article ID: {article_id} - Search enhancement failed: {str(e)}")
+                article_detail["search_results"] = []
+            
+            print(f"[Gelonghui Debug] Article ID: {article_id} - Starting AI analysis...")
+            
+            # 使用DeepSeek进行AI分析
+            try:
+                analysis_result = self.finance_analyzer.generate_comprehensive_analysis(
+                    title=title,
+                    content=content, 
+                    search_results=article_detail.get("search_results", [])
+                )
+                if analysis_result:
+                    article_detail.update(analysis_result)
+                    print(f"[Gelonghui Debug] Article ID: {article_id} - AI analysis completed successfully.")
+                else:
+                    print(f"[Gelonghui Warn] Article ID: {article_id} - AI analysis returned no results.")
+            except Exception as e:
+                print(f"[Gelonghui Error] Article ID: {article_id} - AI analysis failed: {str(e)}")
+            
+            print(f"[Gelonghui Debug] Article ID: {article_id} - Starting database save...")
+            
+            # 保存到数据库
+            try:
+                save_result = self.db_client.save_article(article_detail)
+                if save_result:
+                    article_detail["processed_immediately"] = True
+                    print(f"[Gelonghui Debug] Article ID: {article_id} - Successfully saved to database with immediate processing flag.")
+                else:
+                    article_detail["processed_immediately"] = False
+                    print(f"[Gelonghui Warn] Article ID: {article_id} - Failed to save to database.")
+            except Exception as e:
+                print(f"[Gelonghui Error] Article ID: {article_id} - Database save failed: {str(e)}")
+                article_detail["processed_immediately"] = False
+            
+            print(f"[Gelonghui Debug] Article ID: {article_id} - Processing completed successfully.")
             return article_detail
         
         except Exception as e:
-            print(f"获取格隆汇文章详情异常: {str(e)}")
+            print(f"[Gelonghui Error] 获取格隆汇文章详情异常: {str(e)}")
+            logger.error(f"获取格隆汇文章详情异常: {str(e)}")
             return None
     
     def get_flash_news(self, page=1, limit=20):

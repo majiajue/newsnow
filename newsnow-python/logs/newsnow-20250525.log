@@ -1,0 +1,1756 @@
+2025-05-25 17:20:02,181 - __main__ - INFO - 财经新闻处理系统启动中...
+2025-05-25 17:20:02,181 - __main__ - INFO - 正在启动处理器...
+2025-05-25 17:20:02,183 - db.sqlite_client - INFO - SQLite数据库初始化完成: /Users/majiajue/Desktop/newsnow/newsnow-python/data/newsnow.db
+2025-05-25 17:20:02,183 - processors.article_analyzer - WARNING - 未找到 DeepSeek API 密钥，将使用默认分析服务
+2025-05-25 17:20:02,183 - processors.article_analyzer - INFO - 文章处理器初始化完成，使用 DeepSeek: False
+2025-05-25 17:20:02,184 - __main__ - INFO - 开始执行处理器任务...
+2025-05-25 17:20:02,184 - processors.article_analyzer - INFO - 获取未处理文章: limit=20, source=全部
+2025-05-25 17:20:02,184 - db.sqlite_client - INFO - 获取到 0 篇未处理的文章
+2025-05-25 17:20:02,184 - processors.article_analyzer - INFO - 没有找到需要处理的文章
+2025-05-25 17:20:02,184 - __main__ - INFO - 没有找到需要处理的文章
+2025-05-25 17:20:02,184 - __main__ - INFO - 所有任务已完成
+2025-05-25 17:23:09,047 - __main__ - INFO - 财经新闻处理系统启动中...
+2025-05-25 17:23:09,047 - __main__ - INFO - 正在启动处理器...
+2025-05-25 17:23:09,048 - db.sqlite_client - INFO - SQLite数据库初始化完成: /Users/majiajue/Desktop/newsnow/newsnow-python/data/newsnow.db
+2025-05-25 17:23:09,048 - processors.article_analyzer - INFO - 初始化 DeepSeek AI 服务成功
+2025-05-25 17:23:09,048 - processors.article_analyzer - INFO - 文章处理器初始化完成，使用 DeepSeek: True
+2025-05-25 17:23:09,048 - __main__ - INFO - 开始执行处理器任务...
+2025-05-25 17:23:09,048 - processors.article_analyzer - INFO - 获取未处理文章: limit=20, source=全部
+2025-05-25 17:23:09,048 - db.sqlite_client - INFO - 获取到 20 篇未处理的文章
+2025-05-25 17:23:09,048 - processors.article_analyzer - INFO - 开始批量处理 20 篇文章
+2025-05-25 17:23:09,048 - processors.article_analyzer - INFO - [1/20] 开始处理文章 ID: /cn/news-detail/4329730_1
+2025-05-25 17:23:09,048 - processors.article_analyzer - INFO - 开始处理文章: [FastBull] “大而美”要大改？特朗普税改法案在参议院面临阻力 (ID: /cn/news-detail/4329730_1)
+2025-05-25 17:23:09,048 - processors.article_analyzer - WARNING - 文章内容无效或过短: “大而美”要大改？特朗普税改法案在参议院面临阻力
+2025-05-25 17:23:09,048 - processors.article_analyzer - WARNING - 使用标题作为内容: “大而美”要大改？特朗普税改法案在参议院面临阻力
+2025-05-25 17:23:09,048 - processors.article_analyzer - INFO - 提取到干净内容，长度: 24 字符
+2025-05-25 17:23:09,048 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: “大而美”要大改？特朗普税改法案在参议院面临阻力
+2025-05-25 17:23:09,048 - processors.article_analyzer - ERROR - 处理文章异常: 'FinanceAnalyzer' object has no attribute 'analyze_finance_article'
+2025-05-25 17:23:09,049 - processors.article_analyzer - INFO - [2/20] 开始处理文章 ID: /cn/news-detail/4329733_1
+2025-05-25 17:23:09,049 - processors.article_analyzer - INFO - 开始处理文章: [FastBull] 欧盟欲将“北溪二号”纳入制裁范围，德国总理支持这一提议 (ID: /cn/news-detail/4329733_1)
+2025-05-25 17:23:09,049 - processors.article_analyzer - WARNING - 文章内容无效或过短: 欧盟欲将“北溪二号”纳入制裁范围，德国总理支持这一提议
+2025-05-25 17:23:09,049 - processors.article_analyzer - WARNING - 使用标题作为内容: 欧盟欲将“北溪二号”纳入制裁范围，德国总理支持这一提议
+2025-05-25 17:23:09,049 - processors.article_analyzer - INFO - 提取到干净内容，长度: 27 字符
+2025-05-25 17:23:09,049 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 欧盟欲将“北溪二号”纳入制裁范围，德国总理支持这一提议
+2025-05-25 17:23:09,049 - processors.article_analyzer - ERROR - 处理文章异常: 'FinanceAnalyzer' object has no attribute 'analyze_finance_article'
+2025-05-25 17:23:09,049 - processors.article_analyzer - INFO - [3/20] 开始处理文章 ID: /cn/news-detail/4329295_1
+2025-05-25 17:23:09,049 - processors.article_analyzer - INFO - 开始处理文章: [FastBull] 美元、日元、人民币的未来走势如何？ (ID: /cn/news-detail/4329295_1)
+2025-05-25 17:23:09,049 - processors.article_analyzer - WARNING - 文章内容无效或过短: 美元、日元、人民币的未来走势如何？
+2025-05-25 17:23:09,049 - processors.article_analyzer - WARNING - 使用标题作为内容: 美元、日元、人民币的未来走势如何？
+2025-05-25 17:23:09,049 - processors.article_analyzer - INFO - 提取到干净内容，长度: 17 字符
+2025-05-25 17:23:09,049 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 美元、日元、人民币的未来走势如何？
+2025-05-25 17:23:09,049 - processors.article_analyzer - ERROR - 处理文章异常: 'FinanceAnalyzer' object has no attribute 'analyze_finance_article'
+2025-05-25 17:23:09,049 - processors.article_analyzer - INFO - [4/20] 开始处理文章 ID: /cn/news-detail/4329296_1
+2025-05-25 17:23:09,049 - processors.article_analyzer - INFO - 开始处理文章: [FastBull] 中国内需越强，关税战越占优 (ID: /cn/news-detail/4329296_1)
+2025-05-25 17:23:09,049 - processors.article_analyzer - WARNING - 文章内容无效或过短: 中国内需越强，关税战越占优
+2025-05-25 17:23:09,049 - processors.article_analyzer - WARNING - 使用标题作为内容: 中国内需越强，关税战越占优
+2025-05-25 17:23:09,049 - processors.article_analyzer - INFO - 提取到干净内容，长度: 13 字符
+2025-05-25 17:23:09,049 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 中国内需越强，关税战越占优
+2025-05-25 17:23:09,049 - processors.article_analyzer - ERROR - 处理文章异常: 'FinanceAnalyzer' object has no attribute 'analyze_finance_article'
+2025-05-25 17:23:09,050 - processors.article_analyzer - INFO - [5/20] 开始处理文章 ID: /cn/news-detail/4329303_1
+2025-05-25 17:23:09,050 - processors.article_analyzer - INFO - 开始处理文章: [FastBull] 停火90天，关税警钟为何仍未解除？ (ID: /cn/news-detail/4329303_1)
+2025-05-25 17:23:09,050 - processors.article_analyzer - WARNING - 文章内容无效或过短: 停火90天，关税警钟为何仍未解除？
+2025-05-25 17:23:09,050 - processors.article_analyzer - WARNING - 使用标题作为内容: 停火90天，关税警钟为何仍未解除？
+2025-05-25 17:23:09,050 - processors.article_analyzer - INFO - 提取到干净内容，长度: 17 字符
+2025-05-25 17:23:09,050 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 停火90天，关税警钟为何仍未解除？
+2025-05-25 17:23:09,050 - processors.article_analyzer - ERROR - 处理文章异常: 'FinanceAnalyzer' object has no attribute 'analyze_finance_article'
+2025-05-25 17:23:09,050 - processors.article_analyzer - INFO - [6/20] 开始处理文章 ID: /cn/news-detail/4329488_1
+2025-05-25 17:23:09,050 - processors.article_analyzer - INFO - 开始处理文章: [FastBull] 经济焦虑与民族主义：越南如何应对特朗普关税风暴 (ID: /cn/news-detail/4329488_1)
+2025-05-25 17:23:09,050 - processors.article_analyzer - WARNING - 文章内容无效或过短: 经济焦虑与民族主义：越南如何应对特朗普关税风暴
+2025-05-25 17:23:09,050 - processors.article_analyzer - WARNING - 使用标题作为内容: 经济焦虑与民族主义：越南如何应对特朗普关税风暴
+2025-05-25 17:23:09,050 - processors.article_analyzer - INFO - 提取到干净内容，长度: 23 字符
+2025-05-25 17:23:09,050 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 经济焦虑与民族主义：越南如何应对特朗普关税风暴
+2025-05-25 17:23:09,050 - processors.article_analyzer - ERROR - 处理文章异常: 'FinanceAnalyzer' object has no attribute 'analyze_finance_article'
+2025-05-25 17:23:09,050 - processors.article_analyzer - INFO - [7/20] 开始处理文章 ID: /cn/news-detail/4329500_1
+2025-05-25 17:23:09,050 - processors.article_analyzer - INFO - 开始处理文章: [FastBull] 特朗普的国际新秩序：从山巅之城到丛林现实 (ID: /cn/news-detail/4329500_1)
+2025-05-25 17:23:09,050 - processors.article_analyzer - WARNING - 文章内容无效或过短: 特朗普的国际新秩序：从山巅之城到丛林现实
+2025-05-25 17:23:09,050 - processors.article_analyzer - WARNING - 使用标题作为内容: 特朗普的国际新秩序：从山巅之城到丛林现实
+2025-05-25 17:23:09,050 - processors.article_analyzer - INFO - 提取到干净内容，长度: 20 字符
+2025-05-25 17:23:09,050 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 特朗普的国际新秩序：从山巅之城到丛林现实
+2025-05-25 17:23:09,050 - processors.article_analyzer - ERROR - 处理文章异常: 'FinanceAnalyzer' object has no attribute 'analyze_finance_article'
+2025-05-25 17:23:09,051 - processors.article_analyzer - INFO - [8/20] 开始处理文章 ID: /cn/news-detail/4329687_1
+2025-05-25 17:23:09,051 - processors.article_analyzer - INFO - 开始处理文章: [FastBull] 特朗普欲对欧盟征收50%关税，对苹果收25%关税 (ID: /cn/news-detail/4329687_1)
+2025-05-25 17:23:09,051 - processors.article_analyzer - WARNING - 文章内容无效或过短: 特朗普欲对欧盟征收50%关税，对苹果收25%关税
+2025-05-25 17:23:09,051 - processors.article_analyzer - WARNING - 使用标题作为内容: 特朗普欲对欧盟征收50%关税，对苹果收25%关税
+2025-05-25 17:23:09,051 - processors.article_analyzer - INFO - 提取到干净内容，长度: 24 字符
+2025-05-25 17:23:09,051 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 特朗普欲对欧盟征收50%关税，对苹果收25%关税
+2025-05-25 17:23:09,051 - processors.article_analyzer - ERROR - 处理文章异常: 'FinanceAnalyzer' object has no attribute 'analyze_finance_article'
+2025-05-25 17:23:09,051 - processors.article_analyzer - INFO - [9/20] 开始处理文章 ID: /cn/news-detail/4329667_1
+2025-05-25 17:23:09,051 - processors.article_analyzer - INFO - 开始处理文章: [FastBull] 面上减税，背地搞钱——“美丽大法案”解析 (ID: /cn/news-detail/4329667_1)
+2025-05-25 17:23:09,051 - processors.article_analyzer - WARNING - 文章内容无效或过短: 面上减税，背地搞钱——“美丽大法案”解析
+2025-05-25 17:23:09,051 - processors.article_analyzer - WARNING - 使用标题作为内容: 面上减税，背地搞钱——“美丽大法案”解析
+2025-05-25 17:23:09,051 - processors.article_analyzer - INFO - 提取到干净内容，长度: 20 字符
+2025-05-25 17:23:09,051 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 面上减税，背地搞钱——“美丽大法案”解析
+2025-05-25 17:23:09,051 - processors.article_analyzer - ERROR - 处理文章异常: 'FinanceAnalyzer' object has no attribute 'analyze_finance_article'
+2025-05-25 17:23:09,051 - processors.article_analyzer - INFO - [10/20] 开始处理文章 ID: /cn/news-detail/4329530_1
+2025-05-25 17:23:09,051 - processors.article_analyzer - INFO - 开始处理文章: [fastbull] 美国首次申请失业救济人数创四周低点，表明就业市场依然健康 (ID: /cn/news-detail/4329530_1)
+2025-05-25 17:23:09,051 - processors.article_analyzer - WARNING - 文章内容无效或过短: 美国首次申请失业救济人数创四周低点，表明就业市场依然健康
+2025-05-25 17:23:09,051 - processors.article_analyzer - WARNING - 使用标题作为内容: 美国首次申请失业救济人数创四周低点，表明就业市场依然健康
+2025-05-25 17:23:09,051 - processors.article_analyzer - INFO - 提取到干净内容，长度: 28 字符
+2025-05-25 17:23:09,051 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 美国首次申请失业救济人数创四周低点，表明就业市场依然健康
+2025-05-25 17:23:09,051 - processors.article_analyzer - ERROR - 处理文章异常: 'FinanceAnalyzer' object has no attribute 'analyze_finance_article'
+2025-05-25 17:23:09,052 - processors.article_analyzer - INFO - [11/20] 开始处理文章 ID: /cn/news-detail/4329536_1
+2025-05-25 17:23:09,052 - processors.article_analyzer - INFO - 开始处理文章: [fastbull] 美国5月商业活动改善，尽管面临关税引发的价格压力 (ID: /cn/news-detail/4329536_1)
+2025-05-25 17:23:09,052 - processors.article_analyzer - WARNING - 文章内容无效或过短: 美国5月商业活动改善，尽管面临关税引发的价格压力
+2025-05-25 17:23:09,052 - processors.article_analyzer - WARNING - 使用标题作为内容: 美国5月商业活动改善，尽管面临关税引发的价格压力
+2025-05-25 17:23:09,052 - processors.article_analyzer - INFO - 提取到干净内容，长度: 24 字符
+2025-05-25 17:23:09,052 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 美国5月商业活动改善，尽管面临关税引发的价格压力
+2025-05-25 17:23:09,052 - processors.article_analyzer - ERROR - 处理文章异常: 'FinanceAnalyzer' object has no attribute 'analyze_finance_article'
+2025-05-25 17:23:09,052 - processors.article_analyzer - INFO - [12/20] 开始处理文章 ID: /cn/news-detail/4329493_1
+2025-05-25 17:23:09,052 - processors.article_analyzer - INFO - 开始处理文章: [fastbull] 拿俄罗斯经济开刀，就可能把普京逼上谈判桌？ (ID: /cn/news-detail/4329493_1)
+2025-05-25 17:23:09,052 - processors.article_analyzer - WARNING - 文章内容无效或过短: 拿俄罗斯经济开刀，就可能把普京逼上谈判桌？
+2025-05-25 17:23:09,052 - processors.article_analyzer - WARNING - 使用标题作为内容: 拿俄罗斯经济开刀，就可能把普京逼上谈判桌？
+2025-05-25 17:23:09,052 - processors.article_analyzer - INFO - 提取到干净内容，长度: 21 字符
+2025-05-25 17:23:09,052 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 拿俄罗斯经济开刀，就可能把普京逼上谈判桌？
+2025-05-25 17:23:09,052 - processors.article_analyzer - ERROR - 处理文章异常: 'FinanceAnalyzer' object has no attribute 'analyze_finance_article'
+2025-05-25 17:23:09,053 - processors.article_analyzer - INFO - [13/20] 开始处理文章 ID: /cn/news-detail/4329507_1
+2025-05-25 17:23:09,053 - processors.article_analyzer - INFO - 开始处理文章: [fastbull] WTI原油中期展望：交易员减持多头头寸，看跌风险加剧 (ID: /cn/news-detail/4329507_1)
+2025-05-25 17:23:09,053 - processors.article_analyzer - WARNING - 文章内容无效或过短: WTI原油中期展望：交易员减持多头头寸，看跌风险加剧
+2025-05-25 17:23:09,053 - processors.article_analyzer - WARNING - 使用标题作为内容: WTI原油中期展望：交易员减持多头头寸，看跌风险加剧
+2025-05-25 17:23:09,053 - processors.article_analyzer - INFO - 提取到干净内容，长度: 26 字符
+2025-05-25 17:23:09,053 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: WTI原油中期展望：交易员减持多头头寸，看跌风险加剧
+2025-05-25 17:23:09,053 - processors.article_analyzer - ERROR - 处理文章异常: 'FinanceAnalyzer' object has no attribute 'analyze_finance_article'
+2025-05-25 17:23:09,053 - processors.article_analyzer - INFO - [14/20] 开始处理文章 ID: /cn/news-detail/4329460_1
+2025-05-25 17:23:09,053 - processors.article_analyzer - INFO - 开始处理文章: [fastbull] 美债信用风险与美元信用下滑形成共振，需警惕其向全球金融市场传导 (ID: /cn/news-detail/4329460_1)
+2025-05-25 17:23:09,053 - processors.article_analyzer - WARNING - 文章内容无效或过短: 美债信用风险与美元信用下滑形成共振，需警惕其向全球金融市场传导
+2025-05-25 17:23:09,053 - processors.article_analyzer - WARNING - 使用标题作为内容: 美债信用风险与美元信用下滑形成共振，需警惕其向全球金融市场传导
+2025-05-25 17:23:09,053 - processors.article_analyzer - INFO - 提取到干净内容，长度: 31 字符
+2025-05-25 17:23:09,053 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 美债信用风险与美元信用下滑形成共振，需警惕其向全球金融市场传导
+2025-05-25 17:23:09,053 - processors.article_analyzer - ERROR - 处理文章异常: 'FinanceAnalyzer' object has no attribute 'analyze_finance_article'
+2025-05-25 17:23:09,054 - processors.article_analyzer - INFO - [15/20] 开始处理文章 ID: /cn/news-detail/4329508_1
+2025-05-25 17:23:09,054 - processors.article_analyzer - INFO - 开始处理文章: [fastbull] 关税阻力下的经济韧性被花旗视为"暴风雨前的平静" (ID: /cn/news-detail/4329508_1)
+2025-05-25 17:23:09,054 - processors.article_analyzer - WARNING - 文章内容无效或过短: 关税阻力下的经济韧性被花旗视为"暴风雨前的平静"
+2025-05-25 17:23:09,054 - processors.article_analyzer - WARNING - 使用标题作为内容: 关税阻力下的经济韧性被花旗视为"暴风雨前的平静"
+2025-05-25 17:23:09,054 - processors.article_analyzer - INFO - 提取到干净内容，长度: 24 字符
+2025-05-25 17:23:09,054 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 关税阻力下的经济韧性被花旗视为"暴风雨前的平静"
+2025-05-25 17:23:09,054 - processors.article_analyzer - ERROR - 处理文章异常: 'FinanceAnalyzer' object has no attribute 'analyze_finance_article'
+2025-05-25 17:23:09,055 - processors.article_analyzer - INFO - [16/20] 开始处理文章 ID: /cn/news-detail/4329516_1
+2025-05-25 17:23:09,055 - processors.article_analyzer - INFO - 开始处理文章: [fastbull] 欧元区5月PMI意外萎缩，服务业创16个月来最差表现 (ID: /cn/news-detail/4329516_1)
+2025-05-25 17:23:09,055 - processors.article_analyzer - WARNING - 文章内容无效或过短: 欧元区5月PMI意外萎缩，服务业创16个月来最差表现
+2025-05-25 17:23:09,055 - processors.article_analyzer - WARNING - 使用标题作为内容: 欧元区5月PMI意外萎缩，服务业创16个月来最差表现
+2025-05-25 17:23:09,055 - processors.article_analyzer - INFO - 提取到干净内容，长度: 26 字符
+2025-05-25 17:23:09,055 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 欧元区5月PMI意外萎缩，服务业创16个月来最差表现
+2025-05-25 17:23:09,055 - processors.article_analyzer - ERROR - 处理文章异常: 'FinanceAnalyzer' object has no attribute 'analyze_finance_article'
+2025-05-25 17:23:09,055 - processors.article_analyzer - INFO - [17/20] 开始处理文章 ID: /cn/news-detail/4329524_1
+2025-05-25 17:23:09,055 - processors.article_analyzer - INFO - 开始处理文章: [fastbull] 市场消化降息预期，澳元/美元难破关键阻力 (ID: /cn/news-detail/4329524_1)
+2025-05-25 17:23:09,055 - processors.article_analyzer - WARNING - 文章内容无效或过短: 市场消化降息预期，澳元/美元难破关键阻力
+2025-05-25 17:23:09,055 - processors.article_analyzer - WARNING - 使用标题作为内容: 市场消化降息预期，澳元/美元难破关键阻力
+2025-05-25 17:23:09,055 - processors.article_analyzer - INFO - 提取到干净内容，长度: 20 字符
+2025-05-25 17:23:09,055 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 市场消化降息预期，澳元/美元难破关键阻力
+2025-05-25 17:23:09,055 - processors.article_analyzer - ERROR - 处理文章异常: 'FinanceAnalyzer' object has no attribute 'analyze_finance_article'
+2025-05-25 17:23:09,055 - processors.article_analyzer - INFO - [18/20] 开始处理文章 ID: /cn/news-detail/4329491_1
+2025-05-25 17:23:09,055 - processors.article_analyzer - INFO - 开始处理文章: [fastbull] 日本实际工资连续3年负增长，受高物价拖累 (ID: /cn/news-detail/4329491_1)
+2025-05-25 17:23:09,055 - processors.article_analyzer - WARNING - 文章内容无效或过短: 日本实际工资连续3年负增长，受高物价拖累
+2025-05-25 17:23:09,055 - processors.article_analyzer - WARNING - 使用标题作为内容: 日本实际工资连续3年负增长，受高物价拖累
+2025-05-25 17:23:09,055 - processors.article_analyzer - INFO - 提取到干净内容，长度: 20 字符
+2025-05-25 17:23:09,055 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 日本实际工资连续3年负增长，受高物价拖累
+2025-05-25 17:23:09,055 - processors.article_analyzer - ERROR - 处理文章异常: 'FinanceAnalyzer' object has no attribute 'analyze_finance_article'
+2025-05-25 17:23:09,056 - processors.article_analyzer - INFO - [19/20] 开始处理文章 ID: /cn/news-detail/4329511_1
+2025-05-25 17:23:09,056 - processors.article_analyzer - INFO - 开始处理文章: [fastbull] 暂停降息呼声渐起！关税冲击恐打乱欧洲央行宽松步伐 (ID: /cn/news-detail/4329511_1)
+2025-05-25 17:23:09,056 - processors.article_analyzer - WARNING - 文章内容无效或过短: 暂停降息呼声渐起！关税冲击恐打乱欧洲央行宽松步伐
+2025-05-25 17:23:09,056 - processors.article_analyzer - WARNING - 使用标题作为内容: 暂停降息呼声渐起！关税冲击恐打乱欧洲央行宽松步伐
+2025-05-25 17:23:09,056 - processors.article_analyzer - INFO - 提取到干净内容，长度: 24 字符
+2025-05-25 17:23:09,056 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 暂停降息呼声渐起！关税冲击恐打乱欧洲央行宽松步伐
+2025-05-25 17:23:09,056 - processors.article_analyzer - ERROR - 处理文章异常: 'FinanceAnalyzer' object has no attribute 'analyze_finance_article'
+2025-05-25 17:23:09,056 - processors.article_analyzer - INFO - [20/20] 开始处理文章 ID: 
+2025-05-25 17:23:09,056 - processors.article_analyzer - INFO - 开始处理文章: [google finance] 特朗普再抛关税威胁！欧债应声上涨交易员加码押注欧央行 ... (ID: )
+2025-05-25 17:23:09,057 - processors.article_analyzer - INFO - 提取到干净内容，长度: 97 字符
+2025-05-25 17:23:09,057 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 特朗普再抛关税威胁！欧债应声上涨交易员加码押注欧央行 ...
+2025-05-25 17:23:09,057 - processors.article_analyzer - ERROR - 处理文章异常: 'FinanceAnalyzer' object has no attribute 'analyze_finance_article'
+2025-05-25 17:23:09,057 - processors.article_analyzer - INFO - 批处理完成: 总计 20 篇文章, 成功 0 篇, 失败 20 篇
+2025-05-25 17:23:09,057 - processors.article_analyzer - INFO - 总耗时: 0.01秒, 平均每篇: 0.00秒
+2025-05-25 17:23:09,057 - __main__ - INFO - 处理完成: 总计 20 篇文章, 成功 0 篇, 失败 20 篇
+2025-05-25 17:23:09,057 - __main__ - INFO - 所有任务已完成
+2025-05-25 17:24:46,308 - __main__ - INFO - 财经新闻处理系统启动中...
+2025-05-25 17:24:46,308 - __main__ - INFO - 正在启动处理器...
+2025-05-25 17:24:46,308 - db.sqlite_client - INFO - SQLite数据库初始化完成: /Users/majiajue/Desktop/newsnow/newsnow-python/data/newsnow.db
+2025-05-25 17:24:46,308 - processors.article_analyzer - WARNING - 未找到 DeepSeek API 密钥，将使用默认分析服务
+2025-05-25 17:24:46,308 - processors.article_analyzer - INFO - 文章处理器初始化完成，使用 DeepSeek: False
+2025-05-25 17:24:46,308 - __main__ - INFO - 开始执行处理器任务...
+2025-05-25 17:24:46,309 - processors.article_analyzer - INFO - 获取未处理文章: limit=20, source=全部
+2025-05-25 17:24:46,309 - db.sqlite_client - INFO - 获取到 20 篇未处理的文章
+2025-05-25 17:24:46,309 - processors.article_analyzer - INFO - 开始批量处理 20 篇文章
+2025-05-25 17:24:46,309 - processors.article_analyzer - INFO - [1/20] 开始处理文章 ID: /cn/news-detail/4329730_1
+2025-05-25 17:24:46,309 - processors.article_analyzer - INFO - 开始处理文章: [FastBull] “大而美”要大改？特朗普税改法案在参议院面临阻力 (ID: /cn/news-detail/4329730_1)
+2025-05-25 17:24:46,309 - processors.article_analyzer - WARNING - 文章内容无效或过短: “大而美”要大改？特朗普税改法案在参议院面临阻力
+2025-05-25 17:24:46,309 - processors.article_analyzer - WARNING - 使用标题作为内容: “大而美”要大改？特朗普税改法案在参议院面临阻力
+2025-05-25 17:24:46,309 - processors.article_analyzer - INFO - 提取到干净内容，长度: 24 字符
+2025-05-25 17:24:46,309 - processors.article_analyzer - INFO - 分析完成，耗时: 0.00秒
+2025-05-25 17:24:46,309 - processors.article_analyzer - INFO - 分析结果: 摘要(24字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 17:24:46,309 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=/cn/news-detail/4329730_1
+2025-05-25 17:24:46,309 - processors.article_analyzer - INFO - 文章处理成功: “大而美”要大改？特朗普税改法案在参议院面临阻力
+2025-05-25 17:24:46,309 - processors.article_analyzer - INFO - [2/20] 开始处理文章 ID: /cn/news-detail/4329733_1
+2025-05-25 17:24:46,309 - processors.article_analyzer - INFO - 开始处理文章: [FastBull] 欧盟欲将“北溪二号”纳入制裁范围，德国总理支持这一提议 (ID: /cn/news-detail/4329733_1)
+2025-05-25 17:24:46,309 - processors.article_analyzer - WARNING - 文章内容无效或过短: 欧盟欲将“北溪二号”纳入制裁范围，德国总理支持这一提议
+2025-05-25 17:24:46,309 - processors.article_analyzer - WARNING - 使用标题作为内容: 欧盟欲将“北溪二号”纳入制裁范围，德国总理支持这一提议
+2025-05-25 17:24:46,309 - processors.article_analyzer - INFO - 提取到干净内容，长度: 27 字符
+2025-05-25 17:24:46,309 - processors.article_analyzer - INFO - 分析完成，耗时: 0.00秒
+2025-05-25 17:24:46,309 - processors.article_analyzer - INFO - 分析结果: 摘要(27字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 17:24:46,310 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=/cn/news-detail/4329733_1
+2025-05-25 17:24:46,310 - processors.article_analyzer - INFO - 文章处理成功: 欧盟欲将“北溪二号”纳入制裁范围，德国总理支持这一提议
+2025-05-25 17:24:46,310 - processors.article_analyzer - INFO - [3/20] 开始处理文章 ID: /cn/news-detail/4329295_1
+2025-05-25 17:24:46,310 - processors.article_analyzer - INFO - 开始处理文章: [FastBull] 美元、日元、人民币的未来走势如何？ (ID: /cn/news-detail/4329295_1)
+2025-05-25 17:24:46,310 - processors.article_analyzer - WARNING - 文章内容无效或过短: 美元、日元、人民币的未来走势如何？
+2025-05-25 17:24:46,310 - processors.article_analyzer - WARNING - 使用标题作为内容: 美元、日元、人民币的未来走势如何？
+2025-05-25 17:24:46,310 - processors.article_analyzer - INFO - 提取到干净内容，长度: 17 字符
+2025-05-25 17:24:46,310 - processors.article_analyzer - INFO - 分析完成，耗时: 0.00秒
+2025-05-25 17:24:46,310 - processors.article_analyzer - INFO - 分析结果: 摘要(17字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 17:24:46,310 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=/cn/news-detail/4329295_1
+2025-05-25 17:24:46,310 - processors.article_analyzer - INFO - 文章处理成功: 美元、日元、人民币的未来走势如何？
+2025-05-25 17:24:46,310 - processors.article_analyzer - INFO - [4/20] 开始处理文章 ID: /cn/news-detail/4329296_1
+2025-05-25 17:24:46,310 - processors.article_analyzer - INFO - 开始处理文章: [FastBull] 中国内需越强，关税战越占优 (ID: /cn/news-detail/4329296_1)
+2025-05-25 17:24:46,310 - processors.article_analyzer - WARNING - 文章内容无效或过短: 中国内需越强，关税战越占优
+2025-05-25 17:24:46,310 - processors.article_analyzer - WARNING - 使用标题作为内容: 中国内需越强，关税战越占优
+2025-05-25 17:24:46,310 - processors.article_analyzer - INFO - 提取到干净内容，长度: 13 字符
+2025-05-25 17:24:46,310 - processors.article_analyzer - INFO - 分析完成，耗时: 0.00秒
+2025-05-25 17:24:46,310 - processors.article_analyzer - INFO - 分析结果: 摘要(13字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 17:24:46,311 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=/cn/news-detail/4329296_1
+2025-05-25 17:24:46,311 - processors.article_analyzer - INFO - 文章处理成功: 中国内需越强，关税战越占优
+2025-05-25 17:24:46,311 - processors.article_analyzer - INFO - [5/20] 开始处理文章 ID: /cn/news-detail/4329303_1
+2025-05-25 17:24:46,311 - processors.article_analyzer - INFO - 开始处理文章: [FastBull] 停火90天，关税警钟为何仍未解除？ (ID: /cn/news-detail/4329303_1)
+2025-05-25 17:24:46,311 - processors.article_analyzer - WARNING - 文章内容无效或过短: 停火90天，关税警钟为何仍未解除？
+2025-05-25 17:24:46,311 - processors.article_analyzer - WARNING - 使用标题作为内容: 停火90天，关税警钟为何仍未解除？
+2025-05-25 17:24:46,311 - processors.article_analyzer - INFO - 提取到干净内容，长度: 17 字符
+2025-05-25 17:24:46,311 - processors.article_analyzer - INFO - 分析完成，耗时: 0.00秒
+2025-05-25 17:24:46,311 - processors.article_analyzer - INFO - 分析结果: 摘要(17字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 17:24:46,311 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=/cn/news-detail/4329303_1
+2025-05-25 17:24:46,311 - processors.article_analyzer - INFO - 文章处理成功: 停火90天，关税警钟为何仍未解除？
+2025-05-25 17:24:46,311 - processors.article_analyzer - INFO - [6/20] 开始处理文章 ID: /cn/news-detail/4329488_1
+2025-05-25 17:24:46,311 - processors.article_analyzer - INFO - 开始处理文章: [FastBull] 经济焦虑与民族主义：越南如何应对特朗普关税风暴 (ID: /cn/news-detail/4329488_1)
+2025-05-25 17:24:46,311 - processors.article_analyzer - WARNING - 文章内容无效或过短: 经济焦虑与民族主义：越南如何应对特朗普关税风暴
+2025-05-25 17:24:46,311 - processors.article_analyzer - WARNING - 使用标题作为内容: 经济焦虑与民族主义：越南如何应对特朗普关税风暴
+2025-05-25 17:24:46,311 - processors.article_analyzer - INFO - 提取到干净内容，长度: 23 字符
+2025-05-25 17:24:46,311 - processors.article_analyzer - INFO - 分析完成，耗时: 0.00秒
+2025-05-25 17:24:46,311 - processors.article_analyzer - INFO - 分析结果: 摘要(23字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 17:24:46,312 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=/cn/news-detail/4329488_1
+2025-05-25 17:24:46,312 - processors.article_analyzer - INFO - 文章处理成功: 经济焦虑与民族主义：越南如何应对特朗普关税风暴
+2025-05-25 17:24:46,312 - processors.article_analyzer - INFO - [7/20] 开始处理文章 ID: /cn/news-detail/4329500_1
+2025-05-25 17:24:46,312 - processors.article_analyzer - INFO - 开始处理文章: [FastBull] 特朗普的国际新秩序：从山巅之城到丛林现实 (ID: /cn/news-detail/4329500_1)
+2025-05-25 17:24:46,312 - processors.article_analyzer - WARNING - 文章内容无效或过短: 特朗普的国际新秩序：从山巅之城到丛林现实
+2025-05-25 17:24:46,312 - processors.article_analyzer - WARNING - 使用标题作为内容: 特朗普的国际新秩序：从山巅之城到丛林现实
+2025-05-25 17:24:46,312 - processors.article_analyzer - INFO - 提取到干净内容，长度: 20 字符
+2025-05-25 17:24:46,312 - processors.article_analyzer - INFO - 分析完成，耗时: 0.00秒
+2025-05-25 17:24:46,312 - processors.article_analyzer - INFO - 分析结果: 摘要(20字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 17:24:46,312 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=/cn/news-detail/4329500_1
+2025-05-25 17:24:46,312 - processors.article_analyzer - INFO - 文章处理成功: 特朗普的国际新秩序：从山巅之城到丛林现实
+2025-05-25 17:24:46,312 - processors.article_analyzer - INFO - [8/20] 开始处理文章 ID: /cn/news-detail/4329687_1
+2025-05-25 17:24:46,312 - processors.article_analyzer - INFO - 开始处理文章: [FastBull] 特朗普欲对欧盟征收50%关税，对苹果收25%关税 (ID: /cn/news-detail/4329687_1)
+2025-05-25 17:24:46,312 - processors.article_analyzer - WARNING - 文章内容无效或过短: 特朗普欲对欧盟征收50%关税，对苹果收25%关税
+2025-05-25 17:24:46,312 - processors.article_analyzer - WARNING - 使用标题作为内容: 特朗普欲对欧盟征收50%关税，对苹果收25%关税
+2025-05-25 17:24:46,312 - processors.article_analyzer - INFO - 提取到干净内容，长度: 24 字符
+2025-05-25 17:24:46,312 - processors.article_analyzer - INFO - 分析完成，耗时: 0.00秒
+2025-05-25 17:24:46,312 - processors.article_analyzer - INFO - 分析结果: 摘要(24字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 17:24:46,312 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=/cn/news-detail/4329687_1
+2025-05-25 17:24:46,312 - processors.article_analyzer - INFO - 文章处理成功: 特朗普欲对欧盟征收50%关税，对苹果收25%关税
+2025-05-25 17:24:46,312 - processors.article_analyzer - INFO - [9/20] 开始处理文章 ID: /cn/news-detail/4329667_1
+2025-05-25 17:24:46,312 - processors.article_analyzer - INFO - 开始处理文章: [FastBull] 面上减税，背地搞钱——“美丽大法案”解析 (ID: /cn/news-detail/4329667_1)
+2025-05-25 17:24:46,312 - processors.article_analyzer - WARNING - 文章内容无效或过短: 面上减税，背地搞钱——“美丽大法案”解析
+2025-05-25 17:24:46,312 - processors.article_analyzer - WARNING - 使用标题作为内容: 面上减税，背地搞钱——“美丽大法案”解析
+2025-05-25 17:24:46,312 - processors.article_analyzer - INFO - 提取到干净内容，长度: 20 字符
+2025-05-25 17:24:46,312 - processors.article_analyzer - INFO - 分析完成，耗时: 0.00秒
+2025-05-25 17:24:46,312 - processors.article_analyzer - INFO - 分析结果: 摘要(20字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 17:24:46,313 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=/cn/news-detail/4329667_1
+2025-05-25 17:24:46,313 - processors.article_analyzer - INFO - 文章处理成功: 面上减税，背地搞钱——“美丽大法案”解析
+2025-05-25 17:24:46,313 - processors.article_analyzer - INFO - [10/20] 开始处理文章 ID: /cn/news-detail/4329530_1
+2025-05-25 17:24:46,313 - processors.article_analyzer - INFO - 开始处理文章: [fastbull] 美国首次申请失业救济人数创四周低点，表明就业市场依然健康 (ID: /cn/news-detail/4329530_1)
+2025-05-25 17:24:46,313 - processors.article_analyzer - WARNING - 文章内容无效或过短: 美国首次申请失业救济人数创四周低点，表明就业市场依然健康
+2025-05-25 17:24:46,313 - processors.article_analyzer - WARNING - 使用标题作为内容: 美国首次申请失业救济人数创四周低点，表明就业市场依然健康
+2025-05-25 17:24:46,313 - processors.article_analyzer - INFO - 提取到干净内容，长度: 28 字符
+2025-05-25 17:24:46,313 - processors.article_analyzer - INFO - 分析完成，耗时: 0.00秒
+2025-05-25 17:24:46,313 - processors.article_analyzer - INFO - 分析结果: 摘要(28字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 17:24:46,313 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=/cn/news-detail/4329530_1
+2025-05-25 17:24:46,313 - processors.article_analyzer - INFO - 文章处理成功: 美国首次申请失业救济人数创四周低点，表明就业市场依然健康
+2025-05-25 17:24:46,313 - processors.article_analyzer - INFO - [11/20] 开始处理文章 ID: /cn/news-detail/4329536_1
+2025-05-25 17:24:46,313 - processors.article_analyzer - INFO - 开始处理文章: [fastbull] 美国5月商业活动改善，尽管面临关税引发的价格压力 (ID: /cn/news-detail/4329536_1)
+2025-05-25 17:24:46,313 - processors.article_analyzer - WARNING - 文章内容无效或过短: 美国5月商业活动改善，尽管面临关税引发的价格压力
+2025-05-25 17:24:46,313 - processors.article_analyzer - WARNING - 使用标题作为内容: 美国5月商业活动改善，尽管面临关税引发的价格压力
+2025-05-25 17:24:46,313 - processors.article_analyzer - INFO - 提取到干净内容，长度: 24 字符
+2025-05-25 17:24:46,313 - processors.article_analyzer - INFO - 分析完成，耗时: 0.00秒
+2025-05-25 17:24:46,313 - processors.article_analyzer - INFO - 分析结果: 摘要(24字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 17:24:46,314 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=/cn/news-detail/4329536_1
+2025-05-25 17:24:46,314 - processors.article_analyzer - INFO - 文章处理成功: 美国5月商业活动改善，尽管面临关税引发的价格压力
+2025-05-25 17:24:46,314 - processors.article_analyzer - INFO - [12/20] 开始处理文章 ID: /cn/news-detail/4329493_1
+2025-05-25 17:24:46,314 - processors.article_analyzer - INFO - 开始处理文章: [fastbull] 拿俄罗斯经济开刀，就可能把普京逼上谈判桌？ (ID: /cn/news-detail/4329493_1)
+2025-05-25 17:24:46,314 - processors.article_analyzer - WARNING - 文章内容无效或过短: 拿俄罗斯经济开刀，就可能把普京逼上谈判桌？
+2025-05-25 17:24:46,314 - processors.article_analyzer - WARNING - 使用标题作为内容: 拿俄罗斯经济开刀，就可能把普京逼上谈判桌？
+2025-05-25 17:24:46,314 - processors.article_analyzer - INFO - 提取到干净内容，长度: 21 字符
+2025-05-25 17:24:46,314 - processors.article_analyzer - INFO - 分析完成，耗时: 0.00秒
+2025-05-25 17:24:46,314 - processors.article_analyzer - INFO - 分析结果: 摘要(21字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 17:24:46,314 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=/cn/news-detail/4329493_1
+2025-05-25 17:24:46,314 - processors.article_analyzer - INFO - 文章处理成功: 拿俄罗斯经济开刀，就可能把普京逼上谈判桌？
+2025-05-25 17:24:46,314 - processors.article_analyzer - INFO - [13/20] 开始处理文章 ID: /cn/news-detail/4329507_1
+2025-05-25 17:24:46,314 - processors.article_analyzer - INFO - 开始处理文章: [fastbull] WTI原油中期展望：交易员减持多头头寸，看跌风险加剧 (ID: /cn/news-detail/4329507_1)
+2025-05-25 17:24:46,314 - processors.article_analyzer - WARNING - 文章内容无效或过短: WTI原油中期展望：交易员减持多头头寸，看跌风险加剧
+2025-05-25 17:24:46,314 - processors.article_analyzer - WARNING - 使用标题作为内容: WTI原油中期展望：交易员减持多头头寸，看跌风险加剧
+2025-05-25 17:24:46,314 - processors.article_analyzer - INFO - 提取到干净内容，长度: 26 字符
+2025-05-25 17:24:46,314 - processors.article_analyzer - INFO - 分析完成，耗时: 0.00秒
+2025-05-25 17:24:46,314 - processors.article_analyzer - INFO - 分析结果: 摘要(26字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 17:24:46,314 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=/cn/news-detail/4329507_1
+2025-05-25 17:24:46,314 - processors.article_analyzer - INFO - 文章处理成功: WTI原油中期展望：交易员减持多头头寸，看跌风险加剧
+2025-05-25 17:24:46,314 - processors.article_analyzer - INFO - [14/20] 开始处理文章 ID: /cn/news-detail/4329460_1
+2025-05-25 17:24:46,314 - processors.article_analyzer - INFO - 开始处理文章: [fastbull] 美债信用风险与美元信用下滑形成共振，需警惕其向全球金融市场传导 (ID: /cn/news-detail/4329460_1)
+2025-05-25 17:24:46,314 - processors.article_analyzer - WARNING - 文章内容无效或过短: 美债信用风险与美元信用下滑形成共振，需警惕其向全球金融市场传导
+2025-05-25 17:24:46,314 - processors.article_analyzer - WARNING - 使用标题作为内容: 美债信用风险与美元信用下滑形成共振，需警惕其向全球金融市场传导
+2025-05-25 17:24:46,314 - processors.article_analyzer - INFO - 提取到干净内容，长度: 31 字符
+2025-05-25 17:24:46,314 - processors.article_analyzer - INFO - 分析完成，耗时: 0.00秒
+2025-05-25 17:24:46,314 - processors.article_analyzer - INFO - 分析结果: 摘要(31字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 17:24:46,315 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=/cn/news-detail/4329460_1
+2025-05-25 17:24:46,315 - processors.article_analyzer - INFO - 文章处理成功: 美债信用风险与美元信用下滑形成共振，需警惕其向全球金融市场传导
+2025-05-25 17:24:46,315 - processors.article_analyzer - INFO - [15/20] 开始处理文章 ID: /cn/news-detail/4329508_1
+2025-05-25 17:24:46,315 - processors.article_analyzer - INFO - 开始处理文章: [fastbull] 关税阻力下的经济韧性被花旗视为"暴风雨前的平静" (ID: /cn/news-detail/4329508_1)
+2025-05-25 17:24:46,315 - processors.article_analyzer - WARNING - 文章内容无效或过短: 关税阻力下的经济韧性被花旗视为"暴风雨前的平静"
+2025-05-25 17:24:46,315 - processors.article_analyzer - WARNING - 使用标题作为内容: 关税阻力下的经济韧性被花旗视为"暴风雨前的平静"
+2025-05-25 17:24:46,315 - processors.article_analyzer - INFO - 提取到干净内容，长度: 24 字符
+2025-05-25 17:24:46,315 - processors.article_analyzer - INFO - 分析完成，耗时: 0.00秒
+2025-05-25 17:24:46,315 - processors.article_analyzer - INFO - 分析结果: 摘要(24字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 17:24:46,315 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=/cn/news-detail/4329508_1
+2025-05-25 17:24:46,315 - processors.article_analyzer - INFO - 文章处理成功: 关税阻力下的经济韧性被花旗视为"暴风雨前的平静"
+2025-05-25 17:24:46,315 - processors.article_analyzer - INFO - [16/20] 开始处理文章 ID: /cn/news-detail/4329516_1
+2025-05-25 17:24:46,315 - processors.article_analyzer - INFO - 开始处理文章: [fastbull] 欧元区5月PMI意外萎缩，服务业创16个月来最差表现 (ID: /cn/news-detail/4329516_1)
+2025-05-25 17:24:46,315 - processors.article_analyzer - WARNING - 文章内容无效或过短: 欧元区5月PMI意外萎缩，服务业创16个月来最差表现
+2025-05-25 17:24:46,315 - processors.article_analyzer - WARNING - 使用标题作为内容: 欧元区5月PMI意外萎缩，服务业创16个月来最差表现
+2025-05-25 17:24:46,315 - processors.article_analyzer - INFO - 提取到干净内容，长度: 26 字符
+2025-05-25 17:24:46,315 - processors.article_analyzer - INFO - 分析完成，耗时: 0.00秒
+2025-05-25 17:24:46,315 - processors.article_analyzer - INFO - 分析结果: 摘要(26字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 17:24:46,316 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=/cn/news-detail/4329516_1
+2025-05-25 17:24:46,316 - processors.article_analyzer - INFO - 文章处理成功: 欧元区5月PMI意外萎缩，服务业创16个月来最差表现
+2025-05-25 17:24:46,316 - processors.article_analyzer - INFO - [17/20] 开始处理文章 ID: /cn/news-detail/4329524_1
+2025-05-25 17:24:46,316 - processors.article_analyzer - INFO - 开始处理文章: [fastbull] 市场消化降息预期，澳元/美元难破关键阻力 (ID: /cn/news-detail/4329524_1)
+2025-05-25 17:24:46,316 - processors.article_analyzer - WARNING - 文章内容无效或过短: 市场消化降息预期，澳元/美元难破关键阻力
+2025-05-25 17:24:46,316 - processors.article_analyzer - WARNING - 使用标题作为内容: 市场消化降息预期，澳元/美元难破关键阻力
+2025-05-25 17:24:46,316 - processors.article_analyzer - INFO - 提取到干净内容，长度: 20 字符
+2025-05-25 17:24:46,316 - processors.article_analyzer - INFO - 分析完成，耗时: 0.00秒
+2025-05-25 17:24:46,316 - processors.article_analyzer - INFO - 分析结果: 摘要(20字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 17:24:46,316 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=/cn/news-detail/4329524_1
+2025-05-25 17:24:46,316 - processors.article_analyzer - INFO - 文章处理成功: 市场消化降息预期，澳元/美元难破关键阻力
+2025-05-25 17:24:46,316 - processors.article_analyzer - INFO - [18/20] 开始处理文章 ID: /cn/news-detail/4329491_1
+2025-05-25 17:24:46,316 - processors.article_analyzer - INFO - 开始处理文章: [fastbull] 日本实际工资连续3年负增长，受高物价拖累 (ID: /cn/news-detail/4329491_1)
+2025-05-25 17:24:46,316 - processors.article_analyzer - WARNING - 文章内容无效或过短: 日本实际工资连续3年负增长，受高物价拖累
+2025-05-25 17:24:46,316 - processors.article_analyzer - WARNING - 使用标题作为内容: 日本实际工资连续3年负增长，受高物价拖累
+2025-05-25 17:24:46,316 - processors.article_analyzer - INFO - 提取到干净内容，长度: 20 字符
+2025-05-25 17:24:46,316 - processors.article_analyzer - INFO - 分析完成，耗时: 0.00秒
+2025-05-25 17:24:46,316 - processors.article_analyzer - INFO - 分析结果: 摘要(20字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 17:24:46,317 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=/cn/news-detail/4329491_1
+2025-05-25 17:24:46,317 - processors.article_analyzer - INFO - 文章处理成功: 日本实际工资连续3年负增长，受高物价拖累
+2025-05-25 17:24:46,317 - processors.article_analyzer - INFO - [19/20] 开始处理文章 ID: /cn/news-detail/4329511_1
+2025-05-25 17:24:46,317 - processors.article_analyzer - INFO - 开始处理文章: [fastbull] 暂停降息呼声渐起！关税冲击恐打乱欧洲央行宽松步伐 (ID: /cn/news-detail/4329511_1)
+2025-05-25 17:24:46,317 - processors.article_analyzer - WARNING - 文章内容无效或过短: 暂停降息呼声渐起！关税冲击恐打乱欧洲央行宽松步伐
+2025-05-25 17:24:46,317 - processors.article_analyzer - WARNING - 使用标题作为内容: 暂停降息呼声渐起！关税冲击恐打乱欧洲央行宽松步伐
+2025-05-25 17:24:46,317 - processors.article_analyzer - INFO - 提取到干净内容，长度: 24 字符
+2025-05-25 17:24:46,317 - processors.article_analyzer - INFO - 分析完成，耗时: 0.00秒
+2025-05-25 17:24:46,317 - processors.article_analyzer - INFO - 分析结果: 摘要(24字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 17:24:46,317 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=/cn/news-detail/4329511_1
+2025-05-25 17:24:46,317 - processors.article_analyzer - INFO - 文章处理成功: 暂停降息呼声渐起！关税冲击恐打乱欧洲央行宽松步伐
+2025-05-25 17:24:46,317 - processors.article_analyzer - INFO - [20/20] 开始处理文章 ID: 
+2025-05-25 17:24:46,317 - processors.article_analyzer - INFO - 开始处理文章: [google finance] 特朗普再抛关税威胁！欧债应声上涨交易员加码押注欧央行 ... (ID: )
+2025-05-25 17:24:46,318 - processors.article_analyzer - INFO - 提取到干净内容，长度: 97 字符
+2025-05-25 17:24:46,318 - processors.article_analyzer - INFO - 分析完成，耗时: 0.00秒
+2025-05-25 17:24:46,318 - processors.article_analyzer - INFO - 分析结果: 摘要(97字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 17:24:46,318 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=
+2025-05-25 17:24:46,318 - processors.article_analyzer - INFO - 文章处理成功: 特朗普再抛关税威胁！欧债应声上涨交易员加码押注欧央行 ...
+2025-05-25 17:24:46,318 - processors.article_analyzer - INFO - 批处理完成: 总计 20 篇文章, 成功 20 篇, 失败 0 篇
+2025-05-25 17:24:46,318 - processors.article_analyzer - INFO - 总耗时: 0.01秒, 平均每篇: 0.00秒
+2025-05-25 17:24:46,318 - __main__ - INFO - 处理完成: 总计 20 篇文章, 成功 20 篇, 失败 0 篇
+2025-05-25 17:24:46,318 - __main__ - INFO - 所有任务已完成
+2025-05-25 17:25:10,866 - __main__ - INFO - 财经新闻处理系统启动中...
+2025-05-25 17:25:10,866 - __main__ - INFO - 正在启动处理器...
+2025-05-25 17:25:10,869 - db.sqlite_client - INFO - SQLite数据库初始化完成: /Users/majiajue/Desktop/newsnow/newsnow-python/data/newsnow.db
+2025-05-25 17:25:10,869 - processors.article_analyzer - INFO - 初始化 DeepSeek AI 服务成功
+2025-05-25 17:25:10,869 - processors.article_analyzer - INFO - 文章处理器初始化完成，使用 DeepSeek: True
+2025-05-25 17:25:10,869 - __main__ - INFO - 开始执行处理器任务...
+2025-05-25 17:25:10,869 - processors.article_analyzer - INFO - 获取未处理文章: limit=20, source=全部
+2025-05-25 17:25:10,869 - db.sqlite_client - INFO - 获取到 0 篇未处理的文章
+2025-05-25 17:25:10,869 - processors.article_analyzer - INFO - 没有找到需要处理的文章
+2025-05-25 17:25:10,869 - __main__ - INFO - 没有找到需要处理的文章
+2025-05-25 17:25:10,869 - __main__ - INFO - 所有任务已完成
+2025-05-25 17:25:18,864 - __main__ - INFO - 财经新闻处理系统启动中...
+2025-05-25 17:25:18,864 - __main__ - INFO - 正在启动处理器...
+2025-05-25 17:25:18,864 - db.sqlite_client - INFO - SQLite数据库初始化完成: /Users/majiajue/Desktop/newsnow/newsnow-python/data/newsnow.db
+2025-05-25 17:25:18,864 - processors.article_analyzer - INFO - 初始化 DeepSeek AI 服务成功
+2025-05-25 17:25:18,864 - processors.article_analyzer - INFO - 文章处理器初始化完成，使用 DeepSeek: True
+2025-05-25 17:25:18,864 - __main__ - INFO - 开始执行处理器任务...
+2025-05-25 17:25:18,864 - processors.article_analyzer - INFO - 获取未处理文章: limit=20, source=全部
+2025-05-25 17:25:18,865 - db.sqlite_client - INFO - 获取到 20 篇未处理的文章
+2025-05-25 17:25:18,865 - processors.article_analyzer - INFO - 开始批量处理 20 篇文章
+2025-05-25 17:25:18,865 - processors.article_analyzer - INFO - [1/20] 开始处理文章 ID: /cn/news-detail/4329730_1
+2025-05-25 17:25:18,865 - processors.article_analyzer - INFO - 开始处理文章: [FastBull] “大而美”要大改？特朗普税改法案在参议院面临阻力 (ID: /cn/news-detail/4329730_1)
+2025-05-25 17:25:18,865 - processors.article_analyzer - WARNING - 文章内容无效或过短: “大而美”要大改？特朗普税改法案在参议院面临阻力
+2025-05-25 17:25:18,865 - processors.article_analyzer - WARNING - 使用标题作为内容: “大而美”要大改？特朗普税改法案在参议院面临阻力
+2025-05-25 17:25:18,865 - processors.article_analyzer - INFO - 提取到干净内容，长度: 24 字符
+2025-05-25 17:25:18,865 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: “大而美”要大改？特朗普税改法案在参议院面临阻力
+2025-05-25 17:25:37,166 - processors.article_analyzer - INFO - 分析完成，耗时: 18.30秒
+2025-05-25 17:25:37,166 - processors.article_analyzer - INFO - 分析结果: 摘要(0字符), 关键要点(0条), 建议行动(0条)
+2025-05-25 17:25:37,168 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=/cn/news-detail/4329730_1
+2025-05-25 17:25:37,168 - processors.article_analyzer - INFO - 文章处理成功: “大而美”要大改？特朗普税改法案在参议院面临阻力
+2025-05-25 17:25:37,168 - processors.article_analyzer - INFO - [2/20] 开始处理文章 ID: /cn/news-detail/4329733_1
+2025-05-25 17:25:37,168 - processors.article_analyzer - INFO - 开始处理文章: [FastBull] 欧盟欲将“北溪二号”纳入制裁范围，德国总理支持这一提议 (ID: /cn/news-detail/4329733_1)
+2025-05-25 17:25:37,168 - processors.article_analyzer - WARNING - 文章内容无效或过短: 欧盟欲将“北溪二号”纳入制裁范围，德国总理支持这一提议
+2025-05-25 17:25:37,168 - processors.article_analyzer - WARNING - 使用标题作为内容: 欧盟欲将“北溪二号”纳入制裁范围，德国总理支持这一提议
+2025-05-25 17:25:37,168 - processors.article_analyzer - INFO - 提取到干净内容，长度: 27 字符
+2025-05-25 17:25:37,168 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 欧盟欲将“北溪二号”纳入制裁范围，德国总理支持这一提议
+2025-05-25 17:26:02,736 - processors.article_analyzer - INFO - 分析完成，耗时: 25.57秒
+2025-05-25 17:26:02,736 - processors.article_analyzer - INFO - 分析结果: 摘要(0字符), 关键要点(0条), 建议行动(0条)
+2025-05-25 17:26:02,737 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=/cn/news-detail/4329733_1
+2025-05-25 17:26:02,737 - processors.article_analyzer - INFO - 文章处理成功: 欧盟欲将“北溪二号”纳入制裁范围，德国总理支持这一提议
+2025-05-25 17:26:02,737 - processors.article_analyzer - INFO - [3/20] 开始处理文章 ID: /cn/news-detail/4329295_1
+2025-05-25 17:26:02,738 - processors.article_analyzer - INFO - 开始处理文章: [FastBull] 美元、日元、人民币的未来走势如何？ (ID: /cn/news-detail/4329295_1)
+2025-05-25 17:26:02,738 - processors.article_analyzer - WARNING - 文章内容无效或过短: 美元、日元、人民币的未来走势如何？
+2025-05-25 17:26:02,738 - processors.article_analyzer - WARNING - 使用标题作为内容: 美元、日元、人民币的未来走势如何？
+2025-05-25 17:26:02,738 - processors.article_analyzer - INFO - 提取到干净内容，长度: 17 字符
+2025-05-25 17:26:02,738 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 美元、日元、人民币的未来走势如何？
+2025-05-25 17:26:22,393 - processors.article_analyzer - INFO - 分析完成，耗时: 19.66秒
+2025-05-25 17:26:22,393 - processors.article_analyzer - INFO - 分析结果: 摘要(0字符), 关键要点(0条), 建议行动(0条)
+2025-05-25 17:26:22,396 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=/cn/news-detail/4329295_1
+2025-05-25 17:26:22,396 - processors.article_analyzer - INFO - 文章处理成功: 美元、日元、人民币的未来走势如何？
+2025-05-25 17:26:22,396 - processors.article_analyzer - INFO - [4/20] 开始处理文章 ID: /cn/news-detail/4329296_1
+2025-05-25 17:26:22,396 - processors.article_analyzer - INFO - 开始处理文章: [FastBull] 中国内需越强，关税战越占优 (ID: /cn/news-detail/4329296_1)
+2025-05-25 17:26:22,396 - processors.article_analyzer - WARNING - 文章内容无效或过短: 中国内需越强，关税战越占优
+2025-05-25 17:26:22,396 - processors.article_analyzer - WARNING - 使用标题作为内容: 中国内需越强，关税战越占优
+2025-05-25 17:26:22,396 - processors.article_analyzer - INFO - 提取到干净内容，长度: 13 字符
+2025-05-25 17:26:22,396 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 中国内需越强，关税战越占优
+2025-05-25 17:26:38,982 - processors.article_analyzer - INFO - 分析完成，耗时: 16.59秒
+2025-05-25 17:26:38,982 - processors.article_analyzer - INFO - 分析结果: 摘要(0字符), 关键要点(0条), 建议行动(0条)
+2025-05-25 17:26:38,985 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=/cn/news-detail/4329296_1
+2025-05-25 17:26:38,985 - processors.article_analyzer - INFO - 文章处理成功: 中国内需越强，关税战越占优
+2025-05-25 17:26:38,985 - processors.article_analyzer - INFO - [5/20] 开始处理文章 ID: /cn/news-detail/4329303_1
+2025-05-25 17:26:38,985 - processors.article_analyzer - INFO - 开始处理文章: [FastBull] 停火90天，关税警钟为何仍未解除？ (ID: /cn/news-detail/4329303_1)
+2025-05-25 17:26:38,985 - processors.article_analyzer - WARNING - 文章内容无效或过短: 停火90天，关税警钟为何仍未解除？
+2025-05-25 17:26:38,985 - processors.article_analyzer - WARNING - 使用标题作为内容: 停火90天，关税警钟为何仍未解除？
+2025-05-25 17:26:38,985 - processors.article_analyzer - INFO - 提取到干净内容，长度: 17 字符
+2025-05-25 17:26:38,985 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 停火90天，关税警钟为何仍未解除？
+2025-05-25 17:26:55,676 - processors.article_analyzer - INFO - 分析完成，耗时: 16.69秒
+2025-05-25 17:26:55,677 - processors.article_analyzer - INFO - 分析结果: 摘要(0字符), 关键要点(0条), 建议行动(0条)
+2025-05-25 17:26:55,679 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=/cn/news-detail/4329303_1
+2025-05-25 17:26:55,679 - processors.article_analyzer - INFO - 文章处理成功: 停火90天，关税警钟为何仍未解除？
+2025-05-25 17:26:55,679 - processors.article_analyzer - INFO - [6/20] 开始处理文章 ID: /cn/news-detail/4329488_1
+2025-05-25 17:26:55,679 - processors.article_analyzer - INFO - 开始处理文章: [FastBull] 经济焦虑与民族主义：越南如何应对特朗普关税风暴 (ID: /cn/news-detail/4329488_1)
+2025-05-25 17:26:55,679 - processors.article_analyzer - WARNING - 文章内容无效或过短: 经济焦虑与民族主义：越南如何应对特朗普关税风暴
+2025-05-25 17:26:55,680 - processors.article_analyzer - WARNING - 使用标题作为内容: 经济焦虑与民族主义：越南如何应对特朗普关税风暴
+2025-05-25 17:26:55,680 - processors.article_analyzer - INFO - 提取到干净内容，长度: 23 字符
+2025-05-25 17:26:55,680 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 经济焦虑与民族主义：越南如何应对特朗普关税风暴
+2025-05-25 17:27:13,626 - processors.article_analyzer - INFO - 分析完成，耗时: 17.95秒
+2025-05-25 17:27:13,626 - processors.article_analyzer - INFO - 分析结果: 摘要(0字符), 关键要点(0条), 建议行动(0条)
+2025-05-25 17:27:13,628 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=/cn/news-detail/4329488_1
+2025-05-25 17:27:13,628 - processors.article_analyzer - INFO - 文章处理成功: 经济焦虑与民族主义：越南如何应对特朗普关税风暴
+2025-05-25 17:27:13,628 - processors.article_analyzer - INFO - [7/20] 开始处理文章 ID: /cn/news-detail/4329500_1
+2025-05-25 17:27:13,628 - processors.article_analyzer - INFO - 开始处理文章: [FastBull] 特朗普的国际新秩序：从山巅之城到丛林现实 (ID: /cn/news-detail/4329500_1)
+2025-05-25 17:27:13,628 - processors.article_analyzer - WARNING - 文章内容无效或过短: 特朗普的国际新秩序：从山巅之城到丛林现实
+2025-05-25 17:27:13,628 - processors.article_analyzer - WARNING - 使用标题作为内容: 特朗普的国际新秩序：从山巅之城到丛林现实
+2025-05-25 17:27:13,628 - processors.article_analyzer - INFO - 提取到干净内容，长度: 20 字符
+2025-05-25 17:27:13,628 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 特朗普的国际新秩序：从山巅之城到丛林现实
+2025-05-25 17:27:27,582 - __main__ - INFO - 收到中断信号，正在关闭系统...
+2025-05-25 17:27:27,582 - __main__ - INFO - 系统已关闭
+2025-05-25 17:27:33,243 - __main__ - INFO - 财经新闻处理系统启动中...
+2025-05-25 17:27:33,243 - __main__ - INFO - 正在启动处理器...
+2025-05-25 17:27:33,244 - db.sqlite_client - INFO - SQLite数据库初始化完成: /Users/majiajue/Desktop/newsnow/newsnow-python/data/newsnow.db
+2025-05-25 17:27:33,244 - processors.article_analyzer - INFO - 初始化 DeepSeek AI 服务成功
+2025-05-25 17:27:33,244 - processors.article_analyzer - INFO - 文章处理器初始化完成，使用 DeepSeek: True
+2025-05-25 17:27:33,244 - __main__ - INFO - 开始执行处理器任务...
+2025-05-25 17:27:33,244 - processors.article_analyzer - INFO - 获取未处理文章: limit=20, source=全部
+2025-05-25 17:27:33,244 - db.sqlite_client - INFO - 获取到 20 篇未处理的文章
+2025-05-25 17:27:33,244 - processors.article_analyzer - INFO - 开始批量处理 20 篇文章
+2025-05-25 17:27:33,244 - processors.article_analyzer - INFO - [1/20] 开始处理文章 ID: /cn/news-detail/4329730_1
+2025-05-25 17:27:33,244 - processors.article_analyzer - INFO - 开始处理文章: [FastBull] “大而美”要大改？特朗普税改法案在参议院面临阻力 (ID: /cn/news-detail/4329730_1)
+2025-05-25 17:27:33,244 - processors.article_analyzer - WARNING - 文章内容无效或过短: “大而美”要大改？特朗普税改法案在参议院面临阻力
+2025-05-25 17:27:33,244 - processors.article_analyzer - WARNING - 使用标题作为内容: “大而美”要大改？特朗普税改法案在参议院面临阻力
+2025-05-25 17:27:33,244 - processors.article_analyzer - INFO - 提取到干净内容，长度: 24 字符
+2025-05-25 17:27:33,244 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: “大而美”要大改？特朗普税改法案在参议院面临阻力
+2025-05-25 17:27:52,410 - processors.article_analyzer - INFO - 分析完成，耗时: 19.17秒
+2025-05-25 17:27:52,411 - processors.article_analyzer - INFO - 分析结果: 摘要(40字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 17:27:52,413 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=/cn/news-detail/4329730_1
+2025-05-25 17:27:52,414 - processors.article_analyzer - INFO - 文章处理成功: “大而美”要大改？特朗普税改法案在参议院面临阻力
+2025-05-25 17:27:52,414 - processors.article_analyzer - INFO - [2/20] 开始处理文章 ID: /cn/news-detail/4329733_1
+2025-05-25 17:27:52,414 - processors.article_analyzer - INFO - 开始处理文章: [FastBull] 欧盟欲将“北溪二号”纳入制裁范围，德国总理支持这一提议 (ID: /cn/news-detail/4329733_1)
+2025-05-25 17:27:52,414 - processors.article_analyzer - WARNING - 文章内容无效或过短: 欧盟欲将“北溪二号”纳入制裁范围，德国总理支持这一提议
+2025-05-25 17:27:52,414 - processors.article_analyzer - WARNING - 使用标题作为内容: 欧盟欲将“北溪二号”纳入制裁范围，德国总理支持这一提议
+2025-05-25 17:27:52,414 - processors.article_analyzer - INFO - 提取到干净内容，长度: 27 字符
+2025-05-25 17:27:52,414 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 欧盟欲将“北溪二号”纳入制裁范围，德国总理支持这一提议
+2025-05-25 17:28:10,325 - processors.article_analyzer - INFO - 分析完成，耗时: 17.91秒
+2025-05-25 17:28:10,325 - processors.article_analyzer - INFO - 分析结果: 摘要(42字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 17:28:10,327 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=/cn/news-detail/4329733_1
+2025-05-25 17:28:10,328 - processors.article_analyzer - INFO - 文章处理成功: 欧盟欲将“北溪二号”纳入制裁范围，德国总理支持这一提议
+2025-05-25 17:28:10,328 - processors.article_analyzer - INFO - [3/20] 开始处理文章 ID: /cn/news-detail/4329295_1
+2025-05-25 17:28:10,328 - processors.article_analyzer - INFO - 开始处理文章: [FastBull] 美元、日元、人民币的未来走势如何？ (ID: /cn/news-detail/4329295_1)
+2025-05-25 17:28:10,328 - processors.article_analyzer - WARNING - 文章内容无效或过短: 美元、日元、人民币的未来走势如何？
+2025-05-25 17:28:10,328 - processors.article_analyzer - WARNING - 使用标题作为内容: 美元、日元、人民币的未来走势如何？
+2025-05-25 17:28:10,328 - processors.article_analyzer - INFO - 提取到干净内容，长度: 17 字符
+2025-05-25 17:28:10,328 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 美元、日元、人民币的未来走势如何？
+2025-05-25 17:28:27,533 - processors.article_analyzer - INFO - 分析完成，耗时: 17.21秒
+2025-05-25 17:28:27,534 - processors.article_analyzer - INFO - 分析结果: 摘要(49字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 17:28:27,536 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=/cn/news-detail/4329295_1
+2025-05-25 17:28:27,536 - processors.article_analyzer - INFO - 文章处理成功: 美元、日元、人民币的未来走势如何？
+2025-05-25 17:28:27,536 - processors.article_analyzer - INFO - [4/20] 开始处理文章 ID: /cn/news-detail/4329296_1
+2025-05-25 17:28:27,536 - processors.article_analyzer - INFO - 开始处理文章: [FastBull] 中国内需越强，关税战越占优 (ID: /cn/news-detail/4329296_1)
+2025-05-25 17:28:27,536 - processors.article_analyzer - WARNING - 文章内容无效或过短: 中国内需越强，关税战越占优
+2025-05-25 17:28:27,536 - processors.article_analyzer - WARNING - 使用标题作为内容: 中国内需越强，关税战越占优
+2025-05-25 17:28:27,537 - processors.article_analyzer - INFO - 提取到干净内容，长度: 13 字符
+2025-05-25 17:28:27,537 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 中国内需越强，关税战越占优
+2025-05-25 17:28:44,045 - processors.article_analyzer - INFO - 分析完成，耗时: 16.51秒
+2025-05-25 17:28:44,046 - processors.article_analyzer - INFO - 分析结果: 摘要(31字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 17:28:44,048 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=/cn/news-detail/4329296_1
+2025-05-25 17:28:44,049 - processors.article_analyzer - INFO - 文章处理成功: 中国内需越强，关税战越占优
+2025-05-25 17:28:44,049 - processors.article_analyzer - INFO - [5/20] 开始处理文章 ID: /cn/news-detail/4329303_1
+2025-05-25 17:28:44,049 - processors.article_analyzer - INFO - 开始处理文章: [FastBull] 停火90天，关税警钟为何仍未解除？ (ID: /cn/news-detail/4329303_1)
+2025-05-25 17:28:44,049 - processors.article_analyzer - WARNING - 文章内容无效或过短: 停火90天，关税警钟为何仍未解除？
+2025-05-25 17:28:44,049 - processors.article_analyzer - WARNING - 使用标题作为内容: 停火90天，关税警钟为何仍未解除？
+2025-05-25 17:28:44,049 - processors.article_analyzer - INFO - 提取到干净内容，长度: 17 字符
+2025-05-25 17:28:44,049 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 停火90天，关税警钟为何仍未解除？
+2025-05-25 17:29:00,938 - processors.article_analyzer - INFO - 分析完成，耗时: 16.89秒
+2025-05-25 17:29:00,939 - processors.article_analyzer - INFO - 分析结果: 摘要(29字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 17:29:00,942 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=/cn/news-detail/4329303_1
+2025-05-25 17:29:00,942 - processors.article_analyzer - INFO - 文章处理成功: 停火90天，关税警钟为何仍未解除？
+2025-05-25 17:29:00,942 - processors.article_analyzer - INFO - [6/20] 开始处理文章 ID: /cn/news-detail/4329488_1
+2025-05-25 17:29:00,942 - processors.article_analyzer - INFO - 开始处理文章: [FastBull] 经济焦虑与民族主义：越南如何应对特朗普关税风暴 (ID: /cn/news-detail/4329488_1)
+2025-05-25 17:29:00,942 - processors.article_analyzer - WARNING - 文章内容无效或过短: 经济焦虑与民族主义：越南如何应对特朗普关税风暴
+2025-05-25 17:29:00,942 - processors.article_analyzer - WARNING - 使用标题作为内容: 经济焦虑与民族主义：越南如何应对特朗普关税风暴
+2025-05-25 17:29:00,942 - processors.article_analyzer - INFO - 提取到干净内容，长度: 23 字符
+2025-05-25 17:29:00,942 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 经济焦虑与民族主义：越南如何应对特朗普关税风暴
+2025-05-25 17:29:19,652 - processors.article_analyzer - INFO - 分析完成，耗时: 18.71秒
+2025-05-25 17:29:19,653 - processors.article_analyzer - INFO - 分析结果: 摘要(45字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 17:29:19,655 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=/cn/news-detail/4329488_1
+2025-05-25 17:29:19,656 - processors.article_analyzer - INFO - 文章处理成功: 经济焦虑与民族主义：越南如何应对特朗普关税风暴
+2025-05-25 17:29:19,656 - processors.article_analyzer - INFO - [7/20] 开始处理文章 ID: /cn/news-detail/4329500_1
+2025-05-25 17:29:19,656 - processors.article_analyzer - INFO - 开始处理文章: [FastBull] 特朗普的国际新秩序：从山巅之城到丛林现实 (ID: /cn/news-detail/4329500_1)
+2025-05-25 17:29:19,656 - processors.article_analyzer - WARNING - 文章内容无效或过短: 特朗普的国际新秩序：从山巅之城到丛林现实
+2025-05-25 17:29:19,656 - processors.article_analyzer - WARNING - 使用标题作为内容: 特朗普的国际新秩序：从山巅之城到丛林现实
+2025-05-25 17:29:19,656 - processors.article_analyzer - INFO - 提取到干净内容，长度: 20 字符
+2025-05-25 17:29:19,656 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 特朗普的国际新秩序：从山巅之城到丛林现实
+2025-05-25 17:29:37,388 - processors.article_analyzer - INFO - 分析完成，耗时: 17.73秒
+2025-05-25 17:29:37,388 - processors.article_analyzer - INFO - 分析结果: 摘要(31字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 17:29:37,390 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=/cn/news-detail/4329500_1
+2025-05-25 17:29:37,390 - processors.article_analyzer - INFO - 文章处理成功: 特朗普的国际新秩序：从山巅之城到丛林现实
+2025-05-25 17:29:37,390 - processors.article_analyzer - INFO - [8/20] 开始处理文章 ID: /cn/news-detail/4329687_1
+2025-05-25 17:29:37,390 - processors.article_analyzer - INFO - 开始处理文章: [FastBull] 特朗普欲对欧盟征收50%关税，对苹果收25%关税 (ID: /cn/news-detail/4329687_1)
+2025-05-25 17:29:37,390 - processors.article_analyzer - WARNING - 文章内容无效或过短: 特朗普欲对欧盟征收50%关税，对苹果收25%关税
+2025-05-25 17:29:37,390 - processors.article_analyzer - WARNING - 使用标题作为内容: 特朗普欲对欧盟征收50%关税，对苹果收25%关税
+2025-05-25 17:29:37,390 - processors.article_analyzer - INFO - 提取到干净内容，长度: 24 字符
+2025-05-25 17:29:37,390 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 特朗普欲对欧盟征收50%关税，对苹果收25%关税
+2025-05-25 17:29:56,926 - processors.article_analyzer - INFO - 分析完成，耗时: 19.54秒
+2025-05-25 17:29:56,926 - processors.article_analyzer - INFO - 分析结果: 摘要(56字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 17:29:56,929 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=/cn/news-detail/4329687_1
+2025-05-25 17:29:56,929 - processors.article_analyzer - INFO - 文章处理成功: 特朗普欲对欧盟征收50%关税，对苹果收25%关税
+2025-05-25 17:29:56,929 - processors.article_analyzer - INFO - [9/20] 开始处理文章 ID: /cn/news-detail/4329667_1
+2025-05-25 17:29:56,929 - processors.article_analyzer - INFO - 开始处理文章: [FastBull] 面上减税，背地搞钱——“美丽大法案”解析 (ID: /cn/news-detail/4329667_1)
+2025-05-25 17:29:56,929 - processors.article_analyzer - WARNING - 文章内容无效或过短: 面上减税，背地搞钱——“美丽大法案”解析
+2025-05-25 17:29:56,929 - processors.article_analyzer - WARNING - 使用标题作为内容: 面上减税，背地搞钱——“美丽大法案”解析
+2025-05-25 17:29:56,929 - processors.article_analyzer - INFO - 提取到干净内容，长度: 20 字符
+2025-05-25 17:29:56,929 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 面上减税，背地搞钱——“美丽大法案”解析
+2025-05-25 17:30:14,403 - processors.article_analyzer - INFO - 分析完成，耗时: 17.47秒
+2025-05-25 17:30:14,404 - processors.article_analyzer - INFO - 分析结果: 摘要(43字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 17:30:14,406 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=/cn/news-detail/4329667_1
+2025-05-25 17:30:14,406 - processors.article_analyzer - INFO - 文章处理成功: 面上减税，背地搞钱——“美丽大法案”解析
+2025-05-25 17:30:14,407 - processors.article_analyzer - INFO - [10/20] 开始处理文章 ID: /cn/news-detail/4329530_1
+2025-05-25 17:30:14,407 - processors.article_analyzer - INFO - 开始处理文章: [fastbull] 美国首次申请失业救济人数创四周低点，表明就业市场依然健康 (ID: /cn/news-detail/4329530_1)
+2025-05-25 17:30:14,407 - processors.article_analyzer - WARNING - 文章内容无效或过短: 美国首次申请失业救济人数创四周低点，表明就业市场依然健康
+2025-05-25 17:30:14,407 - processors.article_analyzer - WARNING - 使用标题作为内容: 美国首次申请失业救济人数创四周低点，表明就业市场依然健康
+2025-05-25 17:30:14,407 - processors.article_analyzer - INFO - 提取到干净内容，长度: 28 字符
+2025-05-25 17:30:14,407 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 美国首次申请失业救济人数创四周低点，表明就业市场依然健康
+2025-05-25 17:30:34,153 - processors.article_analyzer - INFO - 分析完成，耗时: 19.75秒
+2025-05-25 17:30:34,153 - processors.article_analyzer - INFO - 分析结果: 摘要(41字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 17:30:34,156 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=/cn/news-detail/4329530_1
+2025-05-25 17:30:34,156 - processors.article_analyzer - INFO - 文章处理成功: 美国首次申请失业救济人数创四周低点，表明就业市场依然健康
+2025-05-25 17:30:34,156 - processors.article_analyzer - INFO - [11/20] 开始处理文章 ID: /cn/news-detail/4329536_1
+2025-05-25 17:30:34,156 - processors.article_analyzer - INFO - 开始处理文章: [fastbull] 美国5月商业活动改善，尽管面临关税引发的价格压力 (ID: /cn/news-detail/4329536_1)
+2025-05-25 17:30:34,156 - processors.article_analyzer - WARNING - 文章内容无效或过短: 美国5月商业活动改善，尽管面临关税引发的价格压力
+2025-05-25 17:30:34,156 - processors.article_analyzer - WARNING - 使用标题作为内容: 美国5月商业活动改善，尽管面临关税引发的价格压力
+2025-05-25 17:30:34,156 - processors.article_analyzer - INFO - 提取到干净内容，长度: 24 字符
+2025-05-25 17:30:34,157 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 美国5月商业活动改善，尽管面临关税引发的价格压力
+2025-05-25 17:30:53,043 - processors.article_analyzer - INFO - 分析完成，耗时: 18.89秒
+2025-05-25 17:30:53,044 - processors.article_analyzer - INFO - 分析结果: 摘要(32字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 17:30:53,046 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=/cn/news-detail/4329536_1
+2025-05-25 17:30:53,046 - processors.article_analyzer - INFO - 文章处理成功: 美国5月商业活动改善，尽管面临关税引发的价格压力
+2025-05-25 17:30:53,046 - processors.article_analyzer - INFO - [12/20] 开始处理文章 ID: /cn/news-detail/4329493_1
+2025-05-25 17:30:53,046 - processors.article_analyzer - INFO - 开始处理文章: [fastbull] 拿俄罗斯经济开刀，就可能把普京逼上谈判桌？ (ID: /cn/news-detail/4329493_1)
+2025-05-25 17:30:53,046 - processors.article_analyzer - WARNING - 文章内容无效或过短: 拿俄罗斯经济开刀，就可能把普京逼上谈判桌？
+2025-05-25 17:30:53,046 - processors.article_analyzer - WARNING - 使用标题作为内容: 拿俄罗斯经济开刀，就可能把普京逼上谈判桌？
+2025-05-25 17:30:53,047 - processors.article_analyzer - INFO - 提取到干净内容，长度: 21 字符
+2025-05-25 17:30:53,047 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 拿俄罗斯经济开刀，就可能把普京逼上谈判桌？
+2025-05-25 17:31:10,753 - processors.article_analyzer - INFO - 分析完成，耗时: 17.71秒
+2025-05-25 17:31:10,754 - processors.article_analyzer - INFO - 分析结果: 摘要(40字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 17:31:10,756 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=/cn/news-detail/4329493_1
+2025-05-25 17:31:10,757 - processors.article_analyzer - INFO - 文章处理成功: 拿俄罗斯经济开刀，就可能把普京逼上谈判桌？
+2025-05-25 17:31:10,757 - processors.article_analyzer - INFO - [13/20] 开始处理文章 ID: /cn/news-detail/4329507_1
+2025-05-25 17:31:10,757 - processors.article_analyzer - INFO - 开始处理文章: [fastbull] WTI原油中期展望：交易员减持多头头寸，看跌风险加剧 (ID: /cn/news-detail/4329507_1)
+2025-05-25 17:31:10,757 - processors.article_analyzer - WARNING - 文章内容无效或过短: WTI原油中期展望：交易员减持多头头寸，看跌风险加剧
+2025-05-25 17:31:10,757 - processors.article_analyzer - WARNING - 使用标题作为内容: WTI原油中期展望：交易员减持多头头寸，看跌风险加剧
+2025-05-25 17:31:10,757 - processors.article_analyzer - INFO - 提取到干净内容，长度: 26 字符
+2025-05-25 17:31:10,757 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: WTI原油中期展望：交易员减持多头头寸，看跌风险加剧
+2025-05-25 17:31:30,938 - processors.article_analyzer - INFO - 分析完成，耗时: 20.18秒
+2025-05-25 17:31:30,938 - processors.article_analyzer - INFO - 分析结果: 摘要(38字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 17:31:30,941 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=/cn/news-detail/4329507_1
+2025-05-25 17:31:30,941 - processors.article_analyzer - INFO - 文章处理成功: WTI原油中期展望：交易员减持多头头寸，看跌风险加剧
+2025-05-25 17:31:30,941 - processors.article_analyzer - INFO - [14/20] 开始处理文章 ID: /cn/news-detail/4329460_1
+2025-05-25 17:31:30,941 - processors.article_analyzer - INFO - 开始处理文章: [fastbull] 美债信用风险与美元信用下滑形成共振，需警惕其向全球金融市场传导 (ID: /cn/news-detail/4329460_1)
+2025-05-25 17:31:30,941 - processors.article_analyzer - WARNING - 文章内容无效或过短: 美债信用风险与美元信用下滑形成共振，需警惕其向全球金融市场传导
+2025-05-25 17:31:30,941 - processors.article_analyzer - WARNING - 使用标题作为内容: 美债信用风险与美元信用下滑形成共振，需警惕其向全球金融市场传导
+2025-05-25 17:31:30,941 - processors.article_analyzer - INFO - 提取到干净内容，长度: 31 字符
+2025-05-25 17:31:30,941 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 美债信用风险与美元信用下滑形成共振，需警惕其向全球金融市场传导
+2025-05-25 17:31:48,743 - processors.article_analyzer - INFO - 分析完成，耗时: 17.80秒
+2025-05-25 17:31:48,743 - processors.article_analyzer - INFO - 分析结果: 摘要(38字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 17:31:48,746 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=/cn/news-detail/4329460_1
+2025-05-25 17:31:48,746 - processors.article_analyzer - INFO - 文章处理成功: 美债信用风险与美元信用下滑形成共振，需警惕其向全球金融市场传导
+2025-05-25 17:31:48,746 - processors.article_analyzer - INFO - [15/20] 开始处理文章 ID: /cn/news-detail/4329508_1
+2025-05-25 17:31:48,746 - processors.article_analyzer - INFO - 开始处理文章: [fastbull] 关税阻力下的经济韧性被花旗视为"暴风雨前的平静" (ID: /cn/news-detail/4329508_1)
+2025-05-25 17:31:48,746 - processors.article_analyzer - WARNING - 文章内容无效或过短: 关税阻力下的经济韧性被花旗视为"暴风雨前的平静"
+2025-05-25 17:31:48,746 - processors.article_analyzer - WARNING - 使用标题作为内容: 关税阻力下的经济韧性被花旗视为"暴风雨前的平静"
+2025-05-25 17:31:48,746 - processors.article_analyzer - INFO - 提取到干净内容，长度: 24 字符
+2025-05-25 17:31:48,746 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 关税阻力下的经济韧性被花旗视为"暴风雨前的平静"
+2025-05-25 17:32:07,081 - processors.article_analyzer - INFO - 分析完成，耗时: 18.34秒
+2025-05-25 17:32:07,082 - processors.article_analyzer - INFO - 分析结果: 摘要(38字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 17:32:07,084 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=/cn/news-detail/4329508_1
+2025-05-25 17:32:07,084 - processors.article_analyzer - INFO - 文章处理成功: 关税阻力下的经济韧性被花旗视为"暴风雨前的平静"
+2025-05-25 17:32:07,084 - processors.article_analyzer - INFO - [16/20] 开始处理文章 ID: /cn/news-detail/4329516_1
+2025-05-25 17:32:07,084 - processors.article_analyzer - INFO - 开始处理文章: [fastbull] 欧元区5月PMI意外萎缩，服务业创16个月来最差表现 (ID: /cn/news-detail/4329516_1)
+2025-05-25 17:32:07,084 - processors.article_analyzer - WARNING - 文章内容无效或过短: 欧元区5月PMI意外萎缩，服务业创16个月来最差表现
+2025-05-25 17:32:07,084 - processors.article_analyzer - WARNING - 使用标题作为内容: 欧元区5月PMI意外萎缩，服务业创16个月来最差表现
+2025-05-25 17:32:07,084 - processors.article_analyzer - INFO - 提取到干净内容，长度: 26 字符
+2025-05-25 17:32:07,084 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 欧元区5月PMI意外萎缩，服务业创16个月来最差表现
+2025-05-25 17:32:28,754 - processors.article_analyzer - INFO - 分析完成，耗时: 21.67秒
+2025-05-25 17:32:28,755 - processors.article_analyzer - INFO - 分析结果: 摘要(57字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 17:32:28,757 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=/cn/news-detail/4329516_1
+2025-05-25 17:32:28,757 - processors.article_analyzer - INFO - 文章处理成功: 欧元区5月PMI意外萎缩，服务业创16个月来最差表现
+2025-05-25 17:32:28,758 - processors.article_analyzer - INFO - [17/20] 开始处理文章 ID: /cn/news-detail/4329524_1
+2025-05-25 17:32:28,758 - processors.article_analyzer - INFO - 开始处理文章: [fastbull] 市场消化降息预期，澳元/美元难破关键阻力 (ID: /cn/news-detail/4329524_1)
+2025-05-25 17:32:28,758 - processors.article_analyzer - WARNING - 文章内容无效或过短: 市场消化降息预期，澳元/美元难破关键阻力
+2025-05-25 17:32:28,758 - processors.article_analyzer - WARNING - 使用标题作为内容: 市场消化降息预期，澳元/美元难破关键阻力
+2025-05-25 17:32:28,758 - processors.article_analyzer - INFO - 提取到干净内容，长度: 20 字符
+2025-05-25 17:32:28,758 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 市场消化降息预期，澳元/美元难破关键阻力
+2025-05-25 17:32:47,624 - processors.article_analyzer - INFO - 分析完成，耗时: 18.87秒
+2025-05-25 17:32:47,624 - processors.article_analyzer - INFO - 分析结果: 摘要(52字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 17:32:47,626 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=/cn/news-detail/4329524_1
+2025-05-25 17:32:47,627 - processors.article_analyzer - INFO - 文章处理成功: 市场消化降息预期，澳元/美元难破关键阻力
+2025-05-25 17:32:47,627 - processors.article_analyzer - INFO - [18/20] 开始处理文章 ID: /cn/news-detail/4329491_1
+2025-05-25 17:32:47,627 - processors.article_analyzer - INFO - 开始处理文章: [fastbull] 日本实际工资连续3年负增长，受高物价拖累 (ID: /cn/news-detail/4329491_1)
+2025-05-25 17:32:47,627 - processors.article_analyzer - WARNING - 文章内容无效或过短: 日本实际工资连续3年负增长，受高物价拖累
+2025-05-25 17:32:47,627 - processors.article_analyzer - WARNING - 使用标题作为内容: 日本实际工资连续3年负增长，受高物价拖累
+2025-05-25 17:32:47,627 - processors.article_analyzer - INFO - 提取到干净内容，长度: 20 字符
+2025-05-25 17:32:47,627 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 日本实际工资连续3年负增长，受高物价拖累
+2025-05-25 17:33:06,780 - processors.article_analyzer - INFO - 分析完成，耗时: 19.15秒
+2025-05-25 17:33:06,781 - processors.article_analyzer - INFO - 分析结果: 摘要(48字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 17:33:06,783 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=/cn/news-detail/4329491_1
+2025-05-25 17:33:06,783 - processors.article_analyzer - INFO - 文章处理成功: 日本实际工资连续3年负增长，受高物价拖累
+2025-05-25 17:33:06,783 - processors.article_analyzer - INFO - [19/20] 开始处理文章 ID: /cn/news-detail/4329511_1
+2025-05-25 17:33:06,783 - processors.article_analyzer - INFO - 开始处理文章: [fastbull] 暂停降息呼声渐起！关税冲击恐打乱欧洲央行宽松步伐 (ID: /cn/news-detail/4329511_1)
+2025-05-25 17:33:06,783 - processors.article_analyzer - WARNING - 文章内容无效或过短: 暂停降息呼声渐起！关税冲击恐打乱欧洲央行宽松步伐
+2025-05-25 17:33:06,783 - processors.article_analyzer - WARNING - 使用标题作为内容: 暂停降息呼声渐起！关税冲击恐打乱欧洲央行宽松步伐
+2025-05-25 17:33:06,783 - processors.article_analyzer - INFO - 提取到干净内容，长度: 24 字符
+2025-05-25 17:33:06,783 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 暂停降息呼声渐起！关税冲击恐打乱欧洲央行宽松步伐
+2025-05-25 17:33:25,018 - processors.article_analyzer - INFO - 分析完成，耗时: 18.23秒
+2025-05-25 17:33:25,018 - processors.article_analyzer - INFO - 分析结果: 摘要(32字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 17:33:25,020 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=/cn/news-detail/4329511_1
+2025-05-25 17:33:25,021 - processors.article_analyzer - INFO - 文章处理成功: 暂停降息呼声渐起！关税冲击恐打乱欧洲央行宽松步伐
+2025-05-25 17:33:25,021 - processors.article_analyzer - INFO - [20/20] 开始处理文章 ID: 
+2025-05-25 17:33:25,021 - processors.article_analyzer - INFO - 开始处理文章: [google finance] 特朗普再抛关税威胁！欧债应声上涨交易员加码押注欧央行 ... (ID: )
+2025-05-25 17:33:25,021 - processors.article_analyzer - INFO - 提取到干净内容，长度: 97 字符
+2025-05-25 17:33:25,021 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 特朗普再抛关税威胁！欧债应声上涨交易员加码押注欧央行 ...
+2025-05-25 17:33:42,068 - processors.article_analyzer - INFO - 分析完成，耗时: 17.05秒
+2025-05-25 17:33:42,068 - processors.article_analyzer - INFO - 分析结果: 摘要(42字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 17:33:42,071 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=
+2025-05-25 17:33:42,071 - processors.article_analyzer - INFO - 文章处理成功: 特朗普再抛关税威胁！欧债应声上涨交易员加码押注欧央行 ...
+2025-05-25 17:33:42,071 - processors.article_analyzer - INFO - 批处理完成: 总计 20 篇文章, 成功 20 篇, 失败 0 篇
+2025-05-25 17:33:42,071 - processors.article_analyzer - INFO - 总耗时: 368.83秒, 平均每篇: 18.44秒
+2025-05-25 17:33:42,071 - __main__ - INFO - 处理完成: 总计 20 篇文章, 成功 20 篇, 失败 0 篇
+2025-05-25 17:33:42,071 - __main__ - INFO - 所有任务已完成
+2025-05-25 17:36:43,698 - __main__ - INFO - 财经新闻处理系统启动中...
+2025-05-25 17:36:43,698 - __main__ - INFO - 正在启动爬虫...
+2025-05-25 17:36:43,698 - db.sqlite_client - INFO - SQLite数据库初始化完成: /Users/majiajue/Desktop/newsnow/newsnow-python/data/newsnow.db
+2025-05-25 17:36:43,698 - processors.article_crawler - INFO - 文章抓取器初始化完成
+2025-05-25 17:36:43,699 - __main__ - INFO - 开始执行爬虫任务...
+2025-05-25 17:36:43,699 - __main__ - INFO - 正在启动处理器...
+2025-05-25 17:36:43,699 - processors.article_crawler - INFO - ===== 开始抓取所有来源 2025-05-25T17:36:43.699071 =====
+2025-05-25 17:36:43,699 - processors.article_crawler - INFO - 开始抓取 金十数据 的最新文章
+2025-05-25 17:36:43,699 - db.sqlite_client - INFO - SQLite数据库初始化完成: /Users/majiajue/Desktop/newsnow/newsnow-python/data/newsnow.db
+2025-05-25 17:36:43,699 - processors.article_analyzer - WARNING - 未找到 DeepSeek API 密钥，将使用默认分析服务
+2025-05-25 17:36:43,699 - processors.article_analyzer - INFO - 文章处理器初始化完成，使用 DeepSeek: False
+2025-05-25 17:36:43,699 - __main__ - INFO - 开始执行处理器任务...
+2025-05-25 17:36:43,699 - __main__ - INFO - 系统已启动，按Ctrl+C中断...
+2025-05-25 17:36:43,699 - processors.article_analyzer - INFO - 获取未处理文章: limit=20, source=全部
+2025-05-25 17:36:43,700 - db.sqlite_client - INFO - 获取到 0 篇未处理的文章
+2025-05-25 17:36:43,700 - processors.article_analyzer - INFO - 没有找到需要处理的文章
+2025-05-25 17:36:43,700 - __main__ - INFO - 没有找到需要处理的文章
+2025-05-25 17:36:43,700 - __main__ - INFO - 等待 15 分钟后再次执行处理器任务...
+2025-05-25 17:36:44,001 - processors.article_crawler - INFO - 从 金十数据 获取到 20 篇文章
+2025-05-25 17:36:44,005 - db.sqlite_client - INFO - 保存文章成功: [Jin10] 以军称拦截从也门境内发射的导弹 (ID: 20250525171838914800)
+2025-05-25 17:36:44,006 - db.sqlite_client - INFO - 保存文章成功: [Jin10] 据俄新社援引俄罗斯国防部：俄罗斯与乌克兰完成为期三天的战俘交换。 (ID: 20250525171208291800)
+2025-05-25 17:36:44,009 - db.sqlite_client - INFO - 保存文章成功: [Jin10] 据俄新社：俄罗斯与乌克兰各交换了303名战俘。 (ID: 20250525171053937800)
+2025-05-25 17:36:44,010 - db.sqlite_client - INFO - 保存文章成功: [Jin10] 俄国防部：军队正在沿国境建立安全区 (ID: 20250525170847054800)
+2025-05-25 17:36:44,012 - db.sqlite_client - INFO - 保存文章成功: [Jin10] 恶劣天气袭击巴基斯坦 造成至少19人死亡 (ID: 20250525170726233800)
+2025-05-25 17:36:44,014 - db.sqlite_client - INFO - 保存文章成功: [Jin10] 土耳其总统办公室：总统埃尔多安将于周日在伊斯坦布尔与巴基斯坦总理谢里夫举行会谈。 (ID: 20250525170050862800)
+2025-05-25 17:36:44,015 - db.sqlite_client - INFO - 保存文章成功: [Jin10] 巴基斯坦为比特币挖矿分配2000兆瓦电力装机容量 (ID: 20250525165712568800)
+2025-05-25 17:36:44,017 - db.sqlite_client - INFO - 保存文章成功: [Jin10] 李在明：若当选总统，绝不针对特定个人进行政治报复 (ID: 20250525164702727800)
+2025-05-25 17:36:44,018 - db.sqlite_client - INFO - 保存文章成功: [Jin10] 存款利率跌破“1”时代，储户转战“新三金”配置 (ID: 20250525164622722800)
+2025-05-25 17:36:44,019 - db.sqlite_client - INFO - 保存文章成功: [Jin10] 佩斯科夫：也门领导人将访俄并与普京会晤 (ID: 20250525163014488800)
+2025-05-25 17:36:44,020 - db.sqlite_client - INFO - 保存文章成功: [Jin10] 李强同印度尼西亚总统普拉博沃会谈 (ID: 20250525162757522800)
+2025-05-25 17:36:44,020 - db.sqlite_client - INFO - 保存文章成功: [Jin10] 美国政府拟推“松绑版”发电新方案 (ID: 20250525160405411800)
+2025-05-25 17:36:44,021 - db.sqlite_client - INFO - 保存文章成功: [Jin10] 叙利亚政权领导人与美特使讨论解除对叙制裁问题 (ID: 20250525160137437800)
+2025-05-25 17:36:44,022 - db.sqlite_client - INFO - 保存文章成功: [Jin10] 以色列军方：已确认从也门发射一枚导弹，正尝试拦截。 (ID: 20250525155226375800)
+2025-05-25 17:36:44,023 - db.sqlite_client - INFO - 保存文章成功: [Jin10] 水利部会商部署南方强降雨防范应对工作 (ID: 20250525154759837800)
+2025-05-25 17:36:44,024 - db.sqlite_client - INFO - 保存文章成功: [Jin10] 波兰军机因俄罗斯在乌克兰的活动而升空 (ID: 20250525154659077800)
+2025-05-25 17:36:44,025 - db.sqlite_client - INFO - 保存文章成功: [Jin10] 北京启动今年第一批中药饮片挂网采购 (ID: 20250525153107128800)
+2025-05-25 17:36:44,025 - db.sqlite_client - INFO - 保存文章成功: [Jin10] 市场消息：波兰因边境附近“俄罗斯活动”宣布空军警戒。 (ID: 20250525152225598800)
+2025-05-25 17:36:44,026 - db.sqlite_client - INFO - 保存文章成功: [Jin10] 日本首相石破茂内阁支持率回升至31.7% (ID: 20250525152143517800)
+2025-05-25 17:36:44,027 - db.sqlite_client - INFO - 保存文章成功: [Jin10] 市场监管总局：下一步，市场监管总局将根据社会公开征求意见反馈情况完善《指南》内容，尽快出台实施，进一步健全平台经济常态化监管制度，持续规范平台收费行为，推动平台经济有序健康发展。 (ID: 20250525150655238800)
+2025-05-25 17:36:44,027 - processors.article_crawler - INFO - 金十数据 抓取完成: 获取 20 篇, 新增 20 篇, 耗时 0.33秒
+2025-05-25 17:36:44,027 - processors.article_crawler - INFO - 开始抓取 金十数据 的最新快讯
+2025-05-25 17:36:44,263 - processors.article_crawler - INFO - 从 金十数据 获取到 29 条快讯
+2025-05-25 17:36:44,266 - db.sqlite_client - INFO - 保存快讯成功: [Jin10] 以军称拦截从也门境内发射的导弹 (ID: 20250525171838914800)
+2025-05-25 17:36:44,268 - db.sqlite_client - INFO - 保存快讯成功: [Jin10] 据俄新社援引俄罗斯国防部：俄罗斯与乌克兰完成为期三天的战俘交换。 (ID: 20250525171208291800)
+2025-05-25 17:36:44,269 - db.sqlite_client - INFO - 保存快讯成功: [Jin10] 据俄新社：俄罗斯与乌克兰各交换了303名战俘。 (ID: 20250525171053937800)
+2025-05-25 17:36:44,271 - db.sqlite_client - INFO - 保存快讯成功: [Jin10] 俄国防部：军队正在沿国境建立安全区 (ID: 20250525170847054800)
+2025-05-25 17:36:44,273 - db.sqlite_client - INFO - 保存快讯成功: [Jin10] 恶劣天气袭击巴基斯坦 造成至少19人死亡 (ID: 20250525170726233800)
+2025-05-25 17:36:44,275 - db.sqlite_client - INFO - 保存快讯成功: [Jin10] 土耳其总统办公室：总统埃尔多安将于周日在伊斯坦布尔与巴基斯坦总理谢里夫举行会谈。 (ID: 20250525170050862800)
+2025-05-25 17:36:44,277 - db.sqlite_client - INFO - 保存快讯成功: [Jin10] 巴基斯坦为比特币挖矿分配2000兆瓦电力装机容量 (ID: 20250525165712568800)
+2025-05-25 17:36:44,278 - db.sqlite_client - INFO - 保存快讯成功: [Jin10] 李在明：若当选总统，绝不针对特定个人进行政治报复 (ID: 20250525164702727800)
+2025-05-25 17:36:44,280 - db.sqlite_client - INFO - 保存快讯成功: [Jin10] 存款利率跌破“1”时代，储户转战“新三金”配置 (ID: 20250525164622722800)
+2025-05-25 17:36:44,281 - db.sqlite_client - INFO - 保存快讯成功: [Jin10] 佩斯科夫：也门领导人将访俄并与普京会晤 (ID: 20250525163014488800)
+2025-05-25 17:36:44,282 - db.sqlite_client - INFO - 保存快讯成功: [Jin10] 李强同印度尼西亚总统普拉博沃会谈 (ID: 20250525162757522800)
+2025-05-25 17:36:44,283 - db.sqlite_client - INFO - 保存快讯成功: [Jin10] 美国政府拟推“松绑版”发电新方案 (ID: 20250525160405411800)
+2025-05-25 17:36:44,284 - db.sqlite_client - INFO - 保存快讯成功: [Jin10] 叙利亚政权领导人与美特使讨论解除对叙制裁问题 (ID: 20250525160137437800)
+2025-05-25 17:36:44,285 - db.sqlite_client - INFO - 保存快讯成功: [Jin10] 以色列军方：已确认从也门发射一枚导弹，正尝试拦截。 (ID: 20250525155226375800)
+2025-05-25 17:36:44,286 - db.sqlite_client - INFO - 保存快讯成功: [Jin10] 水利部会商部署南方强降雨防范应对工作 (ID: 20250525154759837800)
+2025-05-25 17:36:44,287 - db.sqlite_client - INFO - 保存快讯成功: [Jin10] 波兰军机因俄罗斯在乌克兰的活动而升空 (ID: 20250525154659077800)
+2025-05-25 17:36:44,287 - db.sqlite_client - INFO - 保存快讯成功: [Jin10] 北京启动今年第一批中药饮片挂网采购 (ID: 20250525153107128800)
+2025-05-25 17:36:44,288 - db.sqlite_client - INFO - 保存快讯成功: [Jin10] 市场消息：波兰因边境附近“俄罗斯活动”宣布空军警戒。 (ID: 20250525152225598800)
+2025-05-25 17:36:44,289 - db.sqlite_client - INFO - 保存快讯成功: [Jin10] 日本首相石破茂内阁支持率回升至31.7% (ID: 20250525152143517800)
+2025-05-25 17:36:44,290 - db.sqlite_client - INFO - 保存快讯成功: [Jin10] 市场监管总局：下一步，市场监管总局将根据社会公开征求意见反馈情况完善《指南》内容，尽快出台实施，进一步健全平台经济常态化监管制度，持续规范平台收费行为，推动平台经济有序健康发展。 (ID: 20250525150655238800)
+2025-05-25 17:36:44,291 - db.sqlite_client - INFO - 保存快讯成功: [Jin10] 市场监管总局：倡导降低平台内经营者负担。鼓励平台在合法、合理、互惠互利的范围内采取灵活多样的定价策略，对平台内经营者特别是中小商户提供让利或减免扶持，主动承担社会责任，减轻平台内经营者经营负担。 (ID: 20250525150351299800)
+2025-05-25 17:36:44,292 - db.sqlite_client - INFO - 保存快讯成功: [Jin10] 《网络交易平台收费行为合规指南》面向社会征求意见 (ID: 20250525150155144800)
+2025-05-25 17:36:44,292 - db.sqlite_client - INFO - 保存快讯成功: [Jin10] 日本关税谈判代表：希望在下次会谈中与美财长会面 (ID: 20250525150032040800)
+2025-05-25 17:36:44,293 - db.sqlite_client - INFO - 保存快讯成功: [Jin10] 美股下周一休市 (ID: 20250525145633845800)
+2025-05-25 17:36:44,294 - db.sqlite_client - INFO - 保存快讯成功: [Jin10] 叙利亚当局宣布重组内政部门 加强打击毒品和人口走私 (ID: 20250525144951703800)
+2025-05-25 17:36:44,297 - db.sqlite_client - INFO - 保存快讯成功: [Jin10] 日本经济再生大臣赤泽亮正：希望在下一轮会谈中与美国财长贝森特会面。 (ID: 20250525144131616800)
+2025-05-25 17:36:44,298 - db.sqlite_client - INFO - 保存快讯成功: [Jin10] 日本经济再生大臣赤泽亮正：下一轮谈判的时间安排仍在协调中。 (ID: 20250525143909878800)
+2025-05-25 17:36:44,298 - db.sqlite_client - INFO - 保存快讯成功: [Jin10] 俄称击落110架乌无人机 乌称多地遭袭已致12人死亡 (ID: 20250525143045585800)
+2025-05-25 17:36:44,299 - db.sqlite_client - INFO - 保存快讯成功: [Jin10] 乌克兰方面表示，俄罗斯在夜间用367枚导弹和无人机对其发动了袭击。 (ID: 20250525142945165800)
+2025-05-25 17:36:44,299 - processors.article_crawler - INFO - 金十数据 快讯抓取完成: 获取 29 条, 新增 29 条, 耗时 0.27秒
+2025-05-25 17:36:44,299 - processors.article_crawler - INFO - 开始抓取 格隆汇 的最新文章
+2025-05-25 17:36:46,227 - processors.article_crawler - INFO - 从 格隆汇 获取到 15 篇文章
+2025-05-25 17:36:46,228 - db.sqlite_client - INFO - 保存文章成功: [Gelonghui] 润建股份(002929.SZ)：预中标中国移动2025年至2026年家集客接入施工服务公开招标采购项目 (ID: 5010091)
+2025-05-25 17:36:46,230 - db.sqlite_client - INFO - 保存文章成功: [Gelonghui] 翔港科技(603499.SH)：控股股东、实际控制人董建军拟减持不超3%股份 (ID: 5010090)
+2025-05-25 17:36:46,231 - db.sqlite_client - INFO - 保存文章成功: [Gelonghui] 城地香江(603887.SH)：联合体中标《中国移动浙江公司2025年长三角（宁波）数据中心机房动力系统建设项目EPC工程总承包采购项目》 (ID: 5010089)
+2025-05-25 17:36:46,231 - db.sqlite_client - INFO - 保存文章成功: [Gelonghui] 新益昌(688383.SH)：拟推106.40万股限制性股票激励计划 (ID: 5010088)
+2025-05-25 17:36:46,232 - db.sqlite_client - INFO - 保存文章成功: [Gelonghui] 科源制药(301281.SZ)：监事王国钢拟减持不超9.38万股 (ID: 5010087)
+2025-05-25 17:36:46,233 - db.sqlite_client - INFO - 保存文章成功: [Gelonghui] 科源制药(301281.SZ)：股东问泽鸿拟减持不超3.00%股份 (ID: 5010086)
+2025-05-25 17:36:46,234 - db.sqlite_client - INFO - 保存文章成功: [Gelonghui] 东箭科技(300978.SZ)：新余东信、新余东恒、新余东诚拟合计减持不超117.88万股 (ID: 5010085)
+2025-05-25 17:36:46,234 - db.sqlite_client - INFO - 保存文章成功: [Gelonghui] 双飞集团(300817.SZ)：董事兼财务总监单亚元拟减持不超80万股股份 (ID: 5010084)
+2025-05-25 17:36:46,235 - db.sqlite_client - INFO - 保存文章成功: [Gelonghui] 恒锋工具(300488.SZ)：多名高管拟减持股份 (ID: 5010083)
+2025-05-25 17:36:46,236 - db.sqlite_client - INFO - 保存文章成功: [Gelonghui] 佳士科技(300193.SZ)：千鑫恒拟减持不超3.00%股份 (ID: 5010082)
+2025-05-25 17:36:46,237 - db.sqlite_client - INFO - 保存文章成功: [Gelonghui] 建新股份(300107.SZ)：多名高管拟减持股份 (ID: 5010081)
+2025-05-25 17:36:46,237 - db.sqlite_client - INFO - 保存文章成功: [Gelonghui] 星帅尔(002860.SZ)：钱凌拟减持不超130万股股份 (ID: 5010080)
+2025-05-25 17:36:46,238 - db.sqlite_client - INFO - 保存文章成功: [Gelonghui] 王子新材(002735.SZ)：宁波新容仅为可控核聚变中的磁体电源项目提供电容产品 (ID: 5010079)
+2025-05-25 17:36:46,239 - db.sqlite_client - INFO - 保存文章成功: [Gelonghui] 微光股份(002801.SZ)：微光投资拟减持不超1.32%股份 (ID: 5010078)
+2025-05-25 17:36:46,239 - db.sqlite_client - INFO - 保存文章成功: [Gelonghui] 众生药业(002317.SZ)：控股子公司获得一类创新药RAY1225注射液两项降糖III期临床试验伦理批件 (ID: 5010077)
+2025-05-25 17:36:46,239 - processors.article_crawler - INFO - 格隆汇 抓取完成: 获取 15 篇, 新增 15 篇, 耗时 1.94秒
+2025-05-25 17:36:46,239 - processors.article_crawler - INFO - 开始抓取 格隆汇 的最新快讯
+2025-05-25 17:36:46,467 - processors.article_crawler - WARNING - 格隆汇 未获取到快讯
+2025-05-25 17:36:46,467 - processors.article_crawler - INFO - 开始抓取 华尔街见闻 的最新文章
+2025-05-25 17:36:46,468 - processors.article_crawler - WARNING - 华尔街见闻 未获取到文章
+2025-05-25 17:36:46,468 - processors.article_crawler - INFO - 开始抓取 FastBull 的最新文章
+2025-05-25 17:36:49,618 - processors.article_crawler - INFO - 从 FastBull 获取到 20 篇文章
+2025-05-25 17:36:49,619 - db.sqlite_client - INFO - 更新文章成功: [FastBull] 美伊第五轮间接谈判有何进展 (ID: /cn/news-detail/4329761_1)
+2025-05-25 17:36:49,620 - db.sqlite_client - INFO - 更新文章成功: [FastBull] 降息问题揭示美国内部核心博弈 (ID: /cn/news-detail/4329741_1)
+2025-05-25 17:36:49,620 - db.sqlite_client - INFO - 更新文章成功: [FastBull] 特朗普欲对欧盟征收50%关税，对苹果收25%关税 (ID: /cn/news-detail/4329687_1)
+2025-05-25 17:36:49,621 - db.sqlite_client - INFO - 保存文章成功: [FastBull] 英国央行为何能够放松对通胀的担忧？ (ID: /cn/news-detail/4329773_1)
+2025-05-25 17:36:49,622 - db.sqlite_client - INFO - 保存文章成功: [FastBull] “重返南亚”？英国需平衡印巴 (ID: /cn/news-detail/4329499_1)
+2025-05-25 17:36:49,622 - db.sqlite_client - INFO - 保存文章成功: [FastBull] 调查显示，特朗普关税措施可能引发美国消费者不满 (ID: /cn/news-detail/4329765_1)
+2025-05-25 17:36:49,623 - db.sqlite_client - INFO - 保存文章成功: [FastBull] 美方威胁对欧盟征收高关税意欲何为？ (ID: /cn/news-detail/4329764_1)
+2025-05-25 17:36:49,623 - db.sqlite_client - INFO - 保存文章成功: [FastBull] 当美国“缺席”，一种新型全球化正在兴起 (ID: /cn/news-detail/4329615_1)
+2025-05-25 17:36:49,624 - db.sqlite_client - INFO - 保存文章成功: [FastBull] 美欧关税战若升级，德国或面临2500亿欧元损失 (ID: /cn/news-detail/4329763_1)
+2025-05-25 17:36:49,624 - db.sqlite_client - INFO - 保存文章成功: [FastBull] 不要低估6月1日的风险！欧洲想要的是谈判，而美国想要的是让步，市场想的是“又一个4月2日” (ID: /cn/news-detail/4329762_1)
+2025-05-25 17:36:49,624 - db.sqlite_client - INFO - 保存文章成功: [FastBull] 欧洲为何在全球科技革命中掉队？ (ID: /cn/news-detail/4329609_1)
+2025-05-25 17:36:49,625 - db.sqlite_client - INFO - 更新文章成功: [FastBull] 特朗普的国际新秩序：从山巅之城到丛林现实 (ID: /cn/news-detail/4329500_1)
+2025-05-25 17:36:49,625 - db.sqlite_client - INFO - 更新文章成功: [FastBull] 加税“非美产”苹果，特朗普开始做一种最坏的打算 (ID: /cn/news-detail/4329760_1)
+2025-05-25 17:36:49,626 - db.sqlite_client - INFO - 更新文章成功: [FastBull] 面对特朗普50%关税威胁，欧洲官员呼吁“冷静”应对 (ID: /cn/news-detail/4329759_1)
+2025-05-25 17:36:49,626 - db.sqlite_client - INFO - 更新文章成功: [FastBull] 经济焦虑与民族主义：越南如何应对特朗普关税风暴 (ID: /cn/news-detail/4329488_1)
+2025-05-25 17:36:49,626 - db.sqlite_client - INFO - 更新文章成功: [FastBull] 特朗普宣布美国钢铁和日本制铁结成合作关系，但未提供细节 (ID: /cn/news-detail/4329758_1)
+2025-05-25 17:36:49,627 - db.sqlite_client - INFO - 更新文章成功: [FastBull] 人道主义危机难解，联合国称加沙遭遇“最残酷阶段” (ID: /cn/news-detail/4329757_1)
+2025-05-25 17:36:49,628 - db.sqlite_client - INFO - 更新文章成功: [FastBull] 停火90天，关税警钟为何仍未解除？ (ID: /cn/news-detail/4329303_1)
+2025-05-25 17:36:49,629 - db.sqlite_client - INFO - 更新文章成功: [FastBull] 沃尔玛计划裁员1500人，CEO直言无法“吃下所有关税” (ID: /cn/news-detail/4329756_1)
+2025-05-25 17:36:49,629 - db.sqlite_client - INFO - 更新文章成功: [FastBull] 美媒：日内瓦会谈后，中美官员首次通话，释放积极信号 (ID: /cn/news-detail/4329755_1)
+2025-05-25 17:36:49,629 - processors.article_crawler - INFO - FastBull 抓取完成: 获取 20 篇, 新增 20 篇, 耗时 3.16秒
+2025-05-25 17:36:49,629 - processors.article_crawler - INFO - 开始抓取 财联社 的最新文章
+2025-05-25 17:36:49,630 - processors.article_crawler - WARNING - 财联社 未获取到文章
+2025-05-25 17:36:49,630 - processors.article_crawler - INFO - 开始抓取 财联社 的最新快讯
+2025-05-25 17:36:49,630 - processors.article_crawler - WARNING - 财联社 未获取到快讯
+2025-05-25 17:36:49,630 - processors.article_crawler - INFO - ===== 所有来源抓取完成 =====
+2025-05-25 17:36:49,630 - processors.article_crawler - INFO - 总计: 文章 55 篇, 新增 55 篇
+2025-05-25 17:36:49,630 - processors.article_crawler - INFO - 快讯 29 条, 新增 29 条
+2025-05-25 17:36:49,630 - processors.article_crawler - INFO - 总耗时: 5.93秒
+2025-05-25 17:36:49,630 - __main__ - INFO - 爬虫任务执行完成
+2025-05-25 17:36:49,630 - __main__ - INFO - 等待 30 分钟后再次执行爬虫任务...
+2025-05-25 17:46:14,448 - __main__ - INFO - 收到中断信号，正在关闭系统...
+2025-05-25 17:46:14,450 - __main__ - INFO - 系统已关闭
+2025-05-25 17:46:55,541 - __main__ - INFO - 财经新闻处理系统启动中...
+2025-05-25 17:46:55,541 - __main__ - INFO - 正在启动处理器...
+2025-05-25 17:46:55,541 - db.sqlite_client - INFO - SQLite数据库初始化完成: /Users/majiajue/Desktop/newsnow/newsnow-python/data/newsnow.db
+2025-05-25 17:46:55,541 - processors.article_analyzer - WARNING - 未找到 DeepSeek API 密钥，将使用默认分析服务
+2025-05-25 17:46:55,541 - processors.article_analyzer - INFO - 文章处理器初始化完成，使用 DeepSeek: False
+2025-05-25 17:46:55,541 - db.sqlite_client - INFO - SQLite数据库初始化完成: /Users/majiajue/Desktop/newsnow/newsnow-python/data/newsnow.db
+2025-05-25 17:46:55,541 - utils.search_service - INFO - 搜索服务初始化完成，使用服务器: http://localhost:8080
+2025-05-25 17:46:55,541 - processors.search_analyzer - INFO - 搜索分析器初始化完成
+2025-05-25 17:46:55,541 - __main__ - INFO - 开始执行处理器任务...
+2025-05-25 17:46:55,541 - __main__ - INFO - 使用搜索增强分析...
+2025-05-25 17:46:55,542 - db.sqlite_client - INFO - 获取到 20 篇未处理的文章
+2025-05-25 17:46:55,542 - processors.search_analyzer - INFO - 开始批量分析 20 篇文章
+2025-05-25 17:46:55,542 - processors.search_analyzer - INFO - [1/20] 开始分析文章 ID: /cn/news-detail/4329303_1
+2025-05-25 17:46:55,542 - db.sqlite_client - INFO - 使用完整路径ID查询: /cn/news-detail/4329303_1
+2025-05-25 17:46:55,542 - processors.search_analyzer - INFO - 开始分析文章: 停火90天，关税警钟为何仍未解除？ (ID: /cn/news-detail/4329303_1)
+2025-05-25 17:46:55,542 - utils.search_service - INFO - 执行搜索查询: 停火90天，关税警钟为何仍未解除？, 类别: finance
+2025-05-25 17:47:01,583 - utils.search_service - INFO - 搜索查询成功: 停火90天，关税警钟为何仍未解除？, 获取到 11 条结果
+2025-05-25 17:47:01,583 - processors.search_analyzer - INFO - 搜索完成，获取到 11 条相关结果，耗时: 6.04秒
+2025-05-25 17:47:01,584 - processors.search_analyzer - INFO - 分析完成，耗时: 0.00秒
+2025-05-25 17:47:01,585 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=/cn/news-detail/4329303_1
+2025-05-25 17:47:01,585 - processors.search_analyzer - INFO - 文章分析成功: 停火90天，关税警钟为何仍未解除？
+2025-05-25 17:47:01,585 - processors.search_analyzer - INFO - [2/20] 开始分析文章 ID: /cn/news-detail/4329488_1
+2025-05-25 17:47:01,586 - db.sqlite_client - INFO - 使用完整路径ID查询: /cn/news-detail/4329488_1
+2025-05-25 17:47:01,586 - processors.search_analyzer - INFO - 开始分析文章: 经济焦虑与民族主义：越南如何应对特朗普关税风暴 (ID: /cn/news-detail/4329488_1)
+2025-05-25 17:47:01,586 - utils.search_service - INFO - 执行搜索查询: 经济焦虑与民族主义：越南如何应对特朗普关税风暴, 类别: finance
+2025-05-25 17:47:04,401 - utils.search_service - INFO - 搜索查询成功: 经济焦虑与民族主义：越南如何应对特朗普关税风暴, 获取到 19 条结果
+2025-05-25 17:47:04,401 - processors.search_analyzer - INFO - 搜索完成，获取到 19 条相关结果，耗时: 2.81秒
+2025-05-25 17:47:04,401 - processors.search_analyzer - INFO - 分析完成，耗时: 0.00秒
+2025-05-25 17:47:04,404 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=/cn/news-detail/4329488_1
+2025-05-25 17:47:04,404 - processors.search_analyzer - INFO - 文章分析成功: 经济焦虑与民族主义：越南如何应对特朗普关税风暴
+2025-05-25 17:47:04,404 - processors.search_analyzer - INFO - [3/20] 开始分析文章 ID: /cn/news-detail/4329500_1
+2025-05-25 17:47:04,404 - db.sqlite_client - INFO - 使用完整路径ID查询: /cn/news-detail/4329500_1
+2025-05-25 17:47:04,405 - processors.search_analyzer - INFO - 开始分析文章: 特朗普的国际新秩序：从山巅之城到丛林现实 (ID: /cn/news-detail/4329500_1)
+2025-05-25 17:47:04,405 - utils.search_service - INFO - 执行搜索查询: 特朗普的国际新秩序：从山巅之城到丛林现实, 类别: finance
+2025-05-25 17:47:06,774 - utils.search_service - INFO - 搜索查询成功: 特朗普的国际新秩序：从山巅之城到丛林现实, 获取到 19 条结果
+2025-05-25 17:47:06,775 - processors.search_analyzer - INFO - 搜索完成，获取到 19 条相关结果，耗时: 2.37秒
+2025-05-25 17:47:06,775 - processors.search_analyzer - INFO - 分析完成，耗时: 0.00秒
+2025-05-25 17:47:06,777 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=/cn/news-detail/4329500_1
+2025-05-25 17:47:06,777 - processors.search_analyzer - INFO - 文章分析成功: 特朗普的国际新秩序：从山巅之城到丛林现实
+2025-05-25 17:47:06,777 - processors.search_analyzer - INFO - [4/20] 开始分析文章 ID: /cn/news-detail/4329609_1
+2025-05-25 17:47:06,777 - db.sqlite_client - INFO - 使用完整路径ID查询: /cn/news-detail/4329609_1
+2025-05-25 17:47:06,778 - processors.search_analyzer - INFO - 开始分析文章: 欧洲为何在全球科技革命中掉队？ (ID: /cn/news-detail/4329609_1)
+2025-05-25 17:47:06,778 - utils.search_service - INFO - 执行搜索查询: 欧洲为何在全球科技革命中掉队？, 类别: finance
+2025-05-25 17:47:08,055 - utils.search_service - INFO - 搜索查询成功: 欧洲为何在全球科技革命中掉队？, 获取到 30 条结果
+2025-05-25 17:47:08,056 - processors.search_analyzer - INFO - 搜索完成，获取到 30 条相关结果，耗时: 1.28秒
+2025-05-25 17:47:08,056 - processors.search_analyzer - INFO - 分析完成，耗时: 0.00秒
+2025-05-25 17:47:08,058 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=/cn/news-detail/4329609_1
+2025-05-25 17:47:08,058 - processors.search_analyzer - INFO - 文章分析成功: 欧洲为何在全球科技革命中掉队？
+2025-05-25 17:47:08,058 - processors.search_analyzer - INFO - [5/20] 开始分析文章 ID: /cn/news-detail/4329762_1
+2025-05-25 17:47:08,058 - db.sqlite_client - INFO - 使用完整路径ID查询: /cn/news-detail/4329762_1
+2025-05-25 17:47:08,059 - processors.search_analyzer - INFO - 开始分析文章: 不要低估6月1日的风险！欧洲想要的是谈判，而美国想要的是让步，市场想的是“又一个4月2日” (ID: /cn/news-detail/4329762_1)
+2025-05-25 17:47:08,059 - utils.search_service - INFO - 执行搜索查询: 不要低估6月1日的风险！欧洲想要的是谈判，而美国想要的是让步，市场想的是“又一个4月2日”, 类别: finance
+2025-05-25 17:47:08,928 - utils.search_service - INFO - 搜索查询成功: 不要低估6月1日的风险！欧洲想要的是谈判，而美国想要的是让步，市场想的是“又一个4月2日”, 获取到 10 条结果
+2025-05-25 17:47:08,928 - processors.search_analyzer - INFO - 搜索完成，获取到 10 条相关结果，耗时: 0.87秒
+2025-05-25 17:47:08,928 - processors.search_analyzer - INFO - 分析完成，耗时: 0.00秒
+2025-05-25 17:47:08,930 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=/cn/news-detail/4329762_1
+2025-05-25 17:47:08,930 - processors.search_analyzer - INFO - 文章分析成功: 不要低估6月1日的风险！欧洲想要的是谈判，而美国想要的是让步，市场想的是“又一个4月2日”
+2025-05-25 17:47:08,930 - processors.search_analyzer - INFO - [6/20] 开始分析文章 ID: /cn/news-detail/4329763_1
+2025-05-25 17:47:08,931 - db.sqlite_client - INFO - 使用完整路径ID查询: /cn/news-detail/4329763_1
+2025-05-25 17:47:08,931 - processors.search_analyzer - INFO - 开始分析文章: 美欧关税战若升级，德国或面临2500亿欧元损失 (ID: /cn/news-detail/4329763_1)
+2025-05-25 17:47:08,931 - utils.search_service - INFO - 执行搜索查询: 美欧关税战若升级，德国或面临2500亿欧元损失, 类别: finance
+2025-05-25 17:47:11,609 - utils.search_service - INFO - 搜索查询成功: 美欧关税战若升级，德国或面临2500亿欧元损失, 获取到 19 条结果
+2025-05-25 17:47:11,609 - processors.search_analyzer - INFO - 搜索完成，获取到 19 条相关结果，耗时: 2.68秒
+2025-05-25 17:47:11,609 - processors.search_analyzer - INFO - 分析完成，耗时: 0.00秒
+2025-05-25 17:47:11,612 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=/cn/news-detail/4329763_1
+2025-05-25 17:47:11,612 - processors.search_analyzer - INFO - 文章分析成功: 美欧关税战若升级，德国或面临2500亿欧元损失
+2025-05-25 17:47:11,612 - processors.search_analyzer - INFO - [7/20] 开始分析文章 ID: /cn/news-detail/4329615_1
+2025-05-25 17:47:11,612 - db.sqlite_client - INFO - 使用完整路径ID查询: /cn/news-detail/4329615_1
+2025-05-25 17:47:11,612 - processors.search_analyzer - INFO - 开始分析文章: 当美国“缺席”，一种新型全球化正在兴起 (ID: /cn/news-detail/4329615_1)
+2025-05-25 17:47:11,613 - utils.search_service - INFO - 执行搜索查询: 当美国“缺席”，一种新型全球化正在兴起, 类别: finance
+2025-05-25 17:47:12,405 - utils.search_service - INFO - 搜索查询成功: 当美国“缺席”，一种新型全球化正在兴起, 获取到 22 条结果
+2025-05-25 17:47:12,405 - processors.search_analyzer - INFO - 搜索完成，获取到 22 条相关结果，耗时: 0.79秒
+2025-05-25 17:47:12,406 - processors.search_analyzer - INFO - 分析完成，耗时: 0.00秒
+2025-05-25 17:47:12,408 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=/cn/news-detail/4329615_1
+2025-05-25 17:47:12,408 - processors.search_analyzer - INFO - 文章分析成功: 当美国“缺席”，一种新型全球化正在兴起
+2025-05-25 17:47:12,408 - processors.search_analyzer - INFO - [8/20] 开始分析文章 ID: /cn/news-detail/4329764_1
+2025-05-25 17:47:12,409 - db.sqlite_client - INFO - 使用完整路径ID查询: /cn/news-detail/4329764_1
+2025-05-25 17:47:12,409 - processors.search_analyzer - INFO - 开始分析文章: 美方威胁对欧盟征收高关税意欲何为？ (ID: /cn/news-detail/4329764_1)
+2025-05-25 17:47:12,409 - utils.search_service - INFO - 执行搜索查询: 美方威胁对欧盟征收高关税意欲何为？, 类别: finance
+2025-05-25 17:47:13,221 - __main__ - INFO - 收到中断信号，正在关闭系统...
+2025-05-25 17:47:13,221 - __main__ - INFO - 系统已关闭
+2025-05-25 17:47:46,377 - __main__ - INFO - 财经新闻处理系统启动中...
+2025-05-25 17:47:46,377 - __main__ - INFO - 正在启动处理器...
+2025-05-25 17:47:46,377 - db.sqlite_client - INFO - SQLite数据库初始化完成: /Users/majiajue/Desktop/newsnow/newsnow-python/data/newsnow.db
+2025-05-25 17:47:46,377 - processors.article_analyzer - INFO - 初始化 DeepSeek AI 服务成功
+2025-05-25 17:47:46,377 - processors.article_analyzer - INFO - 文章处理器初始化完成，使用 DeepSeek: True
+2025-05-25 17:47:46,377 - db.sqlite_client - INFO - SQLite数据库初始化完成: /Users/majiajue/Desktop/newsnow/newsnow-python/data/newsnow.db
+2025-05-25 17:47:46,377 - utils.search_service - INFO - 搜索服务初始化完成，使用服务器: http://localhost:8080
+2025-05-25 17:47:46,377 - processors.search_analyzer - INFO - 搜索分析器初始化完成
+2025-05-25 17:47:46,377 - __main__ - INFO - 开始执行处理器任务...
+2025-05-25 17:47:46,377 - __main__ - INFO - 使用搜索增强分析...
+2025-05-25 17:47:46,378 - db.sqlite_client - INFO - 获取到 20 篇未处理的文章
+2025-05-25 17:47:46,378 - processors.search_analyzer - INFO - 开始批量分析 20 篇文章
+2025-05-25 17:47:46,378 - processors.search_analyzer - INFO - [1/20] 开始分析文章 ID: /cn/news-detail/4329764_1
+2025-05-25 17:47:46,378 - db.sqlite_client - INFO - 使用完整路径ID查询: /cn/news-detail/4329764_1
+2025-05-25 17:47:46,378 - processors.search_analyzer - INFO - 开始分析文章: 美方威胁对欧盟征收高关税意欲何为？ (ID: /cn/news-detail/4329764_1)
+2025-05-25 17:47:46,378 - utils.search_service - INFO - 执行搜索查询: 美方威胁对欧盟征收高关税意欲何为？, 类别: finance
+2025-05-25 17:47:48,754 - utils.search_service - INFO - 搜索查询成功: 美方威胁对欧盟征收高关税意欲何为？, 获取到 20 条结果
+2025-05-25 17:47:48,754 - processors.search_analyzer - INFO - 搜索完成，获取到 20 条相关结果，耗时: 2.38秒
+2025-05-25 17:48:07,571 - processors.search_analyzer - INFO - 分析完成，耗时: 18.82秒
+2025-05-25 17:48:07,574 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=/cn/news-detail/4329764_1
+2025-05-25 17:48:07,574 - processors.search_analyzer - INFO - 文章分析成功: 美方威胁对欧盟征收高关税意欲何为？
+2025-05-25 17:48:07,574 - processors.search_analyzer - INFO - [2/20] 开始分析文章 ID: /cn/news-detail/4329765_1
+2025-05-25 17:48:07,574 - db.sqlite_client - INFO - 使用完整路径ID查询: /cn/news-detail/4329765_1
+2025-05-25 17:48:07,575 - processors.search_analyzer - INFO - 开始分析文章: 调查显示，特朗普关税措施可能引发美国消费者不满 (ID: /cn/news-detail/4329765_1)
+2025-05-25 17:48:07,575 - utils.search_service - INFO - 执行搜索查询: 调查显示，特朗普关税措施可能引发美国消费者不满, 类别: finance
+2025-05-25 17:48:10,423 - utils.search_service - INFO - 搜索查询成功: 调查显示，特朗普关税措施可能引发美国消费者不满, 获取到 21 条结果
+2025-05-25 17:48:10,423 - processors.search_analyzer - INFO - 搜索完成，获取到 21 条相关结果，耗时: 2.85秒
+2025-05-25 17:48:29,879 - processors.search_analyzer - INFO - 分析完成，耗时: 19.46秒
+2025-05-25 17:48:29,882 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=/cn/news-detail/4329765_1
+2025-05-25 17:48:29,882 - processors.search_analyzer - INFO - 文章分析成功: 调查显示，特朗普关税措施可能引发美国消费者不满
+2025-05-25 17:48:29,882 - processors.search_analyzer - INFO - [3/20] 开始分析文章 ID: /cn/news-detail/4329499_1
+2025-05-25 17:48:29,882 - db.sqlite_client - INFO - 使用完整路径ID查询: /cn/news-detail/4329499_1
+2025-05-25 17:48:29,883 - processors.search_analyzer - INFO - 开始分析文章: “重返南亚”？英国需平衡印巴 (ID: /cn/news-detail/4329499_1)
+2025-05-25 17:48:29,883 - utils.search_service - INFO - 执行搜索查询: “重返南亚”？英国需平衡印巴, 类别: finance
+2025-05-25 17:48:32,747 - utils.search_service - INFO - 搜索查询成功: “重返南亚”？英国需平衡印巴, 获取到 11 条结果
+2025-05-25 17:48:32,748 - processors.search_analyzer - INFO - 搜索完成，获取到 11 条相关结果，耗时: 2.86秒
+2025-05-25 17:48:50,805 - processors.search_analyzer - INFO - 分析完成，耗时: 18.06秒
+2025-05-25 17:48:50,808 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=/cn/news-detail/4329499_1
+2025-05-25 17:48:50,808 - processors.search_analyzer - INFO - 文章分析成功: “重返南亚”？英国需平衡印巴
+2025-05-25 17:48:50,808 - processors.search_analyzer - INFO - [4/20] 开始分析文章 ID: /cn/news-detail/4329773_1
+2025-05-25 17:48:50,809 - db.sqlite_client - INFO - 使用完整路径ID查询: /cn/news-detail/4329773_1
+2025-05-25 17:48:50,809 - processors.search_analyzer - INFO - 开始分析文章: 英国央行为何能够放松对通胀的担忧？ (ID: /cn/news-detail/4329773_1)
+2025-05-25 17:48:50,809 - utils.search_service - INFO - 执行搜索查询: 英国央行为何能够放松对通胀的担忧？, 类别: finance
+2025-05-25 17:48:56,819 - utils.search_service - INFO - 搜索查询成功: 英国央行为何能够放松对通胀的担忧？, 获取到 20 条结果
+2025-05-25 17:48:56,820 - processors.search_analyzer - INFO - 搜索完成，获取到 20 条相关结果，耗时: 6.01秒
+2025-05-25 17:49:17,770 - processors.search_analyzer - INFO - 分析完成，耗时: 20.95秒
+2025-05-25 17:49:17,773 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=/cn/news-detail/4329773_1
+2025-05-25 17:49:17,773 - processors.search_analyzer - INFO - 文章分析成功: 英国央行为何能够放松对通胀的担忧？
+2025-05-25 17:49:17,773 - processors.search_analyzer - INFO - [5/20] 开始分析文章 ID: 20250525171838914800
+2025-05-25 17:49:17,773 - db.sqlite_client - INFO - 使用简单ID查询: 20250525171838914800
+2025-05-25 17:49:17,774 - processors.search_analyzer - INFO - 开始分析文章: 以军称拦截从也门境内发射的导弹 (ID: 20250525171838914800)
+2025-05-25 17:49:17,774 - utils.search_service - INFO - 执行搜索查询: 以军称拦截从也门境内发射的导弹, 类别: finance
+2025-05-25 17:49:23,789 - utils.search_service - INFO - 搜索查询成功: 以军称拦截从也门境内发射的导弹, 获取到 19 条结果
+2025-05-25 17:49:23,790 - processors.search_analyzer - INFO - 搜索完成，获取到 19 条相关结果，耗时: 6.02秒
+2025-05-25 17:49:44,729 - processors.search_analyzer - INFO - 分析完成，耗时: 20.94秒
+2025-05-25 17:49:44,732 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=20250525171838914800
+2025-05-25 17:49:44,732 - processors.search_analyzer - INFO - 文章分析成功: 以军称拦截从也门境内发射的导弹
+2025-05-25 17:49:44,732 - processors.search_analyzer - INFO - [6/20] 开始分析文章 ID: 20250525171208291800
+2025-05-25 17:49:44,732 - db.sqlite_client - INFO - 使用简单ID查询: 20250525171208291800
+2025-05-25 17:49:44,732 - processors.search_analyzer - INFO - 开始分析文章: 据俄新社援引俄罗斯国防部：俄罗斯与乌克兰完成为期三天的战俘交换。 (ID: 20250525171208291800)
+2025-05-25 17:49:44,733 - utils.search_service - INFO - 执行搜索查询: 据俄新社援引俄罗斯国防部：俄罗斯与乌克兰完成为期三天的战俘交换。, 类别: finance
+2025-05-25 17:49:47,826 - utils.search_service - INFO - 搜索查询成功: 据俄新社援引俄罗斯国防部：俄罗斯与乌克兰完成为期三天的战俘交换。, 获取到 20 条结果
+2025-05-25 17:49:47,827 - processors.search_analyzer - INFO - 搜索完成，获取到 20 条相关结果，耗时: 3.09秒
+2025-05-25 17:50:10,742 - processors.search_analyzer - INFO - 分析完成，耗时: 22.92秒
+2025-05-25 17:50:10,745 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=20250525171208291800
+2025-05-25 17:50:10,745 - processors.search_analyzer - INFO - 文章分析成功: 据俄新社援引俄罗斯国防部：俄罗斯与乌克兰完成为期三天的战俘交换。
+2025-05-25 17:50:10,745 - processors.search_analyzer - INFO - [7/20] 开始分析文章 ID: 20250525171053937800
+2025-05-25 17:50:10,745 - db.sqlite_client - INFO - 使用简单ID查询: 20250525171053937800
+2025-05-25 17:50:10,746 - processors.search_analyzer - INFO - 开始分析文章: 据俄新社：俄罗斯与乌克兰各交换了303名战俘。 (ID: 20250525171053937800)
+2025-05-25 17:50:10,746 - utils.search_service - INFO - 执行搜索查询: 据俄新社：俄罗斯与乌克兰各交换了303名战俘。, 类别: finance
+2025-05-25 17:50:14,387 - utils.search_service - INFO - 搜索查询成功: 据俄新社：俄罗斯与乌克兰各交换了303名战俘。, 获取到 20 条结果
+2025-05-25 17:50:14,387 - processors.search_analyzer - INFO - 搜索完成，获取到 20 条相关结果，耗时: 3.64秒
+2025-05-25 17:50:30,194 - processors.search_analyzer - INFO - 分析完成，耗时: 15.81秒
+2025-05-25 17:50:30,198 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=20250525171053937800
+2025-05-25 17:50:30,198 - processors.search_analyzer - INFO - 文章分析成功: 据俄新社：俄罗斯与乌克兰各交换了303名战俘。
+2025-05-25 17:50:30,198 - processors.search_analyzer - INFO - [8/20] 开始分析文章 ID: 20250525170847054800
+2025-05-25 17:50:30,198 - db.sqlite_client - INFO - 使用简单ID查询: 20250525170847054800
+2025-05-25 17:50:30,199 - processors.search_analyzer - INFO - 开始分析文章: 俄国防部：军队正在沿国境建立安全区 (ID: 20250525170847054800)
+2025-05-25 17:50:30,199 - utils.search_service - INFO - 执行搜索查询: 俄国防部：军队正在沿国境建立安全区, 类别: finance
+2025-05-25 17:50:32,376 - utils.search_service - INFO - 搜索查询成功: 俄国防部：军队正在沿国境建立安全区, 获取到 21 条结果
+2025-05-25 17:50:32,376 - processors.search_analyzer - INFO - 搜索完成，获取到 21 条相关结果，耗时: 2.18秒
+2025-05-25 17:50:53,552 - processors.search_analyzer - INFO - 分析完成，耗时: 21.18秒
+2025-05-25 17:50:53,555 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=20250525170847054800
+2025-05-25 17:50:53,555 - processors.search_analyzer - INFO - 文章分析成功: 俄国防部：军队正在沿国境建立安全区
+2025-05-25 17:50:53,555 - processors.search_analyzer - INFO - [9/20] 开始分析文章 ID: 5010091
+2025-05-25 17:50:53,555 - db.sqlite_client - INFO - 使用简单ID查询: 5010091
+2025-05-25 17:50:53,556 - processors.search_analyzer - INFO - 开始分析文章: 润建股份(002929.SZ)：预中标中国移动2025年至2026年家集客接入施工服务公开招标采购项目 (ID: 5010091)
+2025-05-25 17:50:53,556 - utils.search_service - INFO - 执行搜索查询: 润建股份(002929.SZ)：预中标中国移动2025年至2026年家集客接入施工服务公开招标采购项目, 类别: finance
+2025-05-25 17:50:59,570 - utils.search_service - INFO - 搜索查询成功: 润建股份(002929.SZ)：预中标中国移动2025年至2026年家集客接入施工服务公开招标采购项目, 获取到 13 条结果
+2025-05-25 17:50:59,570 - processors.search_analyzer - INFO - 搜索完成，获取到 13 条相关结果，耗时: 6.01秒
+2025-05-25 17:51:22,841 - processors.search_analyzer - INFO - 分析完成，耗时: 23.27秒
+2025-05-25 17:51:22,844 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=5010091
+2025-05-25 17:51:22,844 - processors.search_analyzer - INFO - 文章分析成功: 润建股份(002929.SZ)：预中标中国移动2025年至2026年家集客接入施工服务公开招标采购项目
+2025-05-25 17:51:22,844 - processors.search_analyzer - INFO - [10/20] 开始分析文章 ID: 20250525170726233800
+2025-05-25 17:51:22,844 - db.sqlite_client - INFO - 使用简单ID查询: 20250525170726233800
+2025-05-25 17:51:22,845 - processors.search_analyzer - INFO - 开始分析文章: 恶劣天气袭击巴基斯坦 造成至少19人死亡 (ID: 20250525170726233800)
+2025-05-25 17:51:22,845 - utils.search_service - INFO - 执行搜索查询: 恶劣天气袭击巴基斯坦 造成至少19人死亡, 类别: finance
+2025-05-25 17:51:28,886 - utils.search_service - INFO - 搜索查询成功: 恶劣天气袭击巴基斯坦 造成至少19人死亡, 获取到 20 条结果
+2025-05-25 17:51:28,887 - processors.search_analyzer - INFO - 搜索完成，获取到 20 条相关结果，耗时: 6.04秒
+2025-05-25 17:51:46,897 - processors.search_analyzer - INFO - 分析完成，耗时: 18.01秒
+2025-05-25 17:51:46,898 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=20250525170726233800
+2025-05-25 17:51:46,898 - processors.search_analyzer - INFO - 文章分析成功: 恶劣天气袭击巴基斯坦 造成至少19人死亡
+2025-05-25 17:51:46,899 - processors.search_analyzer - INFO - [11/20] 开始分析文章 ID: 5010090
+2025-05-25 17:51:46,899 - db.sqlite_client - INFO - 使用简单ID查询: 5010090
+2025-05-25 17:51:46,899 - processors.search_analyzer - INFO - 开始分析文章: 翔港科技(603499.SH)：控股股东、实际控制人董建军拟减持不超3%股份 (ID: 5010090)
+2025-05-25 17:51:46,899 - utils.search_service - INFO - 执行搜索查询: 翔港科技(603499.SH)：控股股东、实际控制人董建军拟减持不超3%股份, 类别: finance
+2025-05-25 17:51:52,913 - utils.search_service - INFO - 搜索查询成功: 翔港科技(603499.SH)：控股股东、实际控制人董建军拟减持不超3%股份, 获取到 17 条结果
+2025-05-25 17:51:52,914 - processors.search_analyzer - INFO - 搜索完成，获取到 17 条相关结果，耗时: 6.01秒
+2025-05-25 17:52:14,298 - processors.search_analyzer - INFO - 分析完成，耗时: 21.38秒
+2025-05-25 17:52:14,301 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=5010090
+2025-05-25 17:52:14,302 - processors.search_analyzer - INFO - 文章分析成功: 翔港科技(603499.SH)：控股股东、实际控制人董建军拟减持不超3%股份
+2025-05-25 17:52:14,302 - processors.search_analyzer - INFO - [12/20] 开始分析文章 ID: 20250525170050862800
+2025-05-25 17:52:14,302 - db.sqlite_client - INFO - 使用简单ID查询: 20250525170050862800
+2025-05-25 17:52:14,303 - processors.search_analyzer - INFO - 开始分析文章: 土耳其总统办公室：总统埃尔多安将于周日在伊斯坦布尔与巴基斯坦总理谢里夫举行会谈。 (ID: 20250525170050862800)
+2025-05-25 17:52:14,303 - utils.search_service - INFO - 执行搜索查询: 土耳其总统办公室：总统埃尔多安将于周日在伊斯坦布尔与巴基斯坦总理谢里夫举行会谈。, 类别: finance
+2025-05-25 17:52:16,444 - utils.search_service - INFO - 搜索查询成功: 土耳其总统办公室：总统埃尔多安将于周日在伊斯坦布尔与巴基斯坦总理谢里夫举行会谈。, 获取到 17 条结果
+2025-05-25 17:52:16,445 - processors.search_analyzer - INFO - 搜索完成，获取到 17 条相关结果，耗时: 2.14秒
+2025-05-25 17:52:33,995 - processors.search_analyzer - INFO - 分析完成，耗时: 17.55秒
+2025-05-25 17:52:33,998 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=20250525170050862800
+2025-05-25 17:52:33,998 - processors.search_analyzer - INFO - 文章分析成功: 土耳其总统办公室：总统埃尔多安将于周日在伊斯坦布尔与巴基斯坦总理谢里夫举行会谈。
+2025-05-25 17:52:33,998 - processors.search_analyzer - INFO - [13/20] 开始分析文章 ID: 20250525165712568800
+2025-05-25 17:52:33,999 - db.sqlite_client - INFO - 使用简单ID查询: 20250525165712568800
+2025-05-25 17:52:33,999 - processors.search_analyzer - INFO - 开始分析文章: 巴基斯坦为比特币挖矿分配2000兆瓦电力装机容量 (ID: 20250525165712568800)
+2025-05-25 17:52:33,999 - utils.search_service - INFO - 执行搜索查询: 巴基斯坦为比特币挖矿分配2000兆瓦电力装机容量, 类别: finance
+2025-05-25 17:52:40,011 - utils.search_service - INFO - 搜索查询成功: 巴基斯坦为比特币挖矿分配2000兆瓦电力装机容量, 获取到 10 条结果
+2025-05-25 17:52:40,011 - processors.search_analyzer - INFO - 搜索完成，获取到 10 条相关结果，耗时: 6.01秒
+2025-05-25 17:52:56,635 - processors.search_analyzer - INFO - 分析完成，耗时: 16.62秒
+2025-05-25 17:52:56,638 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=20250525165712568800
+2025-05-25 17:52:56,638 - processors.search_analyzer - INFO - 文章分析成功: 巴基斯坦为比特币挖矿分配2000兆瓦电力装机容量
+2025-05-25 17:52:56,639 - processors.search_analyzer - INFO - [14/20] 开始分析文章 ID: 20250525164702727800
+2025-05-25 17:52:56,639 - db.sqlite_client - INFO - 使用简单ID查询: 20250525164702727800
+2025-05-25 17:52:56,639 - processors.search_analyzer - INFO - 开始分析文章: 李在明：若当选总统，绝不针对特定个人进行政治报复 (ID: 20250525164702727800)
+2025-05-25 17:52:56,639 - utils.search_service - INFO - 执行搜索查询: 李在明：若当选总统，绝不针对特定个人进行政治报复, 类别: finance
+2025-05-25 17:53:02,651 - utils.search_service - INFO - 搜索查询成功: 李在明：若当选总统，绝不针对特定个人进行政治报复, 获取到 3 条结果
+2025-05-25 17:53:02,652 - processors.search_analyzer - INFO - 搜索完成，获取到 3 条相关结果，耗时: 6.01秒
+2025-05-25 17:53:24,176 - processors.search_analyzer - INFO - 分析完成，耗时: 21.52秒
+2025-05-25 17:53:24,179 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=20250525164702727800
+2025-05-25 17:53:24,180 - processors.search_analyzer - INFO - 文章分析成功: 李在明：若当选总统，绝不针对特定个人进行政治报复
+2025-05-25 17:53:24,180 - processors.search_analyzer - INFO - [15/20] 开始分析文章 ID: 20250525164622722800
+2025-05-25 17:53:24,180 - db.sqlite_client - INFO - 使用简单ID查询: 20250525164622722800
+2025-05-25 17:53:24,181 - processors.search_analyzer - INFO - 开始分析文章: 存款利率跌破“1”时代，储户转战“新三金”配置 (ID: 20250525164622722800)
+2025-05-25 17:53:24,181 - utils.search_service - INFO - 执行搜索查询: 存款利率跌破“1”时代，储户转战“新三金”配置, 类别: finance
+2025-05-25 17:53:26,383 - utils.search_service - INFO - 搜索查询成功: 存款利率跌破“1”时代，储户转战“新三金”配置, 获取到 1 条结果
+2025-05-25 17:53:26,383 - processors.search_analyzer - INFO - 搜索完成，获取到 1 条相关结果，耗时: 2.20秒
+2025-05-25 17:53:46,497 - processors.search_analyzer - INFO - 分析完成，耗时: 20.11秒
+2025-05-25 17:53:46,500 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=20250525164622722800
+2025-05-25 17:53:46,500 - processors.search_analyzer - INFO - 文章分析成功: 存款利率跌破“1”时代，储户转战“新三金”配置
+2025-05-25 17:53:46,500 - processors.search_analyzer - INFO - [16/20] 开始分析文章 ID: 5010077
+2025-05-25 17:53:46,500 - db.sqlite_client - INFO - 使用简单ID查询: 5010077
+2025-05-25 17:53:46,501 - processors.search_analyzer - INFO - 开始分析文章: 众生药业(002317.SZ)：控股子公司获得一类创新药RAY1225注射液两项降糖III期临床试验伦理批件 (ID: 5010077)
+2025-05-25 17:53:46,501 - utils.search_service - INFO - 执行搜索查询: 众生药业(002317.SZ)：控股子公司获得一类创新药RAY1225注射液两项降糖III期临床试验伦理批件, 类别: finance
+2025-05-25 17:53:52,512 - utils.search_service - INFO - 搜索查询成功: 众生药业(002317.SZ)：控股子公司获得一类创新药RAY1225注射液两项降糖III期临床试验伦理批件, 获取到 13 条结果
+2025-05-25 17:53:52,512 - processors.search_analyzer - INFO - 搜索完成，获取到 13 条相关结果，耗时: 6.01秒
+2025-05-25 17:54:12,711 - processors.search_analyzer - INFO - 分析完成，耗时: 20.20秒
+2025-05-25 17:54:12,714 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=5010077
+2025-05-25 17:54:12,714 - processors.search_analyzer - INFO - 文章分析成功: 众生药业(002317.SZ)：控股子公司获得一类创新药RAY1225注射液两项降糖III期临床试验伦理批件
+2025-05-25 17:54:12,714 - processors.search_analyzer - INFO - [17/20] 开始分析文章 ID: 5010078
+2025-05-25 17:54:12,714 - db.sqlite_client - INFO - 使用简单ID查询: 5010078
+2025-05-25 17:54:12,715 - processors.search_analyzer - INFO - 开始分析文章: 微光股份(002801.SZ)：微光投资拟减持不超1.32%股份 (ID: 5010078)
+2025-05-25 17:54:12,715 - utils.search_service - INFO - 执行搜索查询: 微光股份(002801.SZ)：微光投资拟减持不超1.32%股份, 类别: finance
+2025-05-25 17:54:18,731 - utils.search_service - INFO - 搜索查询成功: 微光股份(002801.SZ)：微光投资拟减持不超1.32%股份, 获取到 9 条结果
+2025-05-25 17:54:18,731 - processors.search_analyzer - INFO - 搜索完成，获取到 9 条相关结果，耗时: 6.02秒
+2025-05-25 17:54:45,788 - processors.search_analyzer - INFO - 分析完成，耗时: 27.06秒
+2025-05-25 17:54:45,791 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=5010078
+2025-05-25 17:54:45,792 - processors.search_analyzer - INFO - 文章分析成功: 微光股份(002801.SZ)：微光投资拟减持不超1.32%股份
+2025-05-25 17:54:45,792 - processors.search_analyzer - INFO - [18/20] 开始分析文章 ID: 5010079
+2025-05-25 17:54:45,792 - db.sqlite_client - INFO - 使用简单ID查询: 5010079
+2025-05-25 17:54:45,792 - processors.search_analyzer - INFO - 开始分析文章: 王子新材(002735.SZ)：宁波新容仅为可控核聚变中的磁体电源项目提供电容产品 (ID: 5010079)
+2025-05-25 17:54:45,792 - utils.search_service - INFO - 执行搜索查询: 王子新材(002735.SZ)：宁波新容仅为可控核聚变中的磁体电源项目提供电容产品, 类别: finance
+2025-05-25 17:54:48,037 - utils.search_service - INFO - 搜索查询成功: 王子新材(002735.SZ)：宁波新容仅为可控核聚变中的磁体电源项目提供电容产品, 获取到 19 条结果
+2025-05-25 17:54:48,038 - processors.search_analyzer - INFO - 搜索完成，获取到 19 条相关结果，耗时: 2.25秒
+2025-05-25 17:55:12,475 - processors.search_analyzer - INFO - 分析完成，耗时: 24.44秒
+2025-05-25 17:55:12,478 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=5010079
+2025-05-25 17:55:12,478 - processors.search_analyzer - INFO - 文章分析成功: 王子新材(002735.SZ)：宁波新容仅为可控核聚变中的磁体电源项目提供电容产品
+2025-05-25 17:55:12,478 - processors.search_analyzer - INFO - [19/20] 开始分析文章 ID: 5010080
+2025-05-25 17:55:12,478 - db.sqlite_client - INFO - 使用简单ID查询: 5010080
+2025-05-25 17:55:12,479 - processors.search_analyzer - INFO - 开始分析文章: 星帅尔(002860.SZ)：钱凌拟减持不超130万股股份 (ID: 5010080)
+2025-05-25 17:55:12,479 - utils.search_service - INFO - 执行搜索查询: 星帅尔(002860.SZ)：钱凌拟减持不超130万股股份, 类别: finance
+2025-05-25 17:55:16,092 - utils.search_service - INFO - 搜索查询成功: 星帅尔(002860.SZ)：钱凌拟减持不超130万股股份, 获取到 6 条结果
+2025-05-25 17:55:16,092 - processors.search_analyzer - INFO - 搜索完成，获取到 6 条相关结果，耗时: 3.61秒
+2025-05-25 17:55:40,105 - processors.search_analyzer - INFO - 分析完成，耗时: 24.01秒
+2025-05-25 17:55:40,108 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=5010080
+2025-05-25 17:55:40,109 - processors.search_analyzer - INFO - 文章分析成功: 星帅尔(002860.SZ)：钱凌拟减持不超130万股股份
+2025-05-25 17:55:40,109 - processors.search_analyzer - INFO - [20/20] 开始分析文章 ID: 5010081
+2025-05-25 17:55:40,109 - db.sqlite_client - INFO - 使用简单ID查询: 5010081
+2025-05-25 17:55:40,109 - processors.search_analyzer - INFO - 开始分析文章: 建新股份(300107.SZ)：多名高管拟减持股份 (ID: 5010081)
+2025-05-25 17:55:40,109 - utils.search_service - INFO - 执行搜索查询: 建新股份(300107.SZ)：多名高管拟减持股份, 类别: finance
+2025-05-25 17:55:46,120 - utils.search_service - INFO - 搜索查询成功: 建新股份(300107.SZ)：多名高管拟减持股份, 获取到 8 条结果
+2025-05-25 17:55:46,120 - processors.search_analyzer - INFO - 搜索完成，获取到 8 条相关结果，耗时: 6.01秒
+2025-05-25 17:56:05,777 - processors.search_analyzer - INFO - 分析完成，耗时: 19.66秒
+2025-05-25 17:56:05,780 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=5010081
+2025-05-25 17:56:05,780 - processors.search_analyzer - INFO - 文章分析成功: 建新股份(300107.SZ)：多名高管拟减持股份
+2025-05-25 17:56:05,780 - processors.search_analyzer - INFO - 批处理完成: 总计 20 篇文章, 成功 20 篇, 失败 0 篇
+2025-05-25 17:56:05,780 - processors.search_analyzer - INFO - 总耗时: 499.40秒, 平均每篇: 24.97秒
+2025-05-25 17:56:05,780 - __main__ - INFO - 处理完成: 总计 20 篇文章, 成功 20 篇, 失败 0 篇
+2025-05-25 17:56:05,781 - __main__ - INFO - 所有任务已完成
+2025-05-25 17:56:47,128 - __main__ - INFO - 财经新闻处理系统启动中...
+2025-05-25 17:56:47,128 - __main__ - INFO - 正在启动爬虫...
+2025-05-25 17:56:47,128 - db.sqlite_client - INFO - SQLite数据库初始化完成: /Users/majiajue/Desktop/newsnow/newsnow-python/data/newsnow.db
+2025-05-25 17:56:47,128 - processors.article_crawler - INFO - 文章抓取器初始化完成
+2025-05-25 17:56:47,128 - __main__ - INFO - 开始执行爬虫任务...
+2025-05-25 17:56:47,128 - __main__ - INFO - 正在启动处理器...
+2025-05-25 17:56:47,128 - processors.article_crawler - INFO - ===== 开始抓取所有来源 2025-05-25T17:56:47.128697 =====
+2025-05-25 17:56:47,128 - processors.article_crawler - INFO - 开始抓取 金十数据 的最新文章
+2025-05-25 17:56:47,128 - db.sqlite_client - INFO - SQLite数据库初始化完成: /Users/majiajue/Desktop/newsnow/newsnow-python/data/newsnow.db
+2025-05-25 17:56:47,129 - processors.article_analyzer - INFO - 初始化 DeepSeek AI 服务成功
+2025-05-25 17:56:47,129 - processors.article_analyzer - INFO - 文章处理器初始化完成，使用 DeepSeek: True
+2025-05-25 17:56:47,129 - __main__ - INFO - 开始执行处理器任务...
+2025-05-25 17:56:47,129 - __main__ - INFO - 系统已启动，按Ctrl+C中断...
+2025-05-25 17:56:47,129 - processors.article_analyzer - INFO - 获取未处理文章: limit=20, source=全部
+2025-05-25 17:56:47,129 - db.sqlite_client - INFO - 获取到 20 篇未处理的文章
+2025-05-25 17:56:47,129 - processors.article_analyzer - INFO - 开始批量处理 20 篇文章
+2025-05-25 17:56:47,129 - processors.article_analyzer - INFO - [1/20] 开始处理文章 ID: 5010082
+2025-05-25 17:56:47,129 - processors.article_analyzer - INFO - 开始处理文章: [Gelonghui] 佳士科技(300193.SZ)：千鑫恒拟减持不超3.00%股份 (ID: 5010082)
+2025-05-25 17:56:47,129 - processors.article_analyzer - WARNING - 文章内容无效或过短: 佳士科技(300193.SZ)：千鑫恒拟减持不超3.00%股份
+2025-05-25 17:56:47,129 - processors.article_analyzer - WARNING - 使用标题作为内容: 佳士科技(300193.SZ)：千鑫恒拟减持不超3.00%股份
+2025-05-25 17:56:47,129 - processors.article_analyzer - INFO - 提取到干净内容，长度: 31 字符
+2025-05-25 17:56:47,129 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 佳士科技(300193.SZ)：千鑫恒拟减持不超3.00%股份
+2025-05-25 17:56:53,478 - processors.article_crawler - INFO - 从 金十数据 获取到 20 篇文章
+2025-05-25 17:56:53,481 - db.sqlite_client - INFO - 保存文章成功: [Jin10] 市场消息：沙特阿拉伯将发行价值约603亿里亚尔的新伊斯兰债券。 (ID: 20250525174521269800)
+2025-05-25 17:56:53,483 - db.sqlite_client - INFO - 保存文章成功: [Jin10] 乌方：与俄千人换俘行动已完成 (ID: 20250525174340805800)
+2025-05-25 17:56:53,484 - db.sqlite_client - INFO - 保存文章成功: [Jin10] 俄驻瑞典使馆遭无人机投掷颜料 (ID: 20250525174101196800)
+2025-05-25 17:56:53,486 - db.sqlite_client - INFO - 保存文章成功: [Jin10] 俄罗斯国防部：5月25日晚，俄罗斯武装部队使用高精度武器对乌克兰军工企业实施大规模打击。 (ID: 20250525173750572800)
+2025-05-25 17:56:53,487 - db.sqlite_client - INFO - 保存文章成功: [Jin10] 俄罗斯国防部：俄罗斯已控制乌克兰东部的罗马尼夫卡。 (ID: 20250525173646014800)
+2025-05-25 17:56:53,489 - db.sqlite_client - INFO - 保存文章成功: [Jin10] 俄方称俄罗斯和乌克兰完成战俘交换 (ID: 20250525172151679800)
+2025-05-25 17:56:53,490 - db.sqlite_client - INFO - 更新文章成功: [Jin10] 以军称拦截从也门境内发射的导弹 (ID: 20250525171838914800)
+2025-05-25 17:56:53,492 - db.sqlite_client - INFO - 更新文章成功: [Jin10] 据俄新社援引俄罗斯国防部：俄罗斯与乌克兰完成为期三天的战俘交换。 (ID: 20250525171208291800)
+2025-05-25 17:56:53,493 - db.sqlite_client - INFO - 更新文章成功: [Jin10] 据俄新社：俄罗斯与乌克兰各交换了303名战俘。 (ID: 20250525171053937800)
+2025-05-25 17:56:53,494 - db.sqlite_client - INFO - 更新文章成功: [Jin10] 俄国防部：军队正在沿国境建立安全区 (ID: 20250525170847054800)
+2025-05-25 17:56:53,496 - db.sqlite_client - INFO - 更新文章成功: [Jin10] 恶劣天气袭击巴基斯坦 造成至少19人死亡 (ID: 20250525170726233800)
+2025-05-25 17:56:53,497 - db.sqlite_client - INFO - 更新文章成功: [Jin10] 土耳其总统办公室：总统埃尔多安将于周日在伊斯坦布尔与巴基斯坦总理谢里夫举行会谈。 (ID: 20250525170050862800)
+2025-05-25 17:56:53,499 - db.sqlite_client - INFO - 更新文章成功: [Jin10] 巴基斯坦为比特币挖矿分配2000兆瓦电力装机容量 (ID: 20250525165712568800)
+2025-05-25 17:56:53,500 - db.sqlite_client - INFO - 更新文章成功: [Jin10] 李在明：若当选总统，绝不针对特定个人进行政治报复 (ID: 20250525164702727800)
+2025-05-25 17:56:53,502 - db.sqlite_client - INFO - 更新文章成功: [Jin10] 存款利率跌破“1”时代，储户转战“新三金”配置 (ID: 20250525164622722800)
+2025-05-25 17:56:53,503 - db.sqlite_client - INFO - 更新文章成功: [Jin10] 佩斯科夫：也门领导人将访俄并与普京会晤 (ID: 20250525163014488800)
+2025-05-25 17:56:53,505 - db.sqlite_client - INFO - 更新文章成功: [Jin10] 李强同印度尼西亚总统普拉博沃会谈 (ID: 20250525162757522800)
+2025-05-25 17:56:53,506 - db.sqlite_client - INFO - 更新文章成功: [Jin10] 美国政府拟推“松绑版”发电新方案 (ID: 20250525160405411800)
+2025-05-25 17:56:53,507 - db.sqlite_client - INFO - 更新文章成功: [Jin10] 叙利亚政权领导人与美特使讨论解除对叙制裁问题 (ID: 20250525160137437800)
+2025-05-25 17:56:53,508 - db.sqlite_client - INFO - 更新文章成功: [Jin10] 以色列军方：已确认从也门发射一枚导弹，正尝试拦截。 (ID: 20250525155226375800)
+2025-05-25 17:56:53,508 - processors.article_crawler - INFO - 金十数据 抓取完成: 获取 20 篇, 新增 20 篇, 耗时 6.38秒
+2025-05-25 17:56:53,508 - processors.article_crawler - INFO - 开始抓取 金十数据 的最新快讯
+2025-05-25 17:56:53,826 - processors.article_crawler - INFO - 从 金十数据 获取到 29 条快讯
+2025-05-25 17:56:53,829 - db.sqlite_client - INFO - 保存快讯成功: [Jin10] 市场消息：沙特阿拉伯将发行价值约603亿里亚尔的新伊斯兰债券。 (ID: 20250525174521269800)
+2025-05-25 17:56:53,831 - db.sqlite_client - INFO - 保存快讯成功: [Jin10] 乌方：与俄千人换俘行动已完成 (ID: 20250525174340805800)
+2025-05-25 17:56:53,832 - db.sqlite_client - INFO - 保存快讯成功: [Jin10] 俄驻瑞典使馆遭无人机投掷颜料 (ID: 20250525174101196800)
+2025-05-25 17:56:53,834 - db.sqlite_client - INFO - 保存快讯成功: [Jin10] 俄罗斯国防部：5月25日晚，俄罗斯武装部队使用高精度武器对乌克兰军工企业实施大规模打击。 (ID: 20250525173750572800)
+2025-05-25 17:56:53,835 - db.sqlite_client - INFO - 保存快讯成功: [Jin10] 俄罗斯国防部：俄罗斯已控制乌克兰东部的罗马尼夫卡。 (ID: 20250525173646014800)
+2025-05-25 17:56:53,836 - db.sqlite_client - INFO - 保存快讯成功: [Jin10] 俄方称俄罗斯和乌克兰完成战俘交换 (ID: 20250525172151679800)
+2025-05-25 17:56:53,843 - processors.article_crawler - INFO - 金十数据 快讯抓取完成: 获取 29 条, 新增 29 条, 耗时 0.34秒
+2025-05-25 17:56:53,843 - processors.article_crawler - INFO - 开始抓取 格隆汇 的最新文章
+2025-05-25 17:56:54,949 - processors.article_crawler - INFO - 从 格隆汇 获取到 15 篇文章
+2025-05-25 17:56:54,950 - db.sqlite_client - INFO - 更新文章成功: [Gelonghui] 润建股份(002929.SZ)：预中标中国移动2025年至2026年家集客接入施工服务公开招标采购项目 (ID: 5010091)
+2025-05-25 17:56:54,952 - db.sqlite_client - INFO - 更新文章成功: [Gelonghui] 翔港科技(603499.SH)：控股股东、实际控制人董建军拟减持不超3%股份 (ID: 5010090)
+2025-05-25 17:56:54,952 - db.sqlite_client - INFO - 更新文章成功: [Gelonghui] 城地香江(603887.SH)：联合体中标《中国移动浙江公司2025年长三角（宁波）数据中心机房动力系统建设项目EPC工程总承包采购项目》 (ID: 5010089)
+2025-05-25 17:56:54,954 - db.sqlite_client - INFO - 更新文章成功: [Gelonghui] 新益昌(688383.SH)：拟推106.40万股限制性股票激励计划 (ID: 5010088)
+2025-05-25 17:56:54,955 - db.sqlite_client - INFO - 更新文章成功: [Gelonghui] 科源制药(301281.SZ)：监事王国钢拟减持不超9.38万股 (ID: 5010087)
+2025-05-25 17:56:54,956 - db.sqlite_client - INFO - 更新文章成功: [Gelonghui] 科源制药(301281.SZ)：股东问泽鸿拟减持不超3.00%股份 (ID: 5010086)
+2025-05-25 17:56:54,956 - db.sqlite_client - INFO - 更新文章成功: [Gelonghui] 东箭科技(300978.SZ)：新余东信、新余东恒、新余东诚拟合计减持不超117.88万股 (ID: 5010085)
+2025-05-25 17:56:54,957 - db.sqlite_client - INFO - 更新文章成功: [Gelonghui] 双飞集团(300817.SZ)：董事兼财务总监单亚元拟减持不超80万股股份 (ID: 5010084)
+2025-05-25 17:56:54,958 - db.sqlite_client - INFO - 更新文章成功: [Gelonghui] 恒锋工具(300488.SZ)：多名高管拟减持股份 (ID: 5010083)
+2025-05-25 17:56:54,959 - db.sqlite_client - INFO - 更新文章成功: [Gelonghui] 佳士科技(300193.SZ)：千鑫恒拟减持不超3.00%股份 (ID: 5010082)
+2025-05-25 17:56:54,959 - db.sqlite_client - INFO - 更新文章成功: [Gelonghui] 建新股份(300107.SZ)：多名高管拟减持股份 (ID: 5010081)
+2025-05-25 17:56:54,960 - db.sqlite_client - INFO - 更新文章成功: [Gelonghui] 星帅尔(002860.SZ)：钱凌拟减持不超130万股股份 (ID: 5010080)
+2025-05-25 17:56:54,961 - db.sqlite_client - INFO - 更新文章成功: [Gelonghui] 王子新材(002735.SZ)：宁波新容仅为可控核聚变中的磁体电源项目提供电容产品 (ID: 5010079)
+2025-05-25 17:56:54,962 - db.sqlite_client - INFO - 更新文章成功: [Gelonghui] 微光股份(002801.SZ)：微光投资拟减持不超1.32%股份 (ID: 5010078)
+2025-05-25 17:56:54,962 - db.sqlite_client - INFO - 更新文章成功: [Gelonghui] 众生药业(002317.SZ)：控股子公司获得一类创新药RAY1225注射液两项降糖III期临床试验伦理批件 (ID: 5010077)
+2025-05-25 17:56:54,962 - processors.article_crawler - INFO - 格隆汇 抓取完成: 获取 15 篇, 新增 15 篇, 耗时 1.12秒
+2025-05-25 17:56:54,963 - processors.article_crawler - INFO - 开始抓取 格隆汇 的最新快讯
+2025-05-25 17:56:55,285 - processors.article_crawler - WARNING - 格隆汇 未获取到快讯
+2025-05-25 17:56:55,286 - processors.article_crawler - INFO - 开始抓取 华尔街见闻 的最新文章
+2025-05-25 17:56:55,286 - processors.article_crawler - WARNING - 华尔街见闻 未获取到文章
+2025-05-25 17:56:55,286 - processors.article_crawler - INFO - 开始抓取 FastBull 的最新文章
+2025-05-25 17:57:02,913 - processors.article_analyzer - INFO - 分析完成，耗时: 15.78秒
+2025-05-25 17:57:02,913 - processors.article_analyzer - INFO - 分析结果: 摘要(35字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 17:57:02,915 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=5010082
+2025-05-25 17:57:02,915 - processors.article_analyzer - INFO - 文章处理成功: 佳士科技(300193.SZ)：千鑫恒拟减持不超3.00%股份
+2025-05-25 17:57:02,915 - processors.article_analyzer - INFO - [2/20] 开始处理文章 ID: 5010083
+2025-05-25 17:57:02,915 - processors.article_analyzer - INFO - 开始处理文章: [Gelonghui] 恒锋工具(300488.SZ)：多名高管拟减持股份 (ID: 5010083)
+2025-05-25 17:57:02,915 - processors.article_analyzer - WARNING - 文章内容无效或过短: 恒锋工具(300488.SZ)：多名高管拟减持股份
+2025-05-25 17:57:02,915 - processors.article_analyzer - WARNING - 使用标题作为内容: 恒锋工具(300488.SZ)：多名高管拟减持股份
+2025-05-25 17:57:02,915 - processors.article_analyzer - INFO - 提取到干净内容，长度: 25 字符
+2025-05-25 17:57:02,915 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 恒锋工具(300488.SZ)：多名高管拟减持股份
+2025-05-25 17:57:06,421 - processors.article_crawler - INFO - 从 FastBull 获取到 20 篇文章
+2025-05-25 17:57:06,421 - db.sqlite_client - INFO - 更新文章成功: [FastBull] 美伊第五轮间接谈判有何进展 (ID: /cn/news-detail/4329761_1)
+2025-05-25 17:57:06,422 - db.sqlite_client - INFO - 更新文章成功: [FastBull] 降息问题揭示美国内部核心博弈 (ID: /cn/news-detail/4329741_1)
+2025-05-25 17:57:06,422 - db.sqlite_client - INFO - 更新文章成功: [FastBull] 特朗普欲对欧盟征收50%关税，对苹果收25%关税 (ID: /cn/news-detail/4329687_1)
+2025-05-25 17:57:06,423 - db.sqlite_client - INFO - 更新文章成功: [FastBull] 英国央行为何能够放松对通胀的担忧？ (ID: /cn/news-detail/4329773_1)
+2025-05-25 17:57:06,423 - db.sqlite_client - INFO - 更新文章成功: [FastBull] “重返南亚”？英国需平衡印巴 (ID: /cn/news-detail/4329499_1)
+2025-05-25 17:57:06,424 - db.sqlite_client - INFO - 更新文章成功: [FastBull] 调查显示，特朗普关税措施可能引发美国消费者不满 (ID: /cn/news-detail/4329765_1)
+2025-05-25 17:57:06,424 - db.sqlite_client - INFO - 更新文章成功: [FastBull] 美方威胁对欧盟征收高关税意欲何为？ (ID: /cn/news-detail/4329764_1)
+2025-05-25 17:57:06,425 - db.sqlite_client - INFO - 更新文章成功: [FastBull] 当美国“缺席”，一种新型全球化正在兴起 (ID: /cn/news-detail/4329615_1)
+2025-05-25 17:57:06,425 - db.sqlite_client - INFO - 更新文章成功: [FastBull] 美欧关税战若升级，德国或面临2500亿欧元损失 (ID: /cn/news-detail/4329763_1)
+2025-05-25 17:57:06,426 - db.sqlite_client - INFO - 更新文章成功: [FastBull] 不要低估6月1日的风险！欧洲想要的是谈判，而美国想要的是让步，市场想的是“又一个4月2日” (ID: /cn/news-detail/4329762_1)
+2025-05-25 17:57:06,426 - db.sqlite_client - INFO - 更新文章成功: [FastBull] 欧洲为何在全球科技革命中掉队？ (ID: /cn/news-detail/4329609_1)
+2025-05-25 17:57:06,427 - db.sqlite_client - INFO - 更新文章成功: [FastBull] 特朗普的国际新秩序：从山巅之城到丛林现实 (ID: /cn/news-detail/4329500_1)
+2025-05-25 17:57:06,427 - db.sqlite_client - INFO - 更新文章成功: [FastBull] 加税“非美产”苹果，特朗普开始做一种最坏的打算 (ID: /cn/news-detail/4329760_1)
+2025-05-25 17:57:06,428 - db.sqlite_client - INFO - 更新文章成功: [FastBull] 面对特朗普50%关税威胁，欧洲官员呼吁“冷静”应对 (ID: /cn/news-detail/4329759_1)
+2025-05-25 17:57:06,428 - db.sqlite_client - INFO - 更新文章成功: [FastBull] 经济焦虑与民族主义：越南如何应对特朗普关税风暴 (ID: /cn/news-detail/4329488_1)
+2025-05-25 17:57:06,429 - db.sqlite_client - INFO - 更新文章成功: [FastBull] 特朗普宣布美国钢铁和日本制铁结成合作关系，但未提供细节 (ID: /cn/news-detail/4329758_1)
+2025-05-25 17:57:06,430 - db.sqlite_client - INFO - 更新文章成功: [FastBull] 人道主义危机难解，联合国称加沙遭遇“最残酷阶段” (ID: /cn/news-detail/4329757_1)
+2025-05-25 17:57:06,430 - db.sqlite_client - INFO - 更新文章成功: [FastBull] 停火90天，关税警钟为何仍未解除？ (ID: /cn/news-detail/4329303_1)
+2025-05-25 17:57:06,431 - db.sqlite_client - INFO - 更新文章成功: [FastBull] 沃尔玛计划裁员1500人，CEO直言无法“吃下所有关税” (ID: /cn/news-detail/4329756_1)
+2025-05-25 17:57:06,431 - db.sqlite_client - INFO - 更新文章成功: [FastBull] 美媒：日内瓦会谈后，中美官员首次通话，释放积极信号 (ID: /cn/news-detail/4329755_1)
+2025-05-25 17:57:06,431 - processors.article_crawler - INFO - FastBull 抓取完成: 获取 20 篇, 新增 20 篇, 耗时 11.15秒
+2025-05-25 17:57:06,431 - processors.article_crawler - INFO - 开始抓取 财联社 的最新文章
+2025-05-25 17:57:06,432 - processors.article_crawler - WARNING - 财联社 未获取到文章
+2025-05-25 17:57:06,432 - processors.article_crawler - INFO - 开始抓取 财联社 的最新快讯
+2025-05-25 17:57:06,432 - processors.article_crawler - WARNING - 财联社 未获取到快讯
+2025-05-25 17:57:06,432 - processors.article_crawler - INFO - ===== 所有来源抓取完成 =====
+2025-05-25 17:57:06,432 - processors.article_crawler - INFO - 总计: 文章 55 篇, 新增 55 篇
+2025-05-25 17:57:06,432 - processors.article_crawler - INFO - 快讯 29 条, 新增 29 条
+2025-05-25 17:57:06,432 - processors.article_crawler - INFO - 总耗时: 19.30秒
+2025-05-25 17:57:06,432 - __main__ - INFO - 爬虫任务执行完成
+2025-05-25 17:57:06,432 - __main__ - INFO - 等待 30 分钟后再次执行爬虫任务...
+2025-05-25 17:57:18,759 - processors.article_analyzer - INFO - 分析完成，耗时: 15.84秒
+2025-05-25 17:57:18,759 - processors.article_analyzer - INFO - 分析结果: 摘要(49字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 17:57:18,760 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=5010083
+2025-05-25 17:57:18,760 - processors.article_analyzer - INFO - 文章处理成功: 恒锋工具(300488.SZ)：多名高管拟减持股份
+2025-05-25 17:57:18,760 - processors.article_analyzer - INFO - [3/20] 开始处理文章 ID: 5010084
+2025-05-25 17:57:18,760 - processors.article_analyzer - INFO - 开始处理文章: [Gelonghui] 双飞集团(300817.SZ)：董事兼财务总监单亚元拟减持不超80万股股份 (ID: 5010084)
+2025-05-25 17:57:18,760 - processors.article_analyzer - WARNING - 文章内容无效或过短: 双飞集团(300817.SZ)：董事兼财务总监单亚元拟减持不超80万股股份
+2025-05-25 17:57:18,760 - processors.article_analyzer - WARNING - 使用标题作为内容: 双飞集团(300817.SZ)：董事兼财务总监单亚元拟减持不超80万股股份
+2025-05-25 17:57:18,760 - processors.article_analyzer - INFO - 提取到干净内容，长度: 37 字符
+2025-05-25 17:57:18,760 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 双飞集团(300817.SZ)：董事兼财务总监单亚元拟减持不超80万股股份
+2025-05-25 17:57:35,921 - processors.article_analyzer - INFO - 分析完成，耗时: 17.16秒
+2025-05-25 17:57:35,921 - processors.article_analyzer - INFO - 分析结果: 摘要(39字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 17:57:35,924 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=5010084
+2025-05-25 17:57:35,924 - processors.article_analyzer - INFO - 文章处理成功: 双飞集团(300817.SZ)：董事兼财务总监单亚元拟减持不超80万股股份
+2025-05-25 17:57:35,924 - processors.article_analyzer - INFO - [4/20] 开始处理文章 ID: 5010085
+2025-05-25 17:57:35,924 - processors.article_analyzer - INFO - 开始处理文章: [Gelonghui] 东箭科技(300978.SZ)：新余东信、新余东恒、新余东诚拟合计减持不超117.88万股 (ID: 5010085)
+2025-05-25 17:57:35,924 - processors.article_analyzer - WARNING - 文章内容无效或过短: 东箭科技(300978.SZ)：新余东信、新余东恒、新余东诚拟合计减持不超117.88万股
+2025-05-25 17:57:35,924 - processors.article_analyzer - WARNING - 使用标题作为内容: 东箭科技(300978.SZ)：新余东信、新余东恒、新余东诚拟合计减持不超117.88万股
+2025-05-25 17:57:35,924 - processors.article_analyzer - INFO - 提取到干净内容，长度: 45 字符
+2025-05-25 17:57:35,924 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 东箭科技(300978.SZ)：新余东信、新余东恒、新余东诚拟合计减持不超117.88万股
+2025-05-25 17:57:52,579 - processors.article_analyzer - INFO - 分析完成，耗时: 16.65秒
+2025-05-25 17:57:52,580 - processors.article_analyzer - INFO - 分析结果: 摘要(36字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 17:57:52,581 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=5010085
+2025-05-25 17:57:52,581 - processors.article_analyzer - INFO - 文章处理成功: 东箭科技(300978.SZ)：新余东信、新余东恒、新余东诚拟合计减持不超117.88万股
+2025-05-25 17:57:52,581 - processors.article_analyzer - INFO - [5/20] 开始处理文章 ID: 5010086
+2025-05-25 17:57:52,581 - processors.article_analyzer - INFO - 开始处理文章: [Gelonghui] 科源制药(301281.SZ)：股东问泽鸿拟减持不超3.00%股份 (ID: 5010086)
+2025-05-25 17:57:52,581 - processors.article_analyzer - WARNING - 文章内容无效或过短: 科源制药(301281.SZ)：股东问泽鸿拟减持不超3.00%股份
+2025-05-25 17:57:52,581 - processors.article_analyzer - WARNING - 使用标题作为内容: 科源制药(301281.SZ)：股东问泽鸿拟减持不超3.00%股份
+2025-05-25 17:57:52,581 - processors.article_analyzer - INFO - 提取到干净内容，长度: 33 字符
+2025-05-25 17:57:52,581 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 科源制药(301281.SZ)：股东问泽鸿拟减持不超3.00%股份
+2025-05-25 17:58:07,410 - processors.article_analyzer - INFO - 分析完成，耗时: 14.83秒
+2025-05-25 17:58:07,411 - processors.article_analyzer - INFO - 分析结果: 摘要(38字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 17:58:07,413 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=5010086
+2025-05-25 17:58:07,413 - processors.article_analyzer - INFO - 文章处理成功: 科源制药(301281.SZ)：股东问泽鸿拟减持不超3.00%股份
+2025-05-25 17:58:07,413 - processors.article_analyzer - INFO - [6/20] 开始处理文章 ID: 5010087
+2025-05-25 17:58:07,413 - processors.article_analyzer - INFO - 开始处理文章: [Gelonghui] 科源制药(301281.SZ)：监事王国钢拟减持不超9.38万股 (ID: 5010087)
+2025-05-25 17:58:07,413 - processors.article_analyzer - WARNING - 文章内容无效或过短: 科源制药(301281.SZ)：监事王国钢拟减持不超9.38万股
+2025-05-25 17:58:07,413 - processors.article_analyzer - WARNING - 使用标题作为内容: 科源制药(301281.SZ)：监事王国钢拟减持不超9.38万股
+2025-05-25 17:58:07,414 - processors.article_analyzer - INFO - 提取到干净内容，长度: 32 字符
+2025-05-25 17:58:07,414 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 科源制药(301281.SZ)：监事王国钢拟减持不超9.38万股
+2025-05-25 17:58:24,353 - processors.article_analyzer - INFO - 分析完成，耗时: 16.94秒
+2025-05-25 17:58:24,354 - processors.article_analyzer - INFO - 分析结果: 摘要(37字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 17:58:24,356 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=5010087
+2025-05-25 17:58:24,357 - processors.article_analyzer - INFO - 文章处理成功: 科源制药(301281.SZ)：监事王国钢拟减持不超9.38万股
+2025-05-25 17:58:24,357 - processors.article_analyzer - INFO - [7/20] 开始处理文章 ID: 5010088
+2025-05-25 17:58:24,357 - processors.article_analyzer - INFO - 开始处理文章: [Gelonghui] 新益昌(688383.SH)：拟推106.40万股限制性股票激励计划 (ID: 5010088)
+2025-05-25 17:58:24,357 - processors.article_analyzer - WARNING - 文章内容无效或过短: 新益昌(688383.SH)：拟推106.40万股限制性股票激励计划
+2025-05-25 17:58:24,357 - processors.article_analyzer - WARNING - 使用标题作为内容: 新益昌(688383.SH)：拟推106.40万股限制性股票激励计划
+2025-05-25 17:58:24,357 - processors.article_analyzer - INFO - 提取到干净内容，长度: 34 字符
+2025-05-25 17:58:24,357 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 新益昌(688383.SH)：拟推106.40万股限制性股票激励计划
+2025-05-25 17:58:40,590 - processors.article_analyzer - INFO - 分析完成，耗时: 16.23秒
+2025-05-25 17:58:40,590 - processors.article_analyzer - INFO - 分析结果: 摘要(61字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 17:58:40,593 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=5010088
+2025-05-25 17:58:40,593 - processors.article_analyzer - INFO - 文章处理成功: 新益昌(688383.SH)：拟推106.40万股限制性股票激励计划
+2025-05-25 17:58:40,593 - processors.article_analyzer - INFO - [8/20] 开始处理文章 ID: 5010089
+2025-05-25 17:58:40,593 - processors.article_analyzer - INFO - 开始处理文章: [Gelonghui] 城地香江(603887.SH)：联合体中标《中国移动浙江公司2025年长三角（宁波）数据中心机房动力系统建设项目EPC工程总承包采购项目》 (ID: 5010089)
+2025-05-25 17:58:40,594 - processors.article_analyzer - WARNING - 文章内容无效或过短: 城地香江(603887.SH)：联合体中标《中国移动浙江公司2025年长三角（宁波）数据中心机房动力系统建设项目EPC工程总承包采购项目》
+2025-05-25 17:58:40,594 - processors.article_analyzer - WARNING - 使用标题作为内容: 城地香江(603887.SH)：联合体中标《中国移动浙江公司2025年长三角（宁波）数据中心机房动力系统建设项目EPC工程总承包采购项目》
+2025-05-25 17:58:40,594 - processors.article_analyzer - INFO - 提取到干净内容，长度: 69 字符
+2025-05-25 17:58:40,594 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 城地香江(603887.SH)：联合体中标《中国移动浙江公司2025年长三角（宁波）数据中心机房动力系统建设项目EPC工程总承包采购项目》
+2025-05-25 17:59:00,558 - processors.article_analyzer - INFO - 分析完成，耗时: 19.96秒
+2025-05-25 17:59:00,559 - processors.article_analyzer - INFO - 分析结果: 摘要(54字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 17:59:00,562 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=5010089
+2025-05-25 17:59:00,562 - processors.article_analyzer - INFO - 文章处理成功: 城地香江(603887.SH)：联合体中标《中国移动浙江公司2025年长三角（宁波）数据中心机房动力系统建设项目EPC工程总承包采购项目》
+2025-05-25 17:59:00,562 - processors.article_analyzer - INFO - [9/20] 开始处理文章 ID: 20250525163014488800
+2025-05-25 17:59:00,562 - processors.article_analyzer - INFO - 开始处理文章: [Jin10] 佩斯科夫：也门领导人将访俄并与普京会晤 (ID: 20250525163014488800)
+2025-05-25 17:59:00,562 - processors.article_analyzer - WARNING - 文章内容无效或过短: 佩斯科夫：也门领导人将访俄并与普京会晤
+2025-05-25 17:59:00,562 - processors.article_analyzer - WARNING - 使用标题作为内容: 佩斯科夫：也门领导人将访俄并与普京会晤
+2025-05-25 17:59:00,562 - processors.article_analyzer - INFO - 提取到干净内容，长度: 19 字符
+2025-05-25 17:59:00,562 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 佩斯科夫：也门领导人将访俄并与普京会晤
+2025-05-25 17:59:20,327 - processors.article_analyzer - INFO - 分析完成，耗时: 19.76秒
+2025-05-25 17:59:20,328 - processors.article_analyzer - INFO - 分析结果: 摘要(51字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 17:59:20,331 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=20250525163014488800
+2025-05-25 17:59:20,331 - processors.article_analyzer - INFO - 文章处理成功: 佩斯科夫：也门领导人将访俄并与普京会晤
+2025-05-25 17:59:20,331 - processors.article_analyzer - INFO - [10/20] 开始处理文章 ID: 20250525162757522800
+2025-05-25 17:59:20,331 - processors.article_analyzer - INFO - 开始处理文章: [Jin10] 李强同印度尼西亚总统普拉博沃会谈 (ID: 20250525162757522800)
+2025-05-25 17:59:20,331 - processors.article_analyzer - WARNING - 文章内容无效或过短: 李强同印度尼西亚总统普拉博沃会谈
+2025-05-25 17:59:20,331 - processors.article_analyzer - WARNING - 使用标题作为内容: 李强同印度尼西亚总统普拉博沃会谈
+2025-05-25 17:59:20,331 - processors.article_analyzer - INFO - 提取到干净内容，长度: 16 字符
+2025-05-25 17:59:20,331 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 李强同印度尼西亚总统普拉博沃会谈
+2025-05-25 17:59:41,101 - processors.article_analyzer - INFO - 分析完成，耗时: 20.77秒
+2025-05-25 17:59:41,101 - processors.article_analyzer - INFO - 分析结果: 摘要(38字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 17:59:41,102 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=20250525162757522800
+2025-05-25 17:59:41,102 - processors.article_analyzer - INFO - 文章处理成功: 李强同印度尼西亚总统普拉博沃会谈
+2025-05-25 17:59:41,102 - processors.article_analyzer - INFO - [11/20] 开始处理文章 ID: 20250525160405411800
+2025-05-25 17:59:41,102 - processors.article_analyzer - INFO - 开始处理文章: [Jin10] 美国政府拟推“松绑版”发电新方案 (ID: 20250525160405411800)
+2025-05-25 17:59:41,102 - processors.article_analyzer - WARNING - 文章内容无效或过短: 美国政府拟推“松绑版”发电新方案
+2025-05-25 17:59:41,102 - processors.article_analyzer - WARNING - 使用标题作为内容: 美国政府拟推“松绑版”发电新方案
+2025-05-25 17:59:41,102 - processors.article_analyzer - INFO - 提取到干净内容，长度: 16 字符
+2025-05-25 17:59:41,102 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 美国政府拟推“松绑版”发电新方案
+2025-05-25 18:00:00,033 - processors.article_analyzer - INFO - 分析完成，耗时: 18.93秒
+2025-05-25 18:00:00,034 - processors.article_analyzer - INFO - 分析结果: 摘要(40字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 18:00:00,037 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=20250525160405411800
+2025-05-25 18:00:00,037 - processors.article_analyzer - INFO - 文章处理成功: 美国政府拟推“松绑版”发电新方案
+2025-05-25 18:00:00,037 - processors.article_analyzer - INFO - [12/20] 开始处理文章 ID: 20250525160137437800
+2025-05-25 18:00:00,037 - processors.article_analyzer - INFO - 开始处理文章: [Jin10] 叙利亚政权领导人与美特使讨论解除对叙制裁问题 (ID: 20250525160137437800)
+2025-05-25 18:00:00,037 - processors.article_analyzer - WARNING - 文章内容无效或过短: 叙利亚政权领导人与美特使讨论解除对叙制裁问题
+2025-05-25 18:00:00,037 - processors.article_analyzer - WARNING - 使用标题作为内容: 叙利亚政权领导人与美特使讨论解除对叙制裁问题
+2025-05-25 18:00:00,037 - processors.article_analyzer - INFO - 提取到干净内容，长度: 22 字符
+2025-05-25 18:00:00,037 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 叙利亚政权领导人与美特使讨论解除对叙制裁问题
+2025-05-25 18:00:15,854 - processors.article_analyzer - INFO - 分析完成，耗时: 15.82秒
+2025-05-25 18:00:15,854 - processors.article_analyzer - INFO - 分析结果: 摘要(50字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 18:00:15,857 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=20250525160137437800
+2025-05-25 18:00:15,857 - processors.article_analyzer - INFO - 文章处理成功: 叙利亚政权领导人与美特使讨论解除对叙制裁问题
+2025-05-25 18:00:15,857 - processors.article_analyzer - INFO - [13/20] 开始处理文章 ID: 20250525155226375800
+2025-05-25 18:00:15,857 - processors.article_analyzer - INFO - 开始处理文章: [Jin10] 以色列军方：已确认从也门发射一枚导弹，正尝试拦截。 (ID: 20250525155226375800)
+2025-05-25 18:00:15,857 - processors.article_analyzer - WARNING - 文章内容无效或过短: 以色列军方：已确认从也门发射一枚导弹，正尝试拦截。
+2025-05-25 18:00:15,857 - processors.article_analyzer - WARNING - 使用标题作为内容: 以色列军方：已确认从也门发射一枚导弹，正尝试拦截。
+2025-05-25 18:00:15,857 - processors.article_analyzer - INFO - 提取到干净内容，长度: 25 字符
+2025-05-25 18:00:15,857 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 以色列军方：已确认从也门发射一枚导弹，正尝试拦截。
+2025-05-25 18:00:34,973 - processors.article_analyzer - INFO - 分析完成，耗时: 19.12秒
+2025-05-25 18:00:34,973 - processors.article_analyzer - INFO - 分析结果: 摘要(41字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 18:00:34,975 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=20250525155226375800
+2025-05-25 18:00:34,976 - processors.article_analyzer - INFO - 文章处理成功: 以色列军方：已确认从也门发射一枚导弹，正尝试拦截。
+2025-05-25 18:00:34,976 - processors.article_analyzer - INFO - [14/20] 开始处理文章 ID: 20250525154759837800
+2025-05-25 18:00:34,976 - processors.article_analyzer - INFO - 开始处理文章: [Jin10] 水利部会商部署南方强降雨防范应对工作 (ID: 20250525154759837800)
+2025-05-25 18:00:34,976 - processors.article_analyzer - WARNING - 文章内容无效或过短: 水利部会商部署南方强降雨防范应对工作
+2025-05-25 18:00:34,976 - processors.article_analyzer - WARNING - 使用标题作为内容: 水利部会商部署南方强降雨防范应对工作
+2025-05-25 18:00:34,976 - processors.article_analyzer - INFO - 提取到干净内容，长度: 18 字符
+2025-05-25 18:00:34,976 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 水利部会商部署南方强降雨防范应对工作
+2025-05-25 18:00:54,090 - processors.article_analyzer - INFO - 分析完成，耗时: 19.11秒
+2025-05-25 18:00:54,090 - processors.article_analyzer - INFO - 分析结果: 摘要(32字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 18:00:54,092 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=20250525154759837800
+2025-05-25 18:00:54,092 - processors.article_analyzer - INFO - 文章处理成功: 水利部会商部署南方强降雨防范应对工作
+2025-05-25 18:00:54,092 - processors.article_analyzer - INFO - [15/20] 开始处理文章 ID: 20250525154659077800
+2025-05-25 18:00:54,092 - processors.article_analyzer - INFO - 开始处理文章: [Jin10] 波兰军机因俄罗斯在乌克兰的活动而升空 (ID: 20250525154659077800)
+2025-05-25 18:00:54,092 - processors.article_analyzer - WARNING - 文章内容无效或过短: 波兰军机因俄罗斯在乌克兰的活动而升空
+2025-05-25 18:00:54,092 - processors.article_analyzer - WARNING - 使用标题作为内容: 波兰军机因俄罗斯在乌克兰的活动而升空
+2025-05-25 18:00:54,092 - processors.article_analyzer - INFO - 提取到干净内容，长度: 18 字符
+2025-05-25 18:00:54,092 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 波兰军机因俄罗斯在乌克兰的活动而升空
+2025-05-25 18:01:13,087 - processors.article_analyzer - INFO - 分析完成，耗时: 18.99秒
+2025-05-25 18:01:13,088 - processors.article_analyzer - INFO - 分析结果: 摘要(40字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 18:01:13,089 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=20250525154659077800
+2025-05-25 18:01:13,089 - processors.article_analyzer - INFO - 文章处理成功: 波兰军机因俄罗斯在乌克兰的活动而升空
+2025-05-25 18:01:13,089 - processors.article_analyzer - INFO - [16/20] 开始处理文章 ID: 20250525153107128800
+2025-05-25 18:01:13,089 - processors.article_analyzer - INFO - 开始处理文章: [Jin10] 北京启动今年第一批中药饮片挂网采购 (ID: 20250525153107128800)
+2025-05-25 18:01:13,089 - processors.article_analyzer - WARNING - 文章内容无效或过短: 北京启动今年第一批中药饮片挂网采购
+2025-05-25 18:01:13,089 - processors.article_analyzer - WARNING - 使用标题作为内容: 北京启动今年第一批中药饮片挂网采购
+2025-05-25 18:01:13,089 - processors.article_analyzer - INFO - 提取到干净内容，长度: 17 字符
+2025-05-25 18:01:13,089 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 北京启动今年第一批中药饮片挂网采购
+2025-05-25 18:01:28,996 - processors.article_analyzer - INFO - 分析完成，耗时: 15.91秒
+2025-05-25 18:01:28,996 - processors.article_analyzer - INFO - 分析结果: 摘要(52字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 18:01:28,998 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=20250525153107128800
+2025-05-25 18:01:28,998 - processors.article_analyzer - INFO - 文章处理成功: 北京启动今年第一批中药饮片挂网采购
+2025-05-25 18:01:28,998 - processors.article_analyzer - INFO - [17/20] 开始处理文章 ID: 20250525152225598800
+2025-05-25 18:01:28,998 - processors.article_analyzer - INFO - 开始处理文章: [Jin10] 市场消息：波兰因边境附近“俄罗斯活动”宣布空军警戒。 (ID: 20250525152225598800)
+2025-05-25 18:01:28,998 - processors.article_analyzer - WARNING - 文章内容无效或过短: 市场消息：波兰因边境附近“俄罗斯活动”宣布空军警戒。
+2025-05-25 18:01:28,998 - processors.article_analyzer - WARNING - 使用标题作为内容: 市场消息：波兰因边境附近“俄罗斯活动”宣布空军警戒。
+2025-05-25 18:01:28,998 - processors.article_analyzer - INFO - 提取到干净内容，长度: 26 字符
+2025-05-25 18:01:28,998 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 市场消息：波兰因边境附近“俄罗斯活动”宣布空军警戒。
+2025-05-25 18:01:47,323 - processors.article_analyzer - INFO - 分析完成，耗时: 18.33秒
+2025-05-25 18:01:47,325 - processors.article_analyzer - INFO - 分析结果: 摘要(43字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 18:01:47,327 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=20250525152225598800
+2025-05-25 18:01:47,327 - processors.article_analyzer - INFO - 文章处理成功: 市场消息：波兰因边境附近“俄罗斯活动”宣布空军警戒。
+2025-05-25 18:01:47,327 - processors.article_analyzer - INFO - [18/20] 开始处理文章 ID: 20250525152143517800
+2025-05-25 18:01:47,327 - processors.article_analyzer - INFO - 开始处理文章: [Jin10] 日本首相石破茂内阁支持率回升至31.7% (ID: 20250525152143517800)
+2025-05-25 18:01:47,327 - processors.article_analyzer - WARNING - 文章内容无效或过短: 日本首相石破茂内阁支持率回升至31.7%
+2025-05-25 18:01:47,327 - processors.article_analyzer - WARNING - 使用标题作为内容: 日本首相石破茂内阁支持率回升至31.7%
+2025-05-25 18:01:47,327 - processors.article_analyzer - INFO - 提取到干净内容，长度: 20 字符
+2025-05-25 18:01:47,327 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 日本首相石破茂内阁支持率回升至31.7%
+2025-05-25 18:02:04,384 - processors.article_analyzer - INFO - 分析完成，耗时: 17.06秒
+2025-05-25 18:02:04,384 - processors.article_analyzer - INFO - 分析结果: 摘要(37字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 18:02:04,385 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=20250525152143517800
+2025-05-25 18:02:04,385 - processors.article_analyzer - INFO - 文章处理成功: 日本首相石破茂内阁支持率回升至31.7%
+2025-05-25 18:02:04,385 - processors.article_analyzer - INFO - [19/20] 开始处理文章 ID: 20250525150655238800
+2025-05-25 18:02:04,385 - processors.article_analyzer - INFO - 开始处理文章: [Jin10] 市场监管总局：下一步，市场监管总局将根据社会公开征求意见反馈情况完善《指南》内容，尽快出台实施，进一步健全平台经济常态化监管制度，持续规范平台收费行为，推动平台经济有序健康发展。 (ID: 20250525150655238800)
+2025-05-25 18:02:04,385 - processors.article_analyzer - WARNING - 文章内容无效或过短: 市场监管总局：下一步，市场监管总局将根据社会公开征求意见反馈情况完善《指南》内容，尽快出台实施，进一步健全平台经济常态化监管制度，持续规范平台收费行为，推动平台经济有序健康发展。
+2025-05-25 18:02:04,385 - processors.article_analyzer - WARNING - 使用标题作为内容: 市场监管总局：下一步，市场监管总局将根据社会公开征求意见反馈情况完善《指南》内容，尽快出台实施，进一步健全平台经济常态化监管制度，持续规范平台收费行为，推动平台经济有序健康发展。
+2025-05-25 18:02:04,385 - processors.article_analyzer - INFO - 提取到干净内容，长度: 89 字符
+2025-05-25 18:02:04,385 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 市场监管总局：下一步，市场监管总局将根据社会公开征求意见反馈情况完善《指南》内容，尽快出台实施，进一步健全平台经济常态化监管制度，持续规范平台收费行为，推动平台经济有序健康发展。
+2025-05-25 18:02:19,559 - processors.article_analyzer - INFO - 分析完成，耗时: 15.17秒
+2025-05-25 18:02:19,559 - processors.article_analyzer - INFO - 分析结果: 摘要(46字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 18:02:19,560 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=20250525150655238800
+2025-05-25 18:02:19,561 - processors.article_analyzer - INFO - 文章处理成功: 市场监管总局：下一步，市场监管总局将根据社会公开征求意见反馈情况完善《指南》内容，尽快出台实施，进一步健全平台经济常态化监管制度，持续规范平台收费行为，推动平台经济有序健康发展。
+2025-05-25 18:02:19,561 - processors.article_analyzer - INFO - [20/20] 开始处理文章 ID: /cn/news-detail/4329295_1
+2025-05-25 18:02:19,561 - processors.article_analyzer - INFO - 开始处理文章: [FastBull] 美元、日元、人民币的未来走势如何？ (ID: /cn/news-detail/4329295_1)
+2025-05-25 18:02:19,561 - processors.article_analyzer - WARNING - 文章内容无效或过短: 美元、日元、人民币的未来走势如何？
+2025-05-25 18:02:19,561 - processors.article_analyzer - WARNING - 使用标题作为内容: 美元、日元、人民币的未来走势如何？
+2025-05-25 18:02:19,561 - processors.article_analyzer - INFO - 提取到干净内容，长度: 17 字符
+2025-05-25 18:02:19,561 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 美元、日元、人民币的未来走势如何？
+2025-05-25 18:02:36,522 - processors.article_analyzer - INFO - 分析完成，耗时: 16.96秒
+2025-05-25 18:02:36,523 - processors.article_analyzer - INFO - 分析结果: 摘要(41字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 18:02:36,526 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=/cn/news-detail/4329295_1
+2025-05-25 18:02:36,526 - processors.article_analyzer - INFO - 文章处理成功: 美元、日元、人民币的未来走势如何？
+2025-05-25 18:02:36,526 - processors.article_analyzer - INFO - 批处理完成: 总计 20 篇文章, 成功 20 篇, 失败 0 篇
+2025-05-25 18:02:36,526 - processors.article_analyzer - INFO - 总耗时: 349.40秒, 平均每篇: 17.47秒
+2025-05-25 18:02:36,526 - __main__ - INFO - 处理完成: 总计 20 篇文章, 成功 20 篇, 失败 0 篇
+2025-05-25 18:02:36,526 - __main__ - INFO - 等待 15 分钟后再次执行处理器任务...
+2025-05-25 18:17:36,450 - __main__ - INFO - 开始执行处理器任务...
+2025-05-25 18:17:36,450 - processors.article_analyzer - INFO - 获取未处理文章: limit=20, source=全部
+2025-05-25 18:17:36,452 - db.sqlite_client - INFO - 获取到 11 篇未处理的文章
+2025-05-25 18:17:36,452 - processors.article_analyzer - INFO - 开始批量处理 11 篇文章
+2025-05-25 18:17:36,452 - processors.article_analyzer - INFO - [1/11] 开始处理文章 ID: 20250525174521269800
+2025-05-25 18:17:36,452 - processors.article_analyzer - INFO - 开始处理文章: [Jin10] 市场消息：沙特阿拉伯将发行价值约603亿里亚尔的新伊斯兰债券。 (ID: 20250525174521269800)
+2025-05-25 18:17:36,452 - processors.article_analyzer - WARNING - 文章内容无效或过短: 市场消息：沙特阿拉伯将发行价值约603亿里亚尔的新伊斯兰债券。
+2025-05-25 18:17:36,452 - processors.article_analyzer - WARNING - 使用标题作为内容: 市场消息：沙特阿拉伯将发行价值约603亿里亚尔的新伊斯兰债券。
+2025-05-25 18:17:36,452 - processors.article_analyzer - INFO - 提取到干净内容，长度: 31 字符
+2025-05-25 18:17:36,452 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 市场消息：沙特阿拉伯将发行价值约603亿里亚尔的新伊斯兰债券。
+2025-05-25 18:17:55,728 - processors.article_analyzer - INFO - 分析完成，耗时: 19.28秒
+2025-05-25 18:17:55,729 - processors.article_analyzer - INFO - 分析结果: 摘要(47字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 18:17:55,731 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=20250525174521269800
+2025-05-25 18:17:55,731 - processors.article_analyzer - INFO - 文章处理成功: 市场消息：沙特阿拉伯将发行价值约603亿里亚尔的新伊斯兰债券。
+2025-05-25 18:17:55,731 - processors.article_analyzer - INFO - [2/11] 开始处理文章 ID: 20250525174340805800
+2025-05-25 18:17:55,731 - processors.article_analyzer - INFO - 开始处理文章: [Jin10] 乌方：与俄千人换俘行动已完成 (ID: 20250525174340805800)
+2025-05-25 18:17:55,731 - processors.article_analyzer - WARNING - 文章内容无效或过短: 乌方：与俄千人换俘行动已完成
+2025-05-25 18:17:55,731 - processors.article_analyzer - WARNING - 使用标题作为内容: 乌方：与俄千人换俘行动已完成
+2025-05-25 18:17:55,731 - processors.article_analyzer - INFO - 提取到干净内容，长度: 14 字符
+2025-05-25 18:17:55,731 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 乌方：与俄千人换俘行动已完成
+2025-05-25 18:18:14,898 - processors.article_analyzer - INFO - 分析完成，耗时: 19.17秒
+2025-05-25 18:18:14,898 - processors.article_analyzer - INFO - 分析结果: 摘要(43字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 18:18:14,901 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=20250525174340805800
+2025-05-25 18:18:14,901 - processors.article_analyzer - INFO - 文章处理成功: 乌方：与俄千人换俘行动已完成
+2025-05-25 18:18:14,901 - processors.article_analyzer - INFO - [3/11] 开始处理文章 ID: 20250525174101196800
+2025-05-25 18:18:14,901 - processors.article_analyzer - INFO - 开始处理文章: [Jin10] 俄驻瑞典使馆遭无人机投掷颜料 (ID: 20250525174101196800)
+2025-05-25 18:18:14,901 - processors.article_analyzer - WARNING - 文章内容无效或过短: 俄驻瑞典使馆遭无人机投掷颜料
+2025-05-25 18:18:14,902 - processors.article_analyzer - WARNING - 使用标题作为内容: 俄驻瑞典使馆遭无人机投掷颜料
+2025-05-25 18:18:14,902 - processors.article_analyzer - INFO - 提取到干净内容，长度: 14 字符
+2025-05-25 18:18:14,902 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 俄驻瑞典使馆遭无人机投掷颜料
+2025-05-25 18:18:31,232 - processors.article_analyzer - INFO - 分析完成，耗时: 16.33秒
+2025-05-25 18:18:31,232 - processors.article_analyzer - INFO - 分析结果: 摘要(44字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 18:18:31,234 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=20250525174101196800
+2025-05-25 18:18:31,234 - processors.article_analyzer - INFO - 文章处理成功: 俄驻瑞典使馆遭无人机投掷颜料
+2025-05-25 18:18:31,234 - processors.article_analyzer - INFO - [4/11] 开始处理文章 ID: 20250525173750572800
+2025-05-25 18:18:31,234 - processors.article_analyzer - INFO - 开始处理文章: [Jin10] 俄罗斯国防部：5月25日晚，俄罗斯武装部队使用高精度武器对乌克兰军工企业实施大规模打击。 (ID: 20250525173750572800)
+2025-05-25 18:18:31,235 - processors.article_analyzer - WARNING - 文章内容无效或过短: 俄罗斯国防部：5月25日晚，俄罗斯武装部队使用高精度武器对乌克兰军工企业实施大规模打击。
+2025-05-25 18:18:31,235 - processors.article_analyzer - WARNING - 使用标题作为内容: 俄罗斯国防部：5月25日晚，俄罗斯武装部队使用高精度武器对乌克兰军工企业实施大规模打击。
+2025-05-25 18:18:31,235 - processors.article_analyzer - INFO - 提取到干净内容，长度: 44 字符
+2025-05-25 18:18:31,235 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 俄罗斯国防部：5月25日晚，俄罗斯武装部队使用高精度武器对乌克兰军工企业实施大规模打击。
+2025-05-25 18:18:51,103 - processors.article_analyzer - INFO - 分析完成，耗时: 19.87秒
+2025-05-25 18:18:51,103 - processors.article_analyzer - INFO - 分析结果: 摘要(47字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 18:18:51,106 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=20250525173750572800
+2025-05-25 18:18:51,106 - processors.article_analyzer - INFO - 文章处理成功: 俄罗斯国防部：5月25日晚，俄罗斯武装部队使用高精度武器对乌克兰军工企业实施大规模打击。
+2025-05-25 18:18:51,106 - processors.article_analyzer - INFO - [5/11] 开始处理文章 ID: 20250525173646014800
+2025-05-25 18:18:51,106 - processors.article_analyzer - INFO - 开始处理文章: [Jin10] 俄罗斯国防部：俄罗斯已控制乌克兰东部的罗马尼夫卡。 (ID: 20250525173646014800)
+2025-05-25 18:18:51,106 - processors.article_analyzer - WARNING - 文章内容无效或过短: 俄罗斯国防部：俄罗斯已控制乌克兰东部的罗马尼夫卡。
+2025-05-25 18:18:51,106 - processors.article_analyzer - WARNING - 使用标题作为内容: 俄罗斯国防部：俄罗斯已控制乌克兰东部的罗马尼夫卡。
+2025-05-25 18:18:51,106 - processors.article_analyzer - INFO - 提取到干净内容，长度: 25 字符
+2025-05-25 18:18:51,106 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 俄罗斯国防部：俄罗斯已控制乌克兰东部的罗马尼夫卡。
+2025-05-25 18:19:10,666 - processors.article_analyzer - INFO - 分析完成，耗时: 19.56秒
+2025-05-25 18:19:10,667 - processors.article_analyzer - INFO - 分析结果: 摘要(50字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 18:19:10,671 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=20250525173646014800
+2025-05-25 18:19:10,671 - processors.article_analyzer - INFO - 文章处理成功: 俄罗斯国防部：俄罗斯已控制乌克兰东部的罗马尼夫卡。
+2025-05-25 18:19:10,672 - processors.article_analyzer - INFO - [6/11] 开始处理文章 ID: 20250525172151679800
+2025-05-25 18:19:10,672 - processors.article_analyzer - INFO - 开始处理文章: [Jin10] 俄方称俄罗斯和乌克兰完成战俘交换 (ID: 20250525172151679800)
+2025-05-25 18:19:10,672 - processors.article_analyzer - WARNING - 文章内容无效或过短: 俄方称俄罗斯和乌克兰完成战俘交换
+2025-05-25 18:19:10,672 - processors.article_analyzer - WARNING - 使用标题作为内容: 俄方称俄罗斯和乌克兰完成战俘交换
+2025-05-25 18:19:10,672 - processors.article_analyzer - INFO - 提取到干净内容，长度: 16 字符
+2025-05-25 18:19:10,672 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 俄方称俄罗斯和乌克兰完成战俘交换
+2025-05-25 18:19:27,971 - processors.article_analyzer - INFO - 分析完成，耗时: 17.30秒
+2025-05-25 18:19:27,972 - processors.article_analyzer - INFO - 分析结果: 摘要(31字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 18:19:27,975 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=20250525172151679800
+2025-05-25 18:19:27,975 - processors.article_analyzer - INFO - 文章处理成功: 俄方称俄罗斯和乌克兰完成战俘交换
+2025-05-25 18:19:27,975 - processors.article_analyzer - INFO - [7/11] 开始处理文章 ID: /cn/news-detail/4329296_1
+2025-05-25 18:19:27,975 - processors.article_analyzer - INFO - 开始处理文章: [FastBull] 中国内需越强，关税战越占优 (ID: /cn/news-detail/4329296_1)
+2025-05-25 18:19:27,975 - processors.article_analyzer - WARNING - 文章内容无效或过短: 中国内需越强，关税战越占优
+2025-05-25 18:19:27,975 - processors.article_analyzer - WARNING - 使用标题作为内容: 中国内需越强，关税战越占优
+2025-05-25 18:19:27,975 - processors.article_analyzer - INFO - 提取到干净内容，长度: 13 字符
+2025-05-25 18:19:27,975 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 中国内需越强，关税战越占优
+2025-05-25 18:19:46,812 - processors.article_analyzer - INFO - 分析完成，耗时: 18.84秒
+2025-05-25 18:19:46,814 - processors.article_analyzer - INFO - 分析结果: 摘要(38字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 18:19:46,816 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=/cn/news-detail/4329296_1
+2025-05-25 18:19:46,816 - processors.article_analyzer - INFO - 文章处理成功: 中国内需越强，关税战越占优
+2025-05-25 18:19:46,816 - processors.article_analyzer - INFO - [8/11] 开始处理文章 ID: /cn/news-detail/4329493_1
+2025-05-25 18:19:46,816 - processors.article_analyzer - INFO - 开始处理文章: [fastbull] 拿俄罗斯经济开刀，就可能把普京逼上谈判桌？ (ID: /cn/news-detail/4329493_1)
+2025-05-25 18:19:46,816 - processors.article_analyzer - WARNING - 文章内容无效或过短: 拿俄罗斯经济开刀，就可能把普京逼上谈判桌？
+2025-05-25 18:19:46,817 - processors.article_analyzer - WARNING - 使用标题作为内容: 拿俄罗斯经济开刀，就可能把普京逼上谈判桌？
+2025-05-25 18:19:46,817 - processors.article_analyzer - INFO - 提取到干净内容，长度: 21 字符
+2025-05-25 18:19:46,817 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 拿俄罗斯经济开刀，就可能把普京逼上谈判桌？
+2025-05-25 18:20:07,264 - processors.article_analyzer - INFO - 分析完成，耗时: 20.45秒
+2025-05-25 18:20:07,265 - processors.article_analyzer - INFO - 分析结果: 摘要(33字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 18:20:07,267 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=/cn/news-detail/4329493_1
+2025-05-25 18:20:07,267 - processors.article_analyzer - INFO - 文章处理成功: 拿俄罗斯经济开刀，就可能把普京逼上谈判桌？
+2025-05-25 18:20:07,267 - processors.article_analyzer - INFO - [9/11] 开始处理文章 ID: /cn/news-detail/4329460_1
+2025-05-25 18:20:07,267 - processors.article_analyzer - INFO - 开始处理文章: [fastbull] 美债信用风险与美元信用下滑形成共振，需警惕其向全球金融市场传导 (ID: /cn/news-detail/4329460_1)
+2025-05-25 18:20:07,267 - processors.article_analyzer - WARNING - 文章内容无效或过短: 美债信用风险与美元信用下滑形成共振，需警惕其向全球金融市场传导
+2025-05-25 18:20:07,267 - processors.article_analyzer - WARNING - 使用标题作为内容: 美债信用风险与美元信用下滑形成共振，需警惕其向全球金融市场传导
+2025-05-25 18:20:07,267 - processors.article_analyzer - INFO - 提取到干净内容，长度: 31 字符
+2025-05-25 18:20:07,268 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 美债信用风险与美元信用下滑形成共振，需警惕其向全球金融市场传导
+2025-05-25 18:20:25,547 - processors.article_analyzer - INFO - 分析完成，耗时: 18.28秒
+2025-05-25 18:20:25,549 - processors.article_analyzer - INFO - 分析结果: 摘要(44字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 18:20:25,551 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=/cn/news-detail/4329460_1
+2025-05-25 18:20:25,551 - processors.article_analyzer - INFO - 文章处理成功: 美债信用风险与美元信用下滑形成共振，需警惕其向全球金融市场传导
+2025-05-25 18:20:25,551 - processors.article_analyzer - INFO - [10/11] 开始处理文章 ID: /cn/news-detail/4329491_1
+2025-05-25 18:20:25,551 - processors.article_analyzer - INFO - 开始处理文章: [fastbull] 日本实际工资连续3年负增长，受高物价拖累 (ID: /cn/news-detail/4329491_1)
+2025-05-25 18:20:25,551 - processors.article_analyzer - WARNING - 文章内容无效或过短: 日本实际工资连续3年负增长，受高物价拖累
+2025-05-25 18:20:25,551 - processors.article_analyzer - WARNING - 使用标题作为内容: 日本实际工资连续3年负增长，受高物价拖累
+2025-05-25 18:20:25,551 - processors.article_analyzer - INFO - 提取到干净内容，长度: 20 字符
+2025-05-25 18:20:25,551 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 日本实际工资连续3年负增长，受高物价拖累
+2025-05-25 18:20:44,161 - processors.article_analyzer - INFO - 分析完成，耗时: 18.61秒
+2025-05-25 18:20:44,161 - processors.article_analyzer - INFO - 分析结果: 摘要(48字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 18:20:44,164 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=/cn/news-detail/4329491_1
+2025-05-25 18:20:44,164 - processors.article_analyzer - INFO - 文章处理成功: 日本实际工资连续3年负增长，受高物价拖累
+2025-05-25 18:20:44,165 - processors.article_analyzer - INFO - [11/11] 开始处理文章 ID: 
+2025-05-25 18:20:44,165 - processors.article_analyzer - INFO - 开始处理文章: [google finance] 特朗普再抛关税威胁！欧债应声上涨交易员加码押注欧央行 ... (ID: )
+2025-05-25 18:20:44,165 - processors.article_analyzer - INFO - 提取到干净内容，长度: 97 字符
+2025-05-25 18:20:44,165 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 特朗普再抛关税威胁！欧债应声上涨交易员加码押注欧央行 ...
+2025-05-25 18:21:00,582 - processors.article_analyzer - INFO - 分析完成，耗时: 16.42秒
+2025-05-25 18:21:00,583 - processors.article_analyzer - INFO - 分析结果: 摘要(52字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 18:21:00,585 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=
+2025-05-25 18:21:00,585 - processors.article_analyzer - INFO - 文章处理成功: 特朗普再抛关税威胁！欧债应声上涨交易员加码押注欧央行 ...
+2025-05-25 18:21:00,585 - processors.article_analyzer - INFO - 批处理完成: 总计 11 篇文章, 成功 11 篇, 失败 0 篇
+2025-05-25 18:21:00,585 - processors.article_analyzer - INFO - 总耗时: 204.13秒, 平均每篇: 18.56秒
+2025-05-25 18:21:00,585 - __main__ - INFO - 处理完成: 总计 11 篇文章, 成功 11 篇, 失败 0 篇
+2025-05-25 18:21:00,585 - __main__ - INFO - 等待 15 分钟后再次执行处理器任务...
+2025-05-25 18:27:06,386 - __main__ - INFO - 开始执行爬虫任务...
+2025-05-25 18:27:06,387 - processors.article_crawler - INFO - ===== 开始抓取所有来源 2025-05-25T18:27:06.387142 =====
+2025-05-25 18:27:06,387 - processors.article_crawler - INFO - 开始抓取 金十数据 的最新文章
+2025-05-25 18:27:08,448 - processors.article_crawler - INFO - 从 金十数据 获取到 20 篇文章
+2025-05-25 18:27:08,451 - db.sqlite_client - INFO - 保存文章成功: [Jin10] 两部门：云南西部等地的部分地区可能发生山洪灾害 (ID: 20250525181129108800)
+2025-05-25 18:27:08,453 - db.sqlite_client - INFO - 保存文章成功: [Jin10] 金十数据整理：特朗普过去24小时都忙了什么？（2025-05-25） (ID: 20250525180820245800)
+2025-05-25 18:27:08,454 - db.sqlite_client - INFO - 保存文章成功: [Jin10] 刘建超会见印尼大印尼行动党秘书长、人民协商会议主席穆扎尼 (ID: 20250525180420406800)
+2025-05-25 18:27:08,456 - db.sqlite_client - INFO - 保存文章成功: [Jin10] 消息人士：美国联邦紧急措施署署长在国会听证会上公开与特朗普决裂之前已准备好被解雇。 (ID: 20250525180344756800)
+2025-05-25 18:27:08,458 - db.sqlite_client - INFO - 保存文章成功: [Jin10] 美科罗拉多州一高中附近发生枪击 (ID: 20250525180048606800)
+2025-05-25 18:27:08,459 - db.sqlite_client - INFO - 保存文章成功: [Jin10] 中央气象台5月25日18时继续发布气象干旱黄色预警 (ID: 20250525180009264800)
+2025-05-25 18:27:08,461 - db.sqlite_client - INFO - 保存文章成功: [Jin10] 国际原子能机构完成驻扎波罗热核电站专家组轮换 (ID: 20250525175848343800)
+2025-05-25 18:27:08,463 - db.sqlite_client - INFO - 保存文章成功: [Jin10] 四川遂宁：西博会签约8个产业项目 协议投资额203.3亿元 (ID: 20250525175221922800)
+2025-05-25 18:27:08,465 - db.sqlite_client - INFO - 更新文章成功: [Jin10] 市场消息：沙特阿拉伯将发行价值约603亿里亚尔的新伊斯兰债券。 (ID: 20250525174521269800)
+2025-05-25 18:27:08,467 - db.sqlite_client - INFO - 更新文章成功: [Jin10] 乌方：与俄千人换俘行动已完成 (ID: 20250525174340805800)
+2025-05-25 18:27:08,468 - db.sqlite_client - INFO - 更新文章成功: [Jin10] 俄驻瑞典使馆遭无人机投掷颜料 (ID: 20250525174101196800)
+2025-05-25 18:27:08,469 - db.sqlite_client - INFO - 更新文章成功: [Jin10] 俄罗斯国防部：5月25日晚，俄罗斯武装部队使用高精度武器对乌克兰军工企业实施大规模打击。 (ID: 20250525173750572800)
+2025-05-25 18:27:08,470 - db.sqlite_client - INFO - 更新文章成功: [Jin10] 俄罗斯国防部：俄罗斯已控制乌克兰东部的罗马尼夫卡。 (ID: 20250525173646014800)
+2025-05-25 18:27:08,471 - db.sqlite_client - INFO - 更新文章成功: [Jin10] 俄方称俄罗斯和乌克兰完成战俘交换 (ID: 20250525172151679800)
+2025-05-25 18:27:08,472 - db.sqlite_client - INFO - 更新文章成功: [Jin10] 以军称拦截从也门境内发射的导弹 (ID: 20250525171838914800)
+2025-05-25 18:27:08,473 - db.sqlite_client - INFO - 更新文章成功: [Jin10] 据俄新社援引俄罗斯国防部：俄罗斯与乌克兰完成为期三天的战俘交换。 (ID: 20250525171208291800)
+2025-05-25 18:27:08,474 - db.sqlite_client - INFO - 更新文章成功: [Jin10] 据俄新社：俄罗斯与乌克兰各交换了303名战俘。 (ID: 20250525171053937800)
+2025-05-25 18:27:08,475 - db.sqlite_client - INFO - 更新文章成功: [Jin10] 俄国防部：军队正在沿国境建立安全区 (ID: 20250525170847054800)
+2025-05-25 18:27:08,476 - db.sqlite_client - INFO - 更新文章成功: [Jin10] 恶劣天气袭击巴基斯坦 造成至少19人死亡 (ID: 20250525170726233800)
+2025-05-25 18:27:08,477 - db.sqlite_client - INFO - 更新文章成功: [Jin10] 土耳其总统办公室：总统埃尔多安将于周日在伊斯坦布尔与巴基斯坦总理谢里夫举行会谈。 (ID: 20250525170050862800)
+2025-05-25 18:27:08,477 - processors.article_crawler - INFO - 金十数据 抓取完成: 获取 20 篇, 新增 20 篇, 耗时 2.09秒
+2025-05-25 18:27:08,477 - processors.article_crawler - INFO - 开始抓取 金十数据 的最新快讯
+2025-05-25 18:27:08,721 - processors.article_crawler - INFO - 从 金十数据 获取到 33 条快讯
+2025-05-25 18:27:08,724 - db.sqlite_client - INFO - 保存快讯成功: [Jin10] 两部门：云南西部等地的部分地区可能发生山洪灾害 (ID: 20250525181129108800)
+2025-05-25 18:27:08,725 - db.sqlite_client - INFO - 保存快讯成功: [Jin10] 金十数据整理：特朗普过去24小时都忙了什么？（2025-05-25） (ID: 20250525180820245800)
+2025-05-25 18:27:08,727 - db.sqlite_client - INFO - 保存快讯成功: [Jin10] 刘建超会见印尼大印尼行动党秘书长、人民协商会议主席穆扎尼 (ID: 20250525180420406800)
+2025-05-25 18:27:08,728 - db.sqlite_client - INFO - 保存快讯成功: [Jin10] 消息人士：美国联邦紧急措施署署长在国会听证会上公开与特朗普决裂之前已准备好被解雇。 (ID: 20250525180344756800)
+2025-05-25 18:27:08,730 - db.sqlite_client - INFO - 保存快讯成功: [Jin10] 美科罗拉多州一高中附近发生枪击 (ID: 20250525180048606800)
+2025-05-25 18:27:08,731 - db.sqlite_client - INFO - 保存快讯成功: [Jin10] 中央气象台5月25日18时继续发布气象干旱黄色预警 (ID: 20250525180009264800)
+2025-05-25 18:27:08,733 - db.sqlite_client - INFO - 保存快讯成功: [Jin10] 国际原子能机构完成驻扎波罗热核电站专家组轮换 (ID: 20250525175848343800)
+2025-05-25 18:27:08,734 - db.sqlite_client - INFO - 保存快讯成功: [Jin10] 四川遂宁：西博会签约8个产业项目 协议投资额203.3亿元 (ID: 20250525175221922800)
+2025-05-25 18:27:08,743 - processors.article_crawler - INFO - 金十数据 快讯抓取完成: 获取 33 条, 新增 33 条, 耗时 0.27秒
+2025-05-25 18:27:08,743 - processors.article_crawler - INFO - 开始抓取 格隆汇 的最新文章
+2025-05-25 18:27:16,387 - processors.article_crawler - INFO - 从 格隆汇 获取到 15 篇文章
+2025-05-25 18:27:16,389 - db.sqlite_client - INFO - 保存文章成功: [Gelonghui] 诺比侃冲击港股IPO，专注于AI领域，应收账款高企 (ID: 5010092)
+2025-05-25 18:27:16,391 - db.sqlite_client - INFO - 更新文章成功: [Gelonghui] 润建股份(002929.SZ)：预中标中国移动2025年至2026年家集客接入施工服务公开招标采购项目 (ID: 5010091)
+2025-05-25 18:27:16,392 - db.sqlite_client - INFO - 更新文章成功: [Gelonghui] 翔港科技(603499.SH)：控股股东、实际控制人董建军拟减持不超3%股份 (ID: 5010090)
+2025-05-25 18:27:16,393 - db.sqlite_client - INFO - 更新文章成功: [Gelonghui] 城地香江(603887.SH)：联合体中标《中国移动浙江公司2025年长三角（宁波）数据中心机房动力系统建设项目EPC工程总承包采购项目》 (ID: 5010089)
+2025-05-25 18:27:16,394 - db.sqlite_client - INFO - 更新文章成功: [Gelonghui] 新益昌(688383.SH)：拟推106.40万股限制性股票激励计划 (ID: 5010088)
+2025-05-25 18:27:16,395 - db.sqlite_client - INFO - 更新文章成功: [Gelonghui] 科源制药(301281.SZ)：监事王国钢拟减持不超9.38万股 (ID: 5010087)
+2025-05-25 18:27:16,396 - db.sqlite_client - INFO - 更新文章成功: [Gelonghui] 科源制药(301281.SZ)：股东问泽鸿拟减持不超3.00%股份 (ID: 5010086)
+2025-05-25 18:27:16,397 - db.sqlite_client - INFO - 更新文章成功: [Gelonghui] 东箭科技(300978.SZ)：新余东信、新余东恒、新余东诚拟合计减持不超117.88万股 (ID: 5010085)
+2025-05-25 18:27:16,398 - db.sqlite_client - INFO - 更新文章成功: [Gelonghui] 双飞集团(300817.SZ)：董事兼财务总监单亚元拟减持不超80万股股份 (ID: 5010084)
+2025-05-25 18:27:16,398 - db.sqlite_client - INFO - 更新文章成功: [Gelonghui] 恒锋工具(300488.SZ)：多名高管拟减持股份 (ID: 5010083)
+2025-05-25 18:27:16,399 - db.sqlite_client - INFO - 更新文章成功: [Gelonghui] 佳士科技(300193.SZ)：千鑫恒拟减持不超3.00%股份 (ID: 5010082)
+2025-05-25 18:27:16,400 - db.sqlite_client - INFO - 更新文章成功: [Gelonghui] 建新股份(300107.SZ)：多名高管拟减持股份 (ID: 5010081)
+2025-05-25 18:27:16,401 - db.sqlite_client - INFO - 更新文章成功: [Gelonghui] 星帅尔(002860.SZ)：钱凌拟减持不超130万股股份 (ID: 5010080)
+2025-05-25 18:27:16,402 - db.sqlite_client - INFO - 更新文章成功: [Gelonghui] 王子新材(002735.SZ)：宁波新容仅为可控核聚变中的磁体电源项目提供电容产品 (ID: 5010079)
+2025-05-25 18:27:16,402 - db.sqlite_client - INFO - 更新文章成功: [Gelonghui] 微光股份(002801.SZ)：微光投资拟减持不超1.32%股份 (ID: 5010078)
+2025-05-25 18:27:16,402 - processors.article_crawler - INFO - 格隆汇 抓取完成: 获取 15 篇, 新增 15 篇, 耗时 7.66秒
+2025-05-25 18:27:16,403 - processors.article_crawler - INFO - 开始抓取 格隆汇 的最新快讯
+2025-05-25 18:27:16,594 - processors.article_crawler - WARNING - 格隆汇 未获取到快讯
+2025-05-25 18:27:16,595 - processors.article_crawler - INFO - 开始抓取 华尔街见闻 的最新文章
+2025-05-25 18:27:16,595 - processors.article_crawler - WARNING - 华尔街见闻 未获取到文章
+2025-05-25 18:27:16,595 - processors.article_crawler - INFO - 开始抓取 FastBull 的最新文章
+2025-05-25 18:27:23,457 - processors.article_crawler - WARNING - FastBull 未获取到文章
+2025-05-25 18:27:23,457 - processors.article_crawler - INFO - 开始抓取 财联社 的最新文章
+2025-05-25 18:27:23,457 - processors.article_crawler - WARNING - 财联社 未获取到文章
+2025-05-25 18:27:23,457 - processors.article_crawler - INFO - 开始抓取 财联社 的最新快讯
+2025-05-25 18:27:23,457 - processors.article_crawler - WARNING - 财联社 未获取到快讯
+2025-05-25 18:27:23,457 - processors.article_crawler - INFO - ===== 所有来源抓取完成 =====
+2025-05-25 18:27:23,458 - processors.article_crawler - INFO - 总计: 文章 35 篇, 新增 35 篇
+2025-05-25 18:27:23,458 - processors.article_crawler - INFO - 快讯 33 条, 新增 33 条
+2025-05-25 18:27:23,458 - processors.article_crawler - INFO - 总耗时: 17.07秒
+2025-05-25 18:27:23,458 - __main__ - INFO - 爬虫任务执行完成
+2025-05-25 18:27:23,458 - __main__ - INFO - 等待 30 分钟后再次执行爬虫任务...
+2025-05-25 19:02:02,226 - __main__ - INFO - 开始执行处理器任务...
+2025-05-25 19:02:02,229 - processors.article_analyzer - INFO - 获取未处理文章: limit=20, source=全部
+2025-05-25 19:02:02,231 - db.sqlite_client - INFO - 获取到 9 篇未处理的文章
+2025-05-25 19:02:02,231 - processors.article_analyzer - INFO - 开始批量处理 9 篇文章
+2025-05-25 19:02:02,231 - processors.article_analyzer - INFO - [1/9] 开始处理文章 ID: 5010092
+2025-05-25 19:02:02,231 - processors.article_analyzer - INFO - 开始处理文章: [Gelonghui] 诺比侃冲击港股IPO，专注于AI领域，应收账款高企 (ID: 5010092)
+2025-05-25 19:02:02,231 - processors.article_analyzer - WARNING - 文章内容无效或过短: 诺比侃冲击港股IPO，专注于AI领域，应收账款高企
+2025-05-25 19:02:02,231 - processors.article_analyzer - WARNING - 使用标题作为内容: 诺比侃冲击港股IPO，专注于AI领域，应收账款高企
+2025-05-25 19:02:02,231 - processors.article_analyzer - INFO - 提取到干净内容，长度: 25 字符
+2025-05-25 19:02:02,231 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 诺比侃冲击港股IPO，专注于AI领域，应收账款高企
+2025-05-25 19:02:07,247 - processors.article_analyzer - WARNING - DeepSeek 分析失败: API调用错误: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))，使用默认分析
+2025-05-25 19:02:12,253 - processors.article_analyzer - INFO - 分析完成，耗时: 10.02秒
+2025-05-25 19:02:12,253 - processors.article_analyzer - INFO - 分析结果: 摘要(25字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 19:02:12,256 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=5010092
+2025-05-25 19:02:12,256 - processors.article_analyzer - INFO - 文章处理成功: 诺比侃冲击港股IPO，专注于AI领域，应收账款高企
+2025-05-25 19:02:12,256 - processors.article_analyzer - INFO - [2/9] 开始处理文章 ID: 20250525181129108800
+2025-05-25 19:02:12,256 - processors.article_analyzer - INFO - 开始处理文章: [Jin10] 两部门：云南西部等地的部分地区可能发生山洪灾害 (ID: 20250525181129108800)
+2025-05-25 19:02:12,256 - processors.article_analyzer - WARNING - 文章内容无效或过短: 两部门：云南西部等地的部分地区可能发生山洪灾害
+2025-05-25 19:02:12,256 - processors.article_analyzer - WARNING - 使用标题作为内容: 两部门：云南西部等地的部分地区可能发生山洪灾害
+2025-05-25 19:02:12,257 - processors.article_analyzer - INFO - 提取到干净内容，长度: 23 字符
+2025-05-25 19:02:12,257 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 两部门：云南西部等地的部分地区可能发生山洪灾害
+2025-05-25 19:02:30,730 - processors.article_analyzer - INFO - 分析完成，耗时: 18.47秒
+2025-05-25 19:02:30,730 - processors.article_analyzer - INFO - 分析结果: 摘要(38字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 19:02:30,733 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=20250525181129108800
+2025-05-25 19:02:30,733 - processors.article_analyzer - INFO - 文章处理成功: 两部门：云南西部等地的部分地区可能发生山洪灾害
+2025-05-25 19:02:30,733 - processors.article_analyzer - INFO - [3/9] 开始处理文章 ID: 20250525180820245800
+2025-05-25 19:02:30,733 - processors.article_analyzer - INFO - 开始处理文章: [Jin10] 金十数据整理：特朗普过去24小时都忙了什么？（2025-05-25） (ID: 20250525180820245800)
+2025-05-25 19:02:30,733 - processors.article_analyzer - WARNING - 文章内容无效或过短: 金十数据整理：特朗普过去24小时都忙了什么？（2025-05-25）
+2025-05-25 19:02:30,733 - processors.article_analyzer - WARNING - 使用标题作为内容: 金十数据整理：特朗普过去24小时都忙了什么？（2025-05-25）
+2025-05-25 19:02:30,733 - processors.article_analyzer - INFO - 提取到干净内容，长度: 34 字符
+2025-05-25 19:02:30,733 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 金十数据整理：特朗普过去24小时都忙了什么？（2025-05-25）
+2025-05-25 19:02:48,912 - processors.article_analyzer - INFO - 分析完成，耗时: 18.18秒
+2025-05-25 19:02:48,913 - processors.article_analyzer - INFO - 分析结果: 摘要(32字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 19:02:48,915 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=20250525180820245800
+2025-05-25 19:02:48,915 - processors.article_analyzer - INFO - 文章处理成功: 金十数据整理：特朗普过去24小时都忙了什么？（2025-05-25）
+2025-05-25 19:02:48,915 - processors.article_analyzer - INFO - [4/9] 开始处理文章 ID: 20250525180420406800
+2025-05-25 19:02:48,915 - processors.article_analyzer - INFO - 开始处理文章: [Jin10] 刘建超会见印尼大印尼行动党秘书长、人民协商会议主席穆扎尼 (ID: 20250525180420406800)
+2025-05-25 19:02:48,915 - processors.article_analyzer - WARNING - 文章内容无效或过短: 刘建超会见印尼大印尼行动党秘书长、人民协商会议主席穆扎尼
+2025-05-25 19:02:48,915 - processors.article_analyzer - WARNING - 使用标题作为内容: 刘建超会见印尼大印尼行动党秘书长、人民协商会议主席穆扎尼
+2025-05-25 19:02:48,915 - processors.article_analyzer - INFO - 提取到干净内容，长度: 28 字符
+2025-05-25 19:02:48,915 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 刘建超会见印尼大印尼行动党秘书长、人民协商会议主席穆扎尼
+2025-05-25 19:03:04,536 - processors.article_analyzer - INFO - 分析完成，耗时: 15.62秒
+2025-05-25 19:03:04,538 - processors.article_analyzer - INFO - 分析结果: 摘要(37字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 19:03:04,540 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=20250525180420406800
+2025-05-25 19:03:04,540 - processors.article_analyzer - INFO - 文章处理成功: 刘建超会见印尼大印尼行动党秘书长、人民协商会议主席穆扎尼
+2025-05-25 19:03:04,540 - processors.article_analyzer - INFO - [5/9] 开始处理文章 ID: 20250525180344756800
+2025-05-25 19:03:04,540 - processors.article_analyzer - INFO - 开始处理文章: [Jin10] 消息人士：美国联邦紧急措施署署长在国会听证会上公开与特朗普决裂之前已准备好被解雇。 (ID: 20250525180344756800)
+2025-05-25 19:03:04,540 - processors.article_analyzer - WARNING - 文章内容无效或过短: 消息人士：美国联邦紧急措施署署长在国会听证会上公开与特朗普决裂之前已准备好被解雇。
+2025-05-25 19:03:04,540 - processors.article_analyzer - WARNING - 使用标题作为内容: 消息人士：美国联邦紧急措施署署长在国会听证会上公开与特朗普决裂之前已准备好被解雇。
+2025-05-25 19:03:04,540 - processors.article_analyzer - INFO - 提取到干净内容，长度: 41 字符
+2025-05-25 19:03:04,541 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 消息人士：美国联邦紧急措施署署长在国会听证会上公开与特朗普决裂之前已准备好被解雇。
+2025-05-25 19:03:26,554 - processors.article_analyzer - INFO - 分析完成，耗时: 22.01秒
+2025-05-25 19:03:26,554 - processors.article_analyzer - INFO - 分析结果: 摘要(56字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 19:03:26,557 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=20250525180344756800
+2025-05-25 19:03:26,557 - processors.article_analyzer - INFO - 文章处理成功: 消息人士：美国联邦紧急措施署署长在国会听证会上公开与特朗普决裂之前已准备好被解雇。
+2025-05-25 19:03:26,557 - processors.article_analyzer - INFO - [6/9] 开始处理文章 ID: 20250525180048606800
+2025-05-25 19:03:26,557 - processors.article_analyzer - INFO - 开始处理文章: [Jin10] 美科罗拉多州一高中附近发生枪击 (ID: 20250525180048606800)
+2025-05-25 19:03:26,557 - processors.article_analyzer - WARNING - 文章内容无效或过短: 美科罗拉多州一高中附近发生枪击
+2025-05-25 19:03:26,557 - processors.article_analyzer - WARNING - 使用标题作为内容: 美科罗拉多州一高中附近发生枪击
+2025-05-25 19:03:26,557 - processors.article_analyzer - INFO - 提取到干净内容，长度: 15 字符
+2025-05-25 19:03:26,557 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 美科罗拉多州一高中附近发生枪击
+2025-05-25 19:03:42,340 - processors.article_analyzer - INFO - 分析完成，耗时: 15.78秒
+2025-05-25 19:03:42,340 - processors.article_analyzer - INFO - 分析结果: 摘要(38字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 19:03:42,343 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=20250525180048606800
+2025-05-25 19:03:42,343 - processors.article_analyzer - INFO - 文章处理成功: 美科罗拉多州一高中附近发生枪击
+2025-05-25 19:03:42,343 - processors.article_analyzer - INFO - [7/9] 开始处理文章 ID: 20250525180009264800
+2025-05-25 19:03:42,343 - processors.article_analyzer - INFO - 开始处理文章: [Jin10] 中央气象台5月25日18时继续发布气象干旱黄色预警 (ID: 20250525180009264800)
+2025-05-25 19:03:42,343 - processors.article_analyzer - WARNING - 文章内容无效或过短: 中央气象台5月25日18时继续发布气象干旱黄色预警
+2025-05-25 19:03:42,343 - processors.article_analyzer - WARNING - 使用标题作为内容: 中央气象台5月25日18时继续发布气象干旱黄色预警
+2025-05-25 19:03:42,343 - processors.article_analyzer - INFO - 提取到干净内容，长度: 25 字符
+2025-05-25 19:03:42,344 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 中央气象台5月25日18时继续发布气象干旱黄色预警
+2025-05-25 19:04:00,471 - processors.article_analyzer - INFO - 分析完成，耗时: 18.13秒
+2025-05-25 19:04:00,471 - processors.article_analyzer - INFO - 分析结果: 摘要(50字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 19:04:00,474 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=20250525180009264800
+2025-05-25 19:04:00,474 - processors.article_analyzer - INFO - 文章处理成功: 中央气象台5月25日18时继续发布气象干旱黄色预警
+2025-05-25 19:04:00,474 - processors.article_analyzer - INFO - [8/9] 开始处理文章 ID: 20250525175848343800
+2025-05-25 19:04:00,474 - processors.article_analyzer - INFO - 开始处理文章: [Jin10] 国际原子能机构完成驻扎波罗热核电站专家组轮换 (ID: 20250525175848343800)
+2025-05-25 19:04:00,474 - processors.article_analyzer - WARNING - 文章内容无效或过短: 国际原子能机构完成驻扎波罗热核电站专家组轮换
+2025-05-25 19:04:00,474 - processors.article_analyzer - WARNING - 使用标题作为内容: 国际原子能机构完成驻扎波罗热核电站专家组轮换
+2025-05-25 19:04:00,475 - processors.article_analyzer - INFO - 提取到干净内容，长度: 22 字符
+2025-05-25 19:04:00,475 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 国际原子能机构完成驻扎波罗热核电站专家组轮换
+2025-05-25 19:04:16,234 - processors.article_analyzer - INFO - 分析完成，耗时: 15.76秒
+2025-05-25 19:04:16,234 - processors.article_analyzer - INFO - 分析结果: 摘要(39字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 19:04:16,237 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=20250525175848343800
+2025-05-25 19:04:16,237 - processors.article_analyzer - INFO - 文章处理成功: 国际原子能机构完成驻扎波罗热核电站专家组轮换
+2025-05-25 19:04:16,238 - processors.article_analyzer - INFO - [9/9] 开始处理文章 ID: 20250525175221922800
+2025-05-25 19:04:16,238 - processors.article_analyzer - INFO - 开始处理文章: [Jin10] 四川遂宁：西博会签约8个产业项目 协议投资额203.3亿元 (ID: 20250525175221922800)
+2025-05-25 19:04:16,238 - processors.article_analyzer - WARNING - 文章内容无效或过短: 四川遂宁：西博会签约8个产业项目 协议投资额203.3亿元
+2025-05-25 19:04:16,238 - processors.article_analyzer - WARNING - 使用标题作为内容: 四川遂宁：西博会签约8个产业项目 协议投资额203.3亿元
+2025-05-25 19:04:16,238 - processors.article_analyzer - INFO - 提取到干净内容，长度: 29 字符
+2025-05-25 19:04:16,238 - processors.article_analyzer - INFO - 使用 DeepSeek AI 服务分析文章: 四川遂宁：西博会签约8个产业项目 协议投资额203.3亿元
+2025-05-25 19:04:43,785 - processors.article_analyzer - INFO - 分析完成，耗时: 27.55秒
+2025-05-25 19:04:43,786 - processors.article_analyzer - INFO - 分析结果: 摘要(58字符), 关键要点(3条), 建议行动(3条)
+2025-05-25 19:04:43,788 - db.sqlite_client - INFO - 更新文章分析结果成功: ID=20250525175221922800
+2025-05-25 19:04:43,788 - processors.article_analyzer - INFO - 文章处理成功: 四川遂宁：西博会签约8个产业项目 协议投资额203.3亿元
+2025-05-25 19:04:43,788 - processors.article_analyzer - INFO - 批处理完成: 总计 9 篇文章, 成功 9 篇, 失败 0 篇
+2025-05-25 19:04:43,788 - processors.article_analyzer - INFO - 总耗时: 161.56秒, 平均每篇: 17.95秒
+2025-05-25 19:04:43,788 - __main__ - INFO - 处理完成: 总计 9 篇文章, 成功 9 篇, 失败 0 篇
+2025-05-25 19:04:43,788 - __main__ - INFO - 等待 15 分钟后再次执行处理器任务...
+2025-05-25 20:08:11,055 - __main__ - INFO - 开始执行处理器任务...
+2025-05-25 20:08:11,057 - processors.article_analyzer - INFO - 获取未处理文章: limit=20, source=全部
+2025-05-25 20:08:11,059 - db.sqlite_client - INFO - 获取到 0 篇未处理的文章
+2025-05-25 20:08:11,059 - processors.article_analyzer - INFO - 没有找到需要处理的文章
+2025-05-25 20:08:11,059 - __main__ - INFO - 没有找到需要处理的文章
+2025-05-25 20:08:11,059 - __main__ - INFO - 等待 15 分钟后再次执行处理器任务...
+2025-05-25 20:20:38,032 - __main__ - INFO - 开始执行爬虫任务...
+2025-05-25 20:20:38,035 - processors.article_crawler - INFO - ===== 开始抓取所有来源 2025-05-25T20:20:38.035141 =====
+2025-05-25 20:20:38,035 - processors.article_crawler - INFO - 开始抓取 金十数据 的最新文章
+2025-05-25 20:20:38,662 - processors.article_crawler - INFO - 从 金十数据 获取到 20 篇文章
+2025-05-25 20:20:38,666 - db.sqlite_client - INFO - 保存文章成功: [Jin10] 亚太旅游协会主席：中国作为全球旅游创新输出国角色日益重要 (ID: 20250525201656393800)
+2025-05-25 20:20:38,668 - db.sqlite_client - INFO - 保存文章成功: [Jin10] 中国人民银行与印度尼西亚银行签署《关于建立促进双边交易本币结算合作框架的谅解备忘录》 (ID: 20250525200140133800)
+2025-05-25 20:20:38,670 - db.sqlite_client - INFO - 保存文章成功: [Jin10] TM奥义前瞻 (ID: 20250525200000000800)
+2025-05-25 20:20:38,672 - db.sqlite_client - INFO - 保存文章成功: [Jin10] 本轮巴以冲突已致加沙地带53939人死亡 (ID: 20250525194950653800)
+2025-05-25 20:20:38,675 - db.sqlite_client - INFO - 保存文章成功: [Jin10] 胡塞武装：向以色列本·古里安机场发射了一枚高超音速弹道导弹。 (ID: 20250525193859655800)
+2025-05-25 20:20:38,677 - db.sqlite_client - INFO - 保存文章成功: [Jin10] 中越国际联运旅客列车时隔五年恢复开行 (ID: 20250525192536941800)
+2025-05-25 20:20:38,679 - db.sqlite_client - INFO - 保存文章成功: [Jin10] 德国地学研究中心GFZ：汤加群岛地区发生6.0级地震。 (ID: 20250525190408707800)
+2025-05-25 20:20:38,681 - db.sqlite_client - INFO - 保存文章成功: [Jin10] 今年以来南方最强降雨来袭 警惕暴雨致灾风险 (ID: 20250525185802503800)
+2025-05-25 20:20:38,682 - db.sqlite_client - INFO - 保存文章成功: [Jin10] 加沙媒体办公室：以军已控制77%加沙土地 (ID: 20250525185131373800)
+2025-05-25 20:20:38,685 - db.sqlite_client - INFO - 保存文章成功: [Jin10] 华为正式推出昇腾超节点技术 (ID: 20250525185021701800)
+2025-05-25 20:20:38,688 - db.sqlite_client - INFO - 保存文章成功: [Jin10] 俄军方披露普京视察库尔斯克期间正值乌无人机袭击 (ID: 20250525184200234800)
+2025-05-25 20:20:38,690 - db.sqlite_client - INFO - 保存文章成功: [Jin10] 百胜中国(09987.HK)：于5月23日斥资240万美元回购5.63万股。 (ID: 20250525184106320800)
+2025-05-25 20:20:38,691 - db.sqlite_client - INFO - 保存文章成功: [Jin10] 2024年度中国自动化学会科学技术奖揭晓 (ID: 20250525183431652800)
+2025-05-25 20:20:38,693 - db.sqlite_client - INFO - 保存文章成功: [Jin10] 俄罗斯国防部副部长：交换的结果是，880名军事人员和120名平民从乌克兰返回。俄罗斯期待此次交换战俘的行动能为讨论解决乌克兰危机创造良好氛围。 (ID: 20250525183143978800)
+2025-05-25 20:20:38,694 - db.sqlite_client - INFO - 保存文章成功: [Jin10] 俄罗斯国防部副部长：在伊斯坦布尔达成的有关交换的协议已得到全面落实。交流活动结束后，俄罗斯国防部专家将向军方提供一切协助。 (ID: 20250525183108036800)
+2025-05-25 20:20:38,695 - db.sqlite_client - INFO - 保存文章成功: [Jin10] 东盟秘书长高金洪：进一步赋能中小微企业 充分释放RCEP潜力 (ID: 20250525181457942800)
+2025-05-25 20:20:38,696 - db.sqlite_client - INFO - 更新文章成功: [Jin10] 两部门：云南西部等地的部分地区可能发生山洪灾害 (ID: 20250525181129108800)
+2025-05-25 20:20:38,697 - db.sqlite_client - INFO - 更新文章成功: [Jin10] 金十数据整理：特朗普过去24小时都忙了什么？（2025-05-25） (ID: 20250525180820245800)
+2025-05-25 20:20:38,698 - db.sqlite_client - INFO - 更新文章成功: [Jin10] 刘建超会见印尼大印尼行动党秘书长、人民协商会议主席穆扎尼 (ID: 20250525180420406800)
+2025-05-25 20:20:38,698 - db.sqlite_client - INFO - 更新文章成功: [Jin10] 消息人士：美国联邦紧急措施署署长在国会听证会上公开与特朗普决裂之前已准备好被解雇。 (ID: 20250525180344756800)
+2025-05-25 20:20:38,698 - processors.article_crawler - INFO - 金十数据 抓取完成: 获取 20 篇, 新增 20 篇, 耗时 0.66秒
+2025-05-25 20:20:38,698 - processors.article_crawler - INFO - 开始抓取 金十数据 的最新快讯
+2025-05-25 20:20:39,120 - processors.article_crawler - INFO - 从 金十数据 获取到 41 条快讯
+2025-05-25 20:20:39,121 - db.sqlite_client - INFO - 保存快讯成功: [Jin10] 亚太旅游协会主席：中国作为全球旅游创新输出国角色日益重要 (ID: 20250525201656393800)
+2025-05-25 20:20:39,122 - db.sqlite_client - INFO - 保存快讯成功: [Jin10] 中国人民银行与印度尼西亚银行签署《关于建立促进双边交易本币结算合作框架的谅解备忘录》 (ID: 20250525200140133800)
+2025-05-25 20:20:39,123 - db.sqlite_client - INFO - 保存快讯成功: [Jin10] TM奥义前瞻 (ID: 20250525200000000800)
+2025-05-25 20:20:39,123 - db.sqlite_client - INFO - 保存快讯成功: [Jin10] 本轮巴以冲突已致加沙地带53939人死亡 (ID: 20250525194950653800)
+2025-05-25 20:20:39,124 - db.sqlite_client - INFO - 保存快讯成功: [Jin10] 胡塞武装：向以色列本·古里安机场发射了一枚高超音速弹道导弹。 (ID: 20250525193859655800)
+2025-05-25 20:20:39,124 - db.sqlite_client - INFO - 保存快讯成功: [Jin10] 中越国际联运旅客列车时隔五年恢复开行 (ID: 20250525192536941800)
+2025-05-25 20:20:39,125 - db.sqlite_client - INFO - 保存快讯成功: [Jin10] 德国地学研究中心GFZ：汤加群岛地区发生6.0级地震。 (ID: 20250525190408707800)
+2025-05-25 20:20:39,126 - db.sqlite_client - INFO - 保存快讯成功: [Jin10] 今年以来南方最强降雨来袭 警惕暴雨致灾风险 (ID: 20250525185802503800)
+2025-05-25 20:20:39,127 - db.sqlite_client - INFO - 保存快讯成功: [Jin10] 加沙媒体办公室：以军已控制77%加沙土地 (ID: 20250525185131373800)
+2025-05-25 20:20:39,127 - db.sqlite_client - INFO - 保存快讯成功: [Jin10] 华为正式推出昇腾超节点技术 (ID: 20250525185021701800)
+2025-05-25 20:20:39,128 - db.sqlite_client - INFO - 保存快讯成功: [Jin10] 俄军方披露普京视察库尔斯克期间正值乌无人机袭击 (ID: 20250525184200234800)
+2025-05-25 20:20:39,129 - db.sqlite_client - INFO - 保存快讯成功: [Jin10] 百胜中国(09987.HK)：于5月23日斥资240万美元回购5.63万股。 (ID: 20250525184106320800)
+2025-05-25 20:20:39,129 - db.sqlite_client - INFO - 保存快讯成功: [Jin10] 2024年度中国自动化学会科学技术奖揭晓 (ID: 20250525183431652800)
+2025-05-25 20:20:39,130 - db.sqlite_client - INFO - 保存快讯成功: [Jin10] 俄罗斯国防部副部长：交换的结果是，880名军事人员和120名平民从乌克兰返回。俄罗斯期待此次交换战俘的行动能为讨论解决乌克兰危机创造良好氛围。 (ID: 20250525183143978800)
+2025-05-25 20:20:39,130 - db.sqlite_client - INFO - 保存快讯成功: [Jin10] 俄罗斯国防部副部长：在伊斯坦布尔达成的有关交换的协议已得到全面落实。交流活动结束后，俄罗斯国防部专家将向军方提供一切协助。 (ID: 20250525183108036800)
+2025-05-25 20:20:39,132 - db.sqlite_client - INFO - 保存快讯成功: [Jin10] 东盟秘书长高金洪：进一步赋能中小微企业 充分释放RCEP潜力 (ID: 20250525181457942800)
+2025-05-25 20:20:39,136 - processors.article_crawler - INFO - 金十数据 快讯抓取完成: 获取 41 条, 新增 41 条, 耗时 0.44秒
+2025-05-25 20:20:39,136 - processors.article_crawler - INFO - 开始抓取 格隆汇 的最新文章
+2025-05-25 20:20:40,992 - processors.article_crawler - INFO - 从 格隆汇 获取到 15 篇文章
+2025-05-25 20:20:40,994 - db.sqlite_client - INFO - 保存文章成功: [Gelonghui] 环球新材国际(06616.HK)：重庆国际拟向七色鹿寨注资5亿元 (ID: 5010095)
+2025-05-25 20:20:40,995 - db.sqlite_client - INFO - 保存文章成功: [Gelonghui] 远大医药(00512.HK)：全球创新的治疗蠕形螨睑缘炎产品获中国澳门药监局批准上市 (ID: 5010094)
+2025-05-25 20:20:40,996 - db.sqlite_client - INFO - 保存文章成功: [Gelonghui] 百胜中国(09987.HK)：于5月23日斥资240万美元回购5.63万股 (ID: 5010093)
+2025-05-25 20:20:40,997 - db.sqlite_client - INFO - 更新文章成功: [Gelonghui] 诺比侃冲击港股IPO，专注于AI领域，应收账款高企 (ID: 5010092)
+2025-05-25 20:20:40,998 - db.sqlite_client - INFO - 更新文章成功: [Gelonghui] 润建股份(002929.SZ)：预中标中国移动2025年至2026年家集客接入施工服务公开招标采购项目 (ID: 5010091)
+2025-05-25 20:20:40,998 - db.sqlite_client - INFO - 更新文章成功: [Gelonghui] 翔港科技(603499.SH)：控股股东、实际控制人董建军拟减持不超3%股份 (ID: 5010090)
+2025-05-25 20:20:40,999 - db.sqlite_client - INFO - 更新文章成功: [Gelonghui] 城地香江(603887.SH)：联合体中标《中国移动浙江公司2025年长三角（宁波）数据中心机房动力系统建设项目EPC工程总承包采购项目》 (ID: 5010089)
+2025-05-25 20:20:41,000 - db.sqlite_client - INFO - 更新文章成功: [Gelonghui] 新益昌(688383.SH)：拟推106.40万股限制性股票激励计划 (ID: 5010088)
+2025-05-25 20:20:41,001 - db.sqlite_client - INFO - 更新文章成功: [Gelonghui] 科源制药(301281.SZ)：监事王国钢拟减持不超9.38万股 (ID: 5010087)
+2025-05-25 20:20:41,003 - db.sqlite_client - INFO - 更新文章成功: [Gelonghui] 科源制药(301281.SZ)：股东问泽鸿拟减持不超3.00%股份 (ID: 5010086)
+2025-05-25 20:20:41,003 - db.sqlite_client - INFO - 更新文章成功: [Gelonghui] 东箭科技(300978.SZ)：新余东信、新余东恒、新余东诚拟合计减持不超117.88万股 (ID: 5010085)
+2025-05-25 20:20:41,004 - db.sqlite_client - INFO - 更新文章成功: [Gelonghui] 双飞集团(300817.SZ)：董事兼财务总监单亚元拟减持不超80万股股份 (ID: 5010084)
+2025-05-25 20:20:41,005 - db.sqlite_client - INFO - 更新文章成功: [Gelonghui] 恒锋工具(300488.SZ)：多名高管拟减持股份 (ID: 5010083)
+2025-05-25 20:20:41,006 - db.sqlite_client - INFO - 更新文章成功: [Gelonghui] 佳士科技(300193.SZ)：千鑫恒拟减持不超3.00%股份 (ID: 5010082)
+2025-05-25 20:20:41,006 - db.sqlite_client - INFO - 更新文章成功: [Gelonghui] 建新股份(300107.SZ)：多名高管拟减持股份 (ID: 5010081)
+2025-05-25 20:20:41,006 - processors.article_crawler - INFO - 格隆汇 抓取完成: 获取 15 篇, 新增 15 篇, 耗时 1.87秒
+2025-05-25 20:20:41,006 - processors.article_crawler - INFO - 开始抓取 格隆汇 的最新快讯
+2025-05-25 20:20:41,208 - processors.article_crawler - WARNING - 格隆汇 未获取到快讯
+2025-05-25 20:20:41,208 - processors.article_crawler - INFO - 开始抓取 华尔街见闻 的最新文章
+2025-05-25 20:20:41,208 - processors.article_crawler - WARNING - 华尔街见闻 未获取到文章
+2025-05-25 20:20:41,208 - processors.article_crawler - INFO - 开始抓取 FastBull 的最新文章
+2025-05-25 20:20:45,484 - processors.article_crawler - INFO - 从 FastBull 获取到 20 篇文章
+2025-05-25 20:20:45,485 - db.sqlite_client - INFO - 更新文章成功: [FastBull] 美伊第五轮间接谈判有何进展 (ID: /cn/news-detail/4329761_1)
+2025-05-25 20:20:45,486 - db.sqlite_client - INFO - 更新文章成功: [FastBull] 降息问题揭示美国内部核心博弈 (ID: /cn/news-detail/4329741_1)
+2025-05-25 20:20:45,487 - db.sqlite_client - INFO - 更新文章成功: [FastBull] 特朗普欲对欧盟征收50%关税，对苹果收25%关税 (ID: /cn/news-detail/4329687_1)
+2025-05-25 20:20:45,487 - db.sqlite_client - INFO - 保存文章成功: [FastBull] 退出《巴黎协定》还不够？美政府又计划取消一项限制 (ID: /cn/news-detail/4329775_1)
+2025-05-25 20:20:45,488 - db.sqlite_client - INFO - 保存文章成功: [FastBull] 加密货币正在发动金融”政变” (ID: /cn/news-detail/4329774_1)
+2025-05-25 20:20:45,488 - db.sqlite_client - INFO - 保存文章成功: [FastBull] 80%中国上市银行净息差低于警戒线 (ID: /cn/news-detail/4329619_1)
+2025-05-25 20:20:45,488 - db.sqlite_client - INFO - 更新文章成功: [FastBull] 英国央行为何能够放松对通胀的担忧？ (ID: /cn/news-detail/4329773_1)
+2025-05-25 20:20:45,489 - db.sqlite_client - INFO - 更新文章成功: [FastBull] “重返南亚”？英国需平衡印巴 (ID: /cn/news-detail/4329499_1)
+2025-05-25 20:20:45,489 - db.sqlite_client - INFO - 更新文章成功: [FastBull] 调查显示，特朗普关税措施可能引发美国消费者不满 (ID: /cn/news-detail/4329765_1)
+2025-05-25 20:20:45,490 - db.sqlite_client - INFO - 更新文章成功: [FastBull] 美方威胁对欧盟征收高关税意欲何为？ (ID: /cn/news-detail/4329764_1)
+2025-05-25 20:20:45,490 - db.sqlite_client - INFO - 更新文章成功: [FastBull] 当美国“缺席”，一种新型全球化正在兴起 (ID: /cn/news-detail/4329615_1)
+2025-05-25 20:20:45,491 - db.sqlite_client - INFO - 更新文章成功: [FastBull] 美欧关税战若升级，德国或面临2500亿欧元损失 (ID: /cn/news-detail/4329763_1)
+2025-05-25 20:20:45,491 - db.sqlite_client - INFO - 更新文章成功: [FastBull] 不要低估6月1日的风险！欧洲想要的是谈判，而美国想要的是让步，市场想的是“又一个4月2日” (ID: /cn/news-detail/4329762_1)
+2025-05-25 20:20:45,492 - db.sqlite_client - INFO - 更新文章成功: [FastBull] 欧洲为何在全球科技革命中掉队？ (ID: /cn/news-detail/4329609_1)
+2025-05-25 20:20:45,492 - db.sqlite_client - INFO - 更新文章成功: [FastBull] 特朗普的国际新秩序：从山巅之城到丛林现实 (ID: /cn/news-detail/4329500_1)
+2025-05-25 20:20:45,493 - db.sqlite_client - INFO - 更新文章成功: [FastBull] 加税“非美产”苹果，特朗普开始做一种最坏的打算 (ID: /cn/news-detail/4329760_1)
+2025-05-25 20:20:45,493 - db.sqlite_client - INFO - 更新文章成功: [FastBull] 面对特朗普50%关税威胁，欧洲官员呼吁“冷静”应对 (ID: /cn/news-detail/4329759_1)
+2025-05-25 20:20:45,494 - db.sqlite_client - INFO - 更新文章成功: [FastBull] 经济焦虑与民族主义：越南如何应对特朗普关税风暴 (ID: /cn/news-detail/4329488_1)
+2025-05-25 20:20:45,494 - db.sqlite_client - INFO - 更新文章成功: [FastBull] 特朗普宣布美国钢铁和日本制铁结成合作关系，但未提供细节 (ID: /cn/news-detail/4329758_1)
+2025-05-25 20:20:45,495 - db.sqlite_client - INFO - 更新文章成功: [FastBull] 人道主义危机难解，联合国称加沙遭遇“最残酷阶段” (ID: /cn/news-detail/4329757_1)
+2025-05-25 20:20:45,495 - processors.article_crawler - INFO - FastBull 抓取完成: 获取 20 篇, 新增 20 篇, 耗时 4.29秒
+2025-05-25 20:20:45,495 - processors.article_crawler - INFO - 开始抓取 财联社 的最新文章
+2025-05-25 20:20:45,495 - processors.article_crawler - WARNING - 财联社 未获取到文章
+2025-05-25 20:20:45,495 - processors.article_crawler - INFO - 开始抓取 财联社 的最新快讯
+2025-05-25 20:20:45,495 - processors.article_crawler - WARNING - 财联社 未获取到快讯
+2025-05-25 20:20:45,495 - processors.article_crawler - INFO - ===== 所有来源抓取完成 =====
+2025-05-25 20:20:45,495 - processors.article_crawler - INFO - 总计: 文章 55 篇, 新增 55 篇
+2025-05-25 20:20:45,495 - processors.article_crawler - INFO - 快讯 41 条, 新增 41 条
+2025-05-25 20:20:45,495 - processors.article_crawler - INFO - 总耗时: 7.46秒
+2025-05-25 20:20:45,495 - __main__ - INFO - 爬虫任务执行完成
+2025-05-25 20:20:45,495 - __main__ - INFO - 等待 30 分钟后再次执行爬虫任务...
+2025-05-25 20:26:40,167 - __main__ - INFO - 收到中断信号，正在关闭系统...
+2025-05-25 20:26:40,168 - __main__ - INFO - 系统已关闭

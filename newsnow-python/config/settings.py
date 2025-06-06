@@ -38,7 +38,7 @@ MIN_ARTICLE_LENGTH = 100  # 最小文章长度，小于此长度则使用标题
 MAX_SUMMARY_LENGTH = 200  # 摘要最大长度
 
 # SearXNG搜索配置
-SEARXNG_URL = os.environ.get("SEARXNG_URL", "http://localhost:8080")
+SEARXNG_URL = os.environ.get("SEARXNG_URL", "http://searxng:8080")
 SEARXNG_TIMEOUT = int(os.environ.get("SEARXNG_TIMEOUT", "10"))  # 请求超时时间（秒）
 SEARCH_CACHE_TTL = int(os.environ.get("SEARCH_CACHE_TTL", "3600"))  # 缓存过期时间（秒）
 MAX_SEARCH_RESULTS = int(os.environ.get("MAX_SEARCH_RESULTS", "10"))  # 搜索结果数量限制

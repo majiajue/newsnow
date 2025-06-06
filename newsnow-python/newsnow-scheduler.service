@@ -1,0 +1,33 @@
+[Unit]
+Description=NewsNow Scheduler Service
+After=network.target
+Wants=network.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+WorkingDirectory=/path/to/your/newsnow-python
+ExecStart=/usr/bin/python3 /path/to/your/newsnow-python/start_scheduler_server.py
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=newsnow-scheduler
+
+# 环境变量
+Environment=PYTHONPATH=/path/to/your/newsnow-python
+Environment=PYTHONUNBUFFERED=1
+
+# 资源限制
+LimitNOFILE=65536
+MemoryMax=1G
+
+# 安全设置
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/path/to/your/newsnow-python
+
+[Install]
+WantedBy=multi-user.target 

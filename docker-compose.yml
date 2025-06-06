@@ -1,26 +1,80 @@
-version: '3'
+version: '3.8'
 
 services:
-  newsnow:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: newsnow
-    restart: always
+  # SearxNG 搜索引擎
+  searxng:
+    image: searxng/searxng:latest
+    container_name: searxng
     ports:
-      - '4444:4444'
+      - "8080:8080"
     volumes:
-      - ./database:/usr/app/database
-      - ./.env.server:/usr/app/.env.server
+      - ./searxng-data:/etc/searxng
     environment:
-      - HOST=0.0.0.0
-      - PORT=4444
-      - NODE_ENV=production
-      - DATABASE_URL=file:/usr/app/database/newsnow.db
-      - PRISMA_CLIENT_PATH=./server/utils/sequelizeClient.js
-      - G_CLIENT_ID=
-      - G_CLIENT_SECRET=
-      - JWT_SECRET=
-      - INIT_TABLE=true
-      - ENABLE_CACHE=true
-    command: sh -c "mkdir -p /usr/app/database && chmod 777 /usr/app/database && node --env-file .env.server --import ./esm-compat.js ./server/index.mjs"
+      - BASE_URL=http://localhost:8080/
+      - INSTANCE_NAME=NewsSearxNG
+    restart: unless-stopped
+    networks:
+      - newsnow-network
+
+  # NewsNow Python 后端
+  newsnow-python:
+    build:
+      context: ./newsnow-python
+      dockerfile: Dockerfile
+    container_name: newsnow-python
+    ports:
+      - "5001:5001"
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+    depends_on:
+      - searxng
+    env_file:
+      - ./.env
+    environment:
+      - c c c=http://searxng:8080
+      - API_PORT=5001
+      - API_HOST=0.0.0.0
+    restart: unless-stopped
+    networks:
+      - newsnow-network
+
+  # NewsNow UI 前端
+  newsnow-ui:
+    build:
+      context: ./newsnow-ui
+      dockerfile: Dockerfile
+    container_name: newsnow-ui
+    ports:
+      - "3002:3000"
+    depends_on:
+      - newsnow-python
+    environment:
+      - NEXT_PUBLIC_API_URL=http://newsnow-python:5001
+    restart: unless-stopped
+    networks:
+      - newsnow-network
+
+  # 定时任务容器（包含内容质量增强）
+  newsnow-cron:
+    build:
+      context: ./newsnow-python
+      dockerfile: Dockerfile.cron
+    container_name: newsnow-cron
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+    depends_on:
+      - searxng
+      - newsnow-python
+    env_file:
+      - ./.env
+    environment:
+      - SEARXNG_URL=http://searxng:8080
+    restart: unless-stopped
+    networks:
+      - newsnow-network
+
+networks:
+  newsnow-network:
+    driver: bridge

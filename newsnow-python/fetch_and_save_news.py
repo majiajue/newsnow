@@ -50,7 +50,7 @@ def fetch_and_save_news(use_searxng=True, use_deepseek=True, limit=10):
     # 如果启用SearXNG，创建搜索服务实例
     search_service = None
     if use_searxng:
-        searxng_url = os.environ.get("SEARXNG_URL", "http://localhost:8080/search")
+        searxng_url = os.environ.get("SEARXNG_URL", "http://searxng:8080/search")
         search_service = FinanceSearchService(searxng_url=searxng_url)
     
     # 如果启用DeepSeek，创建AI分析服务实例

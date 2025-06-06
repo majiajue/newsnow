@@ -16,8 +16,8 @@ from datetime import datetime, timedelta
 class FinanceSearchService:
     """财经搜索服务"""
     
-    def __init__(self, searxng_url="http://localhost:8080/search"):
-        self.searxng_url = searxng_url
+    def __init__(self, searxng_url=None):
+        self.searxng_url = searxng_url or os.environ.get("SEARXNG_URL", "http://searxng:8080/search")
         self.timeout = 15
         # 搜索结果缓存
         self._cache = {}

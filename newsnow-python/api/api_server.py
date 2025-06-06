@@ -13,6 +13,9 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from waitress import serve
 
+# 导入配置
+from config.settings import MAX_SEARCH_RESULTS, API_HOST, API_PORT
+
 # 修改为绝对导入路径
 import sys
 import os
@@ -21,8 +24,8 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from db.sqlite_client import SQLiteClient
 from utils.search_service import SearchService
 from processors.search_analyzer import SearchAnalyzer
-from config.settings import MAX_SEARCH_RESULTS
-from .news_api import register_news_routes
+from processors.content_quality_enhancer import ContentQualityEnhancer
+from api.news_api import register_news_routes
 
 # 创建日志记录器
 logger = logging.getLogger(__name__)
@@ -30,7 +33,7 @@ logger = logging.getLogger(__name__)
 class APIServer:
     """API服务器类，提供REST API接口"""
     
-    def __init__(self, host='0.0.0.0', port=5000, db_path=None, search_url=None):
+    def __init__(self, host='0.0.0.0', port=5001, db_path=None, search_url=None):
         """
         初始化API服务器
         
@@ -57,6 +60,9 @@ class APIServer:
         
         # 初始化搜索分析器
         self.search_analyzer = SearchAnalyzer(db_path, search_url)
+        
+        # 初始化内容质量增强器
+        self.content_enhancer = ContentQualityEnhancer()
         
         # 注册路由
         self._register_routes()
@@ -207,6 +213,173 @@ class APIServer:
                 stats['flash_news']['by_source'][source] = self.db_client.get_flash_count(source)
             
             return jsonify(stats)
+        
+        # 内容质量增强相关路由
+        @self.app.route('/api/quality/enhance', methods=['POST'])
+        def enhance_article():
+            """增强单篇文章质量"""
+            try:
+                data = request.get_json()
+                if not data:
+                    return jsonify({'error': '请求数据不能为空'}), 400
+                
+                article_id = data.get('article_id')
+                source = data.get('source')
+                
+                if not article_id or not source:
+                    return jsonify({'error': '缺少必要参数: article_id 和 source'}), 400
+                
+                enhanced_article = self.content_enhancer.enhance_article_quality(article_id, source)
+                
+                if enhanced_article:
+                    return jsonify({
+                        'success': True,
+                        'message': '文章质量增强成功',
+                        'data': {
+                            'article_id': article_id,
+                            'quality_score': enhanced_article.get('quality_score'),
+                            'enhanced_title': enhanced_article.get('enhanced_title'),
+                            'executive_summary': enhanced_article.get('executive_summary'),
+                            'enhancement_date': enhanced_article.get('enhancement_date')
+                        }
+                    })
+                else:
+                    return jsonify({'error': '文章质量增强失败'}), 500
+                    
+            except Exception as e:
+                logger.error(f"增强文章质量异常: {str(e)}")
+                return jsonify({'error': f'服务器内部错误: {str(e)}'}), 500
+        
+        @self.app.route('/api/quality/batch-enhance', methods=['POST'])
+        def batch_enhance_articles():
+            """批量增强文章质量"""
+            try:
+                data = request.get_json()
+                if not data:
+                    return jsonify({'error': '请求数据不能为空'}), 400
+                
+                articles = data.get('articles', [])
+                if not articles:
+                    return jsonify({'error': '文章列表不能为空'}), 400
+                
+                # 转换为(article_id, source)元组列表
+                article_ids = [(article.get('article_id'), article.get('source')) 
+                              for article in articles 
+                              if article.get('article_id') and article.get('source')]
+                
+                if not article_ids:
+                    return jsonify({'error': '没有有效的文章ID和来源'}), 400
+                
+                results = self.content_enhancer.batch_enhance_articles(article_ids)
+                
+                return jsonify({
+                    'success': True,
+                    'message': '批量增强完成',
+                    'data': results
+                })
+                
+            except Exception as e:
+                logger.error(f"批量增强文章质量异常: {str(e)}")
+                return jsonify({'error': f'服务器内部错误: {str(e)}'}), 500
+        
+        @self.app.route('/api/quality/statistics', methods=['GET'])
+        def get_quality_statistics():
+            """获取内容质量统计信息"""
+            try:
+                stats = self.db_client.get_quality_statistics()
+                return jsonify({
+                    'success': True,
+                    'data': stats,
+                    'timestamp': datetime.now().isoformat()
+                })
+                
+            except Exception as e:
+                logger.error(f"获取质量统计异常: {str(e)}")
+                return jsonify({'error': f'服务器内部错误: {str(e)}'}), 500
+        
+        @self.app.route('/api/quality/performance', methods=['GET'])
+        def get_content_performance():
+            """获取内容表现分析"""
+            try:
+                performance = self.content_enhancer.analyze_content_performance()
+                return jsonify({
+                    'success': True,
+                    'data': performance,
+                    'timestamp': datetime.now().isoformat()
+                })
+                
+            except Exception as e:
+                logger.error(f"获取内容表现分析异常: {str(e)}")
+                return jsonify({'error': f'服务器内部错误: {str(e)}'}), 500
+        
+        @self.app.route('/api/quality/high-quality', methods=['GET'])
+        def get_high_quality_articles():
+            """获取高质量文章"""
+            try:
+                min_score = int(request.args.get('min_score', 8))
+                limit = int(request.args.get('limit', 20))
+                
+                articles = self.db_client.get_high_quality_articles(min_score, limit)
+                
+                return jsonify({
+                    'success': True,
+                    'data': articles,
+                    'count': len(articles),
+                    'timestamp': datetime.now().isoformat()
+                })
+                
+            except Exception as e:
+                logger.error(f"获取高质量文章异常: {str(e)}")
+                return jsonify({'error': f'服务器内部错误: {str(e)}'}), 500
+        
+        @self.app.route('/api/quality/strategy', methods=['POST'])
+        def generate_content_strategy():
+            """生成内容策略"""
+            try:
+                data = request.get_json()
+                if not data:
+                    return jsonify({'error': '请求数据不能为空'}), 400
+                
+                topic = data.get('topic') or data.get('theme')
+                days = data.get('days', 7)
+                
+                if not topic:
+                    return jsonify({'error': '缺少主题参数 (topic 或 theme)'}), 400
+                
+                strategy = self.content_enhancer.generate_content_strategy(topic, days)
+                
+                if strategy:
+                    return jsonify({
+                        'success': True,
+                        'data': strategy,
+                        'timestamp': datetime.now().isoformat()
+                    })
+                else:
+                    return jsonify({'error': '内容策略生成失败'}), 500
+                    
+            except Exception as e:
+                logger.error(f"生成内容策略异常: {str(e)}")
+                return jsonify({'error': f'服务器内部错误: {str(e)}'}), 500
+        
+        @self.app.route('/api/quality/articles-to-enhance', methods=['GET'])
+        def get_articles_to_enhance():
+            """获取待增强的文章"""
+            try:
+                limit = int(request.args.get('limit', 10))
+                source = request.args.get('source')
+                
+                articles = self.db_client.get_articles_for_enhancement(limit, source)
+                
+                return jsonify({
+                    'success': True,
+                    'data': articles,
+                    'count': len(articles),
+                    'timestamp': datetime.now().isoformat()
+                })
+                
+            except Exception as e:
+                logger.error(f"获取待增强文章异常: {str(e)}")
+                return jsonify({'error': f'服务器内部错误: {str(e)}'}), 500
     
     def _check_db_status(self):
         """检查数据库状态"""
@@ -228,7 +401,7 @@ class APIServer:
         self.app.run(host=self.host, port=self.port, debug=True)
 
 
-def create_api_server(host='0.0.0.0', port=5000, db_path=None, search_url=None):
+def create_api_server(host='0.0.0.0', port=5001, db_path=None, search_url=None):
     """
     创建API服务器
     
@@ -250,5 +423,5 @@ if __name__ == "__main__":
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
     )
     
-    api_server = create_api_server()
+    api_server = create_api_server(host=API_HOST, port=API_PORT)
     api_server.run()

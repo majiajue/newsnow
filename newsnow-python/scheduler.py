@@ -18,6 +18,7 @@ from datetime import datetime
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from processors.article_analyzer import ArticleProcessor
 from processors.article_crawler import ArticleCrawler
+from processors.content_quality_enhancer import ContentQualityEnhancer
 from utils.search_service import SearchService
 from utils.improved_ai_service import FinanceAnalyzer
 from db.sqlite_client import SQLiteClient
@@ -105,6 +106,66 @@ def process_articles_job(logger, batch_size=20, source=None):
         logger.error(f"处理任务异常: {str(e)}")
     
     logger.info(f"===== 文章处理任务结束 =====\n")
+
+# 内容质量增强任务
+def quality_enhancement_job(logger, batch_size=10, source=None):
+    """
+    定时内容质量增强任务
+    
+    Args:
+        logger: 日志记录器
+        batch_size (int): 每批处理的文章数量
+        source (str, optional): 文章来源筛选
+    """
+    logger.info(f"===== 开始内容质量增强任务: {datetime.now().isoformat()} =====")
+    
+    try:
+        enhancer = ContentQualityEnhancer()
+        db_client = SQLiteClient()
+        
+        # 获取待增强的文章
+        articles = db_client.get_articles_for_enhancement(limit=batch_size, source=source)
+        
+        if not articles:
+            logger.info("没有找到待增强的文章")
+            return
+        
+        logger.info(f"找到 {len(articles)} 篇待增强文章")
+        
+        success_count = 0
+        failed_count = 0
+        
+        for article in articles:
+            try:
+                article_id = article.get('id')
+                article_source = article.get('source')
+                title = article.get('title', '无标题')
+                
+                logger.info(f"正在增强文章: {title} (ID: {article_id})")
+                
+                # 增强文章质量
+                enhanced = enhancer.enhance_article_quality(article_id, article_source)
+                
+                if enhanced:
+                    success_count += 1
+                    logger.info(f"✓ 文章增强成功: {title}")
+                else:
+                    failed_count += 1
+                    logger.warning(f"✗ 文章增强失败: {title}")
+                
+                # 添加延迟避免过于频繁的请求
+                time.sleep(1)
+                
+            except Exception as e:
+                failed_count += 1
+                logger.error(f"增强文章异常: {title} - {str(e)}")
+        
+        logger.info(f"批量增强完成: 成功 {success_count} 篇, 失败 {failed_count} 篇")
+        
+    except Exception as e:
+        logger.error(f"质量增强任务异常: {str(e)}")
+    
+    logger.info(f"===== 内容质量增强任务结束 =====\n")
 
 # 搜索热门财经话题任务
 def search_finance_topics_job(logger, max_topics=5, max_results_per_topic=10):
@@ -202,11 +263,12 @@ def main():
     # 解析命令行参数
     parser = argparse.ArgumentParser(description='新闻文章处理系统')
     parser.add_argument('--once', action='store_true', help='仅运行一次，不启动定时任务')
-    parser.add_argument('--task', type=str, choices=['crawl', 'process', 'search', 'all'], default='all',
-                        help='执行的任务类型：crawl(抓取), process(处理), search(搜索), all(全部)')
+    parser.add_argument('--task', type=str, choices=['crawl', 'process', 'search', 'quality', 'all'], default='all',
+                        help='执行的任务类型：crawl(抓取), process(处理), search(搜索), quality(质量增强), all(全部)')
     parser.add_argument('--crawl-interval', type=int, default=CRAWL_INTERVAL, help='抓取任务间隔（分钟）')
     parser.add_argument('--process-interval', type=int, default=PROCESS_INTERVAL, help='处理任务间隔（分钟）')
     parser.add_argument('--search-interval', type=int, default=SEARCH_INTERVAL, help='搜索任务间隔（分钟）')
+    parser.add_argument('--quality-interval', type=int, default=30, help='质量增强任务间隔（分钟）')
     parser.add_argument('--article-limit', type=int, default=20, help='每个来源抓取的文章数量')
     parser.add_argument('--flash-limit', type=int, default=50, help='每个来源抓取的快讯数量')
     parser.add_argument('--batch', type=int, default=20, help='每批处理的文章数量')
@@ -220,7 +282,7 @@ def main():
     logger.info(f"新闻文章处理系统启动")
     logger.info(f"配置: 任务类型={args.task}, 抓取间隔={args.crawl_interval}分钟, "
                f"处理间隔={args.process_interval}分钟, 搜索间隔={args.search_interval}分钟, "
-               f"来源={args.source or '全部'}")
+               f"质量增强间隔={args.quality_interval}分钟, 来源={args.source or '全部'}")
     
     # 立即执行一次
     if args.task in ['crawl', 'all']:
@@ -231,6 +293,9 @@ def main():
     
     if args.task in ['search', 'all']:
         search_finance_topics_job(logger, args.max_topics, args.max_results)
+    
+    if args.task in ['quality', 'all']:
+        quality_enhancement_job(logger, args.batch, args.source)
     
     # 如果只运行一次，直接退出
     if args.once:
@@ -255,6 +320,12 @@ def main():
             search_finance_topics_job, logger, args.max_topics, args.max_results
         )
         logger.info(f"搜索热门财经话题任务已设置，每 {args.search_interval} 分钟执行一次")
+    
+    if args.task in ['quality', 'all']:
+        schedule.every(args.quality_interval).minutes.do(
+            quality_enhancement_job, logger, args.batch, args.source
+        )
+        logger.info(f"内容质量增强任务已设置，每 {args.quality_interval} 分钟执行一次")
     
     # 运行定时任务
     logger.info(f"定时任务已启动")

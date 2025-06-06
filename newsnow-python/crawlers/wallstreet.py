@@ -10,6 +10,7 @@ import json
 import time
 import random
 import requests
+import logging
 from bs4 import BeautifulSoup
 from datetime import datetime
 from urllib.parse import urlencode
@@ -19,6 +20,12 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from config.settings import USER_AGENT, REQUEST_TIMEOUT
+from utils.search_service import SearchService
+from utils.enhanced_ai_service import EnhancedFinanceAnalyzer as FinanceAnalyzer
+from db.sqlite_client import SQLiteClient
+
+# 配置日志
+logger = logging.getLogger(__name__)
 
 class WallstreetCrawler:
     """华尔街见闻爬虫类"""
@@ -36,6 +43,11 @@ class WallstreetCrawler:
         self.api_url = "https://api-one.wallstcn.com"
         self.article_api = "https://api-one.wallstcn.com/apiv1/content/articles"
         self.flash_api = "https://api-one.wallstcn.com/apiv1/content/lives"
+        
+        # 初始化服务
+        self.search_service = SearchService()
+        self.finance_analyzer = FinanceAnalyzer()
+        self.db_client = SQLiteClient()
     
     def get_latest_articles(self, limit=20, channel_id="global"):
         """
@@ -152,9 +164,15 @@ class WallstreetCrawler:
         Returns:
             dict: 文章详情
         """
+        logger.warning(f"!!!!!!!!!! [Wallstreet ENTRYPOINT TEST VIA LOGGER] Entering get_article_detail for ID: {article_id} !!!!!!!!!!!")
         try:
-            # 构建API URL
+            # 构建API URL，添加必需的extract参数
+            params = {
+                "extract": "1"  # 提取完整内容
+            }
             url = f"{self.article_api}/{article_id}"
+            
+            print(f"[Wallstreet Debug] Article ID: {article_id} - Starting to fetch article detail from: {url}")
             
             # 添加随机延迟，避免请求过快
             time.sleep(random.uniform(1, 3))
@@ -162,17 +180,21 @@ class WallstreetCrawler:
             response = requests.get(
                 url,
                 headers=self.headers,
+                params=params,
                 timeout=REQUEST_TIMEOUT
             )
             
+            print(f"[Wallstreet Debug] Article ID: {article_id} - HTTP Status: {response.status_code}")
             if response.status_code != 200:
-                print(f"获取华尔街见闻文章详情失败: HTTP {response.status_code}")
+                print(f"[Wallstreet Error] 获取华尔街见闻文章详情失败: HTTP {response.status_code} for URL: {url}")
                 return None
             
             data = response.json()
             if data.get("code") != 20000:
-                print(f"获取华尔街见闻文章详情失败: {data.get('message', '未知错误')}")
+                print(f"[Wallstreet Error] 获取华尔街见闻文章详情失败: {data.get('message', '未知错误')}")
                 return None
+            
+            print(f"[Wallstreet Debug] Article ID: {article_id} - Successfully fetched API data.")
             
             # 提取文章详情
             article_data = data.get("data", {})
@@ -181,24 +203,36 @@ class WallstreetCrawler:
             content = article_data.get("content", "")
             summary = article_data.get("content_short", "").strip() or article_data.get("summary", "").strip()
             
-            # 提取发布时间
-            pub_timestamp = article_data.get("display_time", 0)
-            if not pub_timestamp:
-                pub_timestamp = article_data.get("published_at", 0)
+            print(f"[Wallstreet Debug] Article ID: {article_id} - Extracted title: {title}")
+            print(f"[Wallstreet Debug] Article ID: {article_id} - Content length: {len(content)} characters")
             
-            pub_date = datetime.fromtimestamp(pub_timestamp/1000).isoformat() if pub_timestamp else ""
+            # 提取发布时间 - 安全处理
+            pub_timestamp = article_data.get("display_time") or article_data.get("published_at") or 0
+            try:
+                if pub_timestamp and pub_timestamp > 0:
+                    # 处理毫秒时间戳
+                    if pub_timestamp > 1000000000000:  # 毫秒时间戳
+                        pub_date = datetime.fromtimestamp(pub_timestamp/1000).isoformat()
+                    else:  # 秒时间戳
+                        pub_date = datetime.fromtimestamp(pub_timestamp).isoformat()
+                else:
+                    pub_date = datetime.now().isoformat()
+            except (ValueError, OSError) as e:
+                print(f"[Wallstreet Warn] Article ID: {article_id} - 时间戳解析失败: {e}")
+                pub_date = datetime.now().isoformat()
+            print(f"[Wallstreet Debug] Article ID: {article_id} - Publish date: {pub_date}")
             
             # 提取图片
             image_url = ""
-            resource = article_data.get("resource", {})
+            resource = article_data.get("resource") or {}
             if resource:
                 image_url = resource.get("image", "")
                 
             # 提取作者
-            author_info = article_data.get("author", {})
+            author_info = article_data.get("author") or {}
             author = author_info.get("display_name", "") if author_info else ""
             if not author:
-                source_info = article_data.get("source_info", {})
+                source_info = article_data.get("source_info") or {}
                 author = source_info.get("name", "") if source_info else ""
             
             if not author:
@@ -206,7 +240,7 @@ class WallstreetCrawler:
             
             # 提取标签
             tags = []
-            for tag in article_data.get("asset_tags", []):
+            for tag in (article_data.get("asset_tags") or []):
                 tag_name = tag.get("name", "").strip()
                 if tag_name:
                     tags.append(tag_name)
@@ -215,7 +249,7 @@ class WallstreetCrawler:
             if not content and summary:
                 content = f"<p>{summary}</p>"
             
-            # 构建文章详情
+            # 构建基础文章详情
             article_detail = {
                 "id": article_id,
                 "title": title,
@@ -228,10 +262,54 @@ class WallstreetCrawler:
                 "source": "华尔街见闻"
             }
             
+            print(f"[Wallstreet Debug] Article ID: {article_id} - Starting search enhancement...")
+            
+            # 使用SearxNG进行搜索增强
+            try:
+                search_results = self.search_service.search_related_news(title)
+                if search_results:
+                    article_detail["search_results"] = search_results
+                    print(f"[Wallstreet Debug] Article ID: {article_id} - Search enhancement completed with {len(search_results)} results.")
+                else:
+                    print(f"[Wallstreet Warn] Article ID: {article_id} - Search enhancement returned no results.")
+            except Exception as e:
+                print(f"[Wallstreet Error] Article ID: {article_id} - Search enhancement failed: {str(e)}")
+                article_detail["search_results"] = []
+            
+            print(f"[Wallstreet Debug] Article ID: {article_id} - Starting AI analysis...")
+            
+            # 使用DeepSeek进行AI分析
+            try:
+                analysis_result = self.finance_analyzer.analyze_article(article_detail)
+                if analysis_result:
+                    article_detail.update(analysis_result)
+                    print(f"[Wallstreet Debug] Article ID: {article_id} - AI analysis completed successfully.")
+                else:
+                    print(f"[Wallstreet Warn] Article ID: {article_id} - AI analysis returned no results.")
+            except Exception as e:
+                print(f"[Wallstreet Error] Article ID: {article_id} - AI analysis failed: {str(e)}")
+            
+            print(f"[Wallstreet Debug] Article ID: {article_id} - Starting database save...")
+            
+            # 保存到数据库
+            try:
+                save_result = self.db_client.save_article(article_detail)
+                if save_result:
+                    article_detail["processed_immediately"] = True
+                    print(f"[Wallstreet Debug] Article ID: {article_id} - Successfully saved to database with immediate processing flag.")
+                else:
+                    article_detail["processed_immediately"] = False
+                    print(f"[Wallstreet Warn] Article ID: {article_id} - Failed to save to database.")
+            except Exception as e:
+                print(f"[Wallstreet Error] Article ID: {article_id} - Database save failed: {str(e)}")
+                article_detail["processed_immediately"] = False
+            
+            print(f"[Wallstreet Debug] Article ID: {article_id} - Processing completed successfully.")
             return article_detail
         
         except Exception as e:
-            print(f"获取华尔街见闻文章详情异常: {str(e)}")
+            print(f"[Wallstreet Error] 获取华尔街见闻文章详情异常: {str(e)}")
+            logger.error(f"获取华尔街见闻文章详情异常: {str(e)}")
             return None
     
     def get_flash_news(self, limit=20):

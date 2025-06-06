@@ -20,8 +20,8 @@ export async function fetchApi<T = any>(
   options: RequestInit = {}
 ): Promise<{ data: T | null; error: string | null }> {
   try {
-    // 直接访问后端服务
-    const baseUrl = 'http://localhost:5001';
+    // 使用环境变量获取API地址
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
     const url = `${baseUrl}${endpoint}`;
     console.log(`发送请求到: ${url}`);
     
@@ -43,13 +43,18 @@ export async function fetchApi<T = any>(
       throw new Error(`请求失败: ${response.status} ${response.statusText}`);
     }
 
-    const data: ApiResponse<T> = await response.json();
+    const responseData = await response.json();
+    console.log('API响应数据:', responseData);
     
-    if (data.error) {
-      throw new Error(data.error || data.message || '请求失败');
+    // 检查是否有错误字段
+    if (responseData && responseData.error) {
+      throw new Error(responseData.error || responseData.message || '请求失败');
     }
     
-    return { data: data.data || (data as any), error: null };
+    // 检查响应格式，如果有data字段，则返回data，否则返回整个响应
+    const result = responseData.data !== undefined ? responseData.data : responseData;
+    
+    return { data: result as T, error: null };
   } catch (error) {
     console.error(`API请求错误 [${endpoint}]:`, error);
     return {
@@ -96,8 +101,7 @@ export async function fetchNewsList(params: NewsListParams) {
  */
 export async function fetchNewsDetail(id: string) {
   // 首先检查 ID 是否包含路径前缀
-  // 如果是类似 4329730_1 的格式，添加前缀
-  // 如果已经是完整路径，保持不变
+  // 提取简单ID，去除路径前缀
   
   // 先解码以确保处理正确
   let decodedId = id;
@@ -109,17 +113,17 @@ export async function fetchNewsDetail(id: string) {
     console.warn('解码 ID 失败，使用原始 ID:', id);
   }
   
-  // 检查是否已经是完整路径
-  const hasPath = decodedId.includes('/cn/news-detail/') || decodedId.startsWith('/cn/news-detail/');
+  // 提取简单ID，去除路径前缀
+  const idParts = decodedId.split('/');
+  const simpleId = idParts[idParts.length - 1];
   
-  // 如果不是完整路径，添加前缀
-  const fullId = hasPath ? decodedId : `/cn/news-detail/${decodedId}`;
+  console.log('获取新闻详情，使用简单ID:', simpleId);
   
-  console.log('获取新闻详情，使用ID:', fullId);
-  
-  // 使用正确的路径获取新闻详情
-  return fetchApi<NewsDetail>(`/api/news/${encodeURIComponent(fullId)}`);
+  // 直接使用简单ID获取新闻详情
+  return fetchApi<NewsDetail>(`/api/news/${simpleId}`);
 }
+
+// 相关新闻函数已经在下面实现
 
 // 类型定义
 export interface NewsItem {
@@ -147,6 +151,31 @@ export interface NewsDetail extends NewsItem {
     date: string;
     imageUrl?: string;
   }>;
+  // 添加metadata字段，用于接收后端返回的分析数据
+  metadata?: {
+    analysisData?: {
+      summary?: string;
+      keyPoints?: string[];
+      background?: string;
+      impact?: string;
+      opinion?: string;
+      comment?: string;
+      suggestions?: string[];
+      sentiment?: string;
+      processingInfo?: any;
+      generatedAt?: string;
+    }
+  };
+  aiAnalysis?: {
+    summary?: string;
+    keyPoints?: string[];
+    sentiment?: string;
+    tags?: string[];
+    background?: string;
+    impact?: string;
+    opinion?: string;
+    suggestions?: string[];
+  };
 }
 
 /**
@@ -161,8 +190,7 @@ export async function fetchNewsSources() {
  */
 export async function fetchRelatedNews(id: string) {
   // 首先检查 ID 是否包含路径前缀
-  // 如果是类似 4329730_1 的格式，添加前缀
-  // 如果已经是完整路径，保持不变
+  // 提取简单ID，去除路径前缀
   
   // 先解码以确保处理正确
   let decodedId = id;
@@ -174,14 +202,12 @@ export async function fetchRelatedNews(id: string) {
     console.warn('解码 ID 失败，使用原始 ID:', id);
   }
   
-  // 检查是否已经是完整路径
-  const hasPath = decodedId.includes('/cn/news-detail/') || decodedId.startsWith('/cn/news-detail/');
+  // 提取简单ID，去除路径前缀
+  const idParts = decodedId.split('/');
+  const simpleId = idParts[idParts.length - 1];
   
-  // 如果不是完整路径，添加前缀
-  const fullId = hasPath ? decodedId : `/cn/news-detail/${decodedId}`;
+  console.log('获取相关新闻，使用简单ID:', simpleId);
   
-  console.log('获取相关新闻，使用ID:', fullId);
-  
-  // 使用正确的路径获取相关新闻
-  return fetchApi<NewsItem[]>(`/api/news/${encodeURIComponent(fullId)}/related`);
+  // 直接使用简单ID获取相关新闻
+  return fetchApi<NewsItem[]>(`/api/news/${simpleId}/related`);
 }

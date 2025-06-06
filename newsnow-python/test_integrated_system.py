@@ -194,7 +194,7 @@ def run_all_tests():
     # 创建系统配置
     config = {
         "deepseek_api_key": api_key,
-        "searxng_url": "http://localhost:8080/search"
+        "searxng_url": os.environ.get("SEARXNG_URL", "http://searxng:8080/search")
     }
     
     # 初始化系统

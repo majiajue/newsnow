@@ -92,7 +92,13 @@ class CrawlerFactory:
             return []
         
         try:
-            return crawler.get_latest_articles(page=page, limit=limit)
+            # 根据不同爬虫类型调用不同的参数
+            if source == "wallstreet":
+                # 华尔街见闻爬虫不接受page参数
+                return crawler.get_latest_articles(limit=limit)
+            else:
+                # 其他爬虫支持page参数
+                return crawler.get_latest_articles(page=page, limit=limit)
         except Exception as e:
             print(f"获取{source}最新文章异常: {str(e)}")
             return []

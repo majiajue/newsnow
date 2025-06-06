@@ -101,7 +101,7 @@ def test_searxng(query="财经新闻"):
     
     try:
         # 设置SearXNG搜索参数
-        search_url = f"http://localhost:8080/search"
+        search_url = os.environ.get("SEARXNG_URL", "http://searxng:8080/search")
         params = {
             "q": query,
             "format": "json",

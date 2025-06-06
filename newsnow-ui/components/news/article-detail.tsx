@@ -1,14 +1,22 @@
 import * as React from "react"
 import { useEffect } from "react"
 import { format } from "date-fns"
-import { Calendar, Clock, ExternalLink, ArrowLeft, Share2, Bookmark, ThumbsUp } from "lucide-react"
+import dynamic from "next/dynamic"
 import { Button } from "@/components/ui/button"
-import { Separator } from "@/components/ui/separator"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import Image from "next/image"
 import Head from "next/head"
+
+// 动态导入图标组件以解决与React 19的兼容性问题
+const Calendar = dynamic(() => import('lucide-react').then(mod => mod.Calendar), { ssr: false })
+const Clock = dynamic(() => import('lucide-react').then(mod => mod.Clock), { ssr: false })
+const ExternalLink = dynamic(() => import('lucide-react').then(mod => mod.ExternalLink), { ssr: false })
+const ArrowLeft = dynamic(() => import('lucide-react').then(mod => mod.ArrowLeft), { ssr: false })
+const Share2 = dynamic(() => import('lucide-react').then(mod => mod.Share2), { ssr: false })
+const Bookmark = dynamic(() => import('lucide-react').then(mod => mod.Bookmark), { ssr: false })
+const ThumbsUp = dynamic(() => import('lucide-react').then(mod => mod.ThumbsUp), { ssr: false })
 
 interface ArticleDetailProps {
   article: {
@@ -56,6 +64,62 @@ export function ArticleDetail({
     } catch (e) {
       return dateString
     }
+  }
+
+  // 智能文本格式化函数
+  const formatText = (text: string): string[] => {
+    if (!text) return [text]
+    
+    // 处理数字编号的策略建议（更宽松的匹配）
+    const numberedStrategies = text.match(/\d+\)\s*[^；;。]+[；;。]/g)
+    if (numberedStrategies && numberedStrategies.length > 1) {
+      return text
+        .split(/(\d+\)\s*[^；;。]+[；;。])/)
+        .filter(Boolean)
+        .map((part: string) => {
+          if (part.match(/\d+\)\s*[^；;。]+[；;。]/)) {
+            return part.trim()
+          }
+          return part
+        })
+        .filter((part: string) => part.trim().length > 0)
+    }
+    
+    // 处理分号分隔的建议
+    if (text.includes('；') || text.includes(';')) {
+      return text
+        .split(/[；;]/)
+        .filter((part: string) => part.trim().length > 0)
+        .map((part: string) => part.trim())
+    }
+    
+    // 处理复杂的长句（包含多个层面的分析）
+    if (text.length > 120) {
+      // 先尝试按照"另一方面"、"若...则"等逻辑连接词分割
+      const logicalConnectors = ['另一方面', '若矛盾持续', '若...则', '此外', '同时', '然而', '但是', '不过']
+      for (const connector of logicalConnectors) {
+        if (text.includes(connector)) {
+          const parts = text.split(connector)
+          if (parts.length > 1) {
+            return parts
+              .map((part: string, index: number) => 
+                index === 0 ? part.trim() : connector + part.trim()
+              )
+              .filter((part: string) => part.trim().length > 0)
+          }
+        }
+      }
+      
+      // 如果没有逻辑连接词，按句号分割长句
+      if (text.includes('。')) {
+        const sentences = text.split('。').filter((s: string) => s.trim().length > 0)
+        if (sentences.length > 2) {
+          return sentences.map((s: string) => s.trim() + '。')
+        }
+      }
+    }
+    
+    return [text]
   }
 
   // 加载状态
@@ -236,17 +300,23 @@ export function ArticleDetail({
       
       {/* 文章内容 - 第一部分 */}
       <div className="prose dark:prose-invert max-w-none mb-6">
-        <div 
-          dangerouslySetInnerHTML={{ 
-            __html: article.content.split('</p>').slice(0, Math.ceil(article.content.split('</p>').length / 2)).join('</p>') + '</p>' 
-          }} 
-          className="[&_p]:leading-relaxed [&_p]:mb-4 [&_p:last-child]:mb-0
+        {article.content ? (
+          <div 
+            dangerouslySetInnerHTML={{ 
+              __html: article.content.split('</p>').slice(0, Math.ceil(article.content.split('</p>').length / 2)).join('</p>') + '</p>' 
+            }} 
+            className="[&_p]:leading-relaxed [&_p]:mb-4 [&_p:last-child]:mb-0
                      [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:mt-8 [&_h2]:mb-4
                      [&_h3]:text-xl [&_h3]:font-semibold [&_h3]:mt-6 [&_h3]:mb-3
                      [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:my-4
                      [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:my-4
                      [&_a]:text-blue-600 [&_a]:underline [&_a]:hover:text-blue-800 dark:[&_a]:text-blue-400 dark:[&_a]:hover:text-blue-300"
-        />
+          />
+        ) : (
+          <p className="text-gray-700 dark:text-gray-300">
+            {article.summary || '暂无内容'}
+          </p>
+        )}
       </div>
       
       {/* 中间广告位 - 适合放置信息流广告 */}
@@ -257,19 +327,21 @@ export function ArticleDetail({
       </div>
       
       {/* 文章内容 - 第二部分 */}
-      <div className="prose dark:prose-invert max-w-none">
-        <div 
-          dangerouslySetInnerHTML={{ 
-            __html: article.content.split('</p>').slice(Math.ceil(article.content.split('</p>').length / 2)).join('</p>') 
-          }} 
-          className="[&_p]:leading-relaxed [&_p]:mb-4 [&_p:last-child]:mb-0
-                     [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:mt-8 [&_h2]:mb-4
-                     [&_h3]:text-xl [&_h3]:font-semibold [&_h3]:mt-6 [&_h3]:mb-3
-                     [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:my-4
-                     [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:my-4
-                     [&_a]:text-blue-600 [&_a]:underline [&_a]:hover:text-blue-800 dark:[&_a]:text-blue-400 dark:[&_a]:hover:text-blue-300"
-        />
-      </div>
+      {article.content && article.content.length > 0 && (
+        <div className="prose dark:prose-invert max-w-none">
+          <div 
+            dangerouslySetInnerHTML={{ 
+              __html: article.content.split('</p>').slice(Math.ceil(article.content.split('</p>').length / 2)).join('</p>') 
+            }} 
+            className="[&_p]:leading-relaxed [&_p]:mb-4 [&_p:last-child]:mb-0
+                      [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:mt-8 [&_h2]:mb-4
+                      [&_h3]:text-xl [&_h3]:font-semibold [&_h3]:mt-6 [&_h3]:mb-3
+                      [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:my-4
+                      [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:my-4
+                      [&_a]:text-blue-600 [&_a]:underline [&_a]:hover:text-blue-800 dark:[&_a]:text-blue-400 dark:[&_a]:hover:text-blue-300"
+          />
+        </div>
+      )}
       
       {/* 原文链接 */}
       {article.url && (
@@ -281,13 +353,6 @@ export function ArticleDetail({
           </Button>
         </div>
       )}
-      
-      {/* 底部广告位 - 适合放置文章末尾广告 */}
-      <div className="my-8 p-2 bg-gray-100 dark:bg-gray-800 rounded-lg text-center">
-        <div className="h-20 flex items-center justify-center border border-dashed border-gray-300 dark:border-gray-700">
-          <p className="text-gray-500 dark:text-gray-400">广告位 - 文章末尾广告</p>
-        </div>
-      </div>
       
       {/* AI 分析部分 */}
       {article.aiAnalysis && (
@@ -304,35 +369,59 @@ export function ArticleDetail({
           {article.aiAnalysis.keyPoints && article.aiAnalysis.keyPoints.length > 0 && (
             <div className="mb-6">
               <h3 className="font-medium mb-2">关键点</h3>
-              <ul className="space-y-2 text-muted-foreground">
+              <div className="space-y-3 text-muted-foreground">
                 {article.aiAnalysis.keyPoints.map((point, index) => (
-                  <li key={index} className="flex">
-                    <span className="text-blue-500 mr-2">•</span>
-                    <span>{point}</span>
-                  </li>
+                  <div key={index} className="flex items-start">
+                    <span className="text-blue-500 mr-2 mt-1">•</span>
+                    <span className="leading-relaxed">{point}</span>
+                  </div>
                 ))}
-              </ul>
+              </div>
             </div>
           )}
           
           {article.aiAnalysis.background && (
             <div className="mb-6">
               <h3 className="font-medium mb-2">背景信息</h3>
-              <p className="text-muted-foreground">{article.aiAnalysis.background}</p>
+              <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg">
+                <div className="space-y-3 text-muted-foreground">
+                  {formatText(article.aiAnalysis.background).map((part: string, index: number) => (
+                    <p key={index} className="leading-relaxed">
+                      {part}
+                    </p>
+                  ))}
+                </div>
+              </div>
             </div>
           )}
           
           {article.aiAnalysis.impact && (
             <div className="mb-6">
               <h3 className="font-medium mb-2">影响分析</h3>
-              <p className="text-muted-foreground">{article.aiAnalysis.impact}</p>
+              <div className="bg-orange-50 dark:bg-orange-900/20 p-4 rounded-lg">
+                <div className="space-y-3 text-muted-foreground">
+                  {formatText(article.aiAnalysis.impact).map((part: string, index: number) => (
+                    <p key={index} className="leading-relaxed">
+                      {part}
+                    </p>
+                  ))}
+                </div>
+              </div>
             </div>
           )}
           
           {article.aiAnalysis.opinion && (
             <div className="mb-6">
               <h3 className="font-medium mb-2">观点解读</h3>
-              <p className="text-muted-foreground">{article.aiAnalysis.opinion}</p>
+              <div className="bg-purple-50 dark:bg-purple-900/20 p-4 rounded-lg">
+                <div className="space-y-3 text-muted-foreground">
+                  {formatText(article.aiAnalysis.opinion).map((part: string, index: number) => (
+                    <p key={index} className="leading-relaxed">
+                      {part}
+                    </p>
+                  ))}
+                </div>
+              </div>
             </div>
           )}
           
@@ -348,14 +437,37 @@ export function ArticleDetail({
           {article.aiAnalysis.suggestions && article.aiAnalysis.suggestions.length > 0 && (
             <div className="mb-6">
               <h3 className="font-medium mb-2">投资建议</h3>
-              <ul className="space-y-2 text-muted-foreground">
-                {article.aiAnalysis.suggestions.map((suggestion, index) => (
-                  <li key={index} className="flex">
-                    <span className="text-green-500 mr-2">•</span>
-                    <span>{suggestion}</span>
-                  </li>
-                ))}
-              </ul>
+              <div className="space-y-3 text-muted-foreground">
+                {article.aiAnalysis.suggestions.map((suggestion, index) => {
+                  const formattedParts = formatText(suggestion)
+                  
+                  if (formattedParts.length > 1) {
+                    return (
+                      <div key={index} className="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg border-l-4 border-green-500">
+                        <div className="space-y-2">
+                          {formattedParts.map((part, partIndex) => (
+                            <div key={partIndex} className="flex items-start">
+                              <span className="text-green-500 mr-2 mt-1 text-sm">
+                                {part.match(/^\d+\)/) ? '' : '•'}
+                              </span>
+                              <span className="leading-relaxed">
+                                {part}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )
+                  } else {
+                    return (
+                      <div key={index} className="flex items-start">
+                        <span className="text-green-500 mr-2 mt-1">•</span>
+                        <span className="leading-relaxed">{suggestion}</span>
+                      </div>
+                    )
+                  }
+                })}
+              </div>
             </div>
           )}
           
@@ -373,38 +485,6 @@ export function ArticleDetail({
           )}
         </div>
       )}
-      
-      {/* 相关推荐卡片 */}
-      <div className="mt-12">
-        <h2 className="text-xl font-bold mb-6">相关推荐</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <Card className="hover:shadow-md transition-shadow">
-            <CardContent className="p-4">
-              <h3 className="font-medium line-clamp-2 mb-2">相关推荐文章标题示例</h3>
-              <p className="text-sm text-muted-foreground line-clamp-2 mb-2">这是一个相关推荐文章的简短描述，展示部分内容吸引用户点击...</p>
-              <div className="flex justify-between text-xs text-muted-foreground">
-                <span>财经新闻</span>
-                <span>{format(new Date(), 'yyyy-MM-dd')}</span>
-              </div>
-            </CardContent>
-          </Card>
-          <Card className="hover:shadow-md transition-shadow">
-            <CardContent className="p-4">
-              <h3 className="font-medium line-clamp-2 mb-2">另一个相关推荐文章标题</h3>
-              <p className="text-sm text-muted-foreground line-clamp-2 mb-2">这是另一个相关推荐文章的简短描述，展示部分内容吸引用户点击...</p>
-              <div className="flex justify-between text-xs text-muted-foreground">
-                <span>市场分析</span>
-                <span>{format(new Date(), 'yyyy-MM-dd')}</span>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-      
-      {/* 侧边广告位 - 适合放置粘性广告 */}
-      <div className="fixed right-4 bottom-4 w-64 h-64 hidden lg:flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-800 rounded-lg border border-dashed border-gray-300 dark:border-gray-700">
-        <p className="text-gray-500 dark:text-gray-400">广告位 - 粘性侧边广告</p>
-      </div>
     </article>
   )
 }

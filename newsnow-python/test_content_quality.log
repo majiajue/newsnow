@@ -1,0 +1,35 @@
+2025-06-05 22:27:54,039 - __main__ - INFO - === 测试数据库表结构 ===
+2025-06-05 22:27:54,042 - db.sqlite_client - INFO - SQLite数据库初始化完成: /Users/majiajue/Desktop/newsnow/newsnow-python/data/newsnow.db
+2025-06-05 22:27:54,042 - __main__ - INFO - Articles表字段:
+2025-06-05 22:27:54,042 - __main__ - INFO -   - id (TEXT)
+2025-06-05 22:27:54,042 - __main__ - INFO -   - title (TEXT)
+2025-06-05 22:27:54,042 - __main__ - INFO -   - content (TEXT)
+2025-06-05 22:27:54,042 - __main__ - INFO -   - url (TEXT)
+2025-06-05 22:27:54,042 - __main__ - INFO -   - pub_date (TEXT)
+2025-06-05 22:27:54,042 - __main__ - INFO -   - source (TEXT)
+2025-06-05 22:27:54,042 - __main__ - INFO -   - category (TEXT)
+2025-06-05 22:27:54,042 - __main__ - INFO -   - summary (TEXT)
+2025-06-05 22:27:54,042 - __main__ - INFO -   - author (TEXT)
+2025-06-05 22:27:54,042 - __main__ - INFO -   - image_url (TEXT)
+2025-06-05 22:27:54,042 - __main__ - INFO -   - tags (TEXT)
+2025-06-05 22:27:54,042 - __main__ - INFO -   - created_at (TEXT)
+2025-06-05 22:27:54,042 - __main__ - INFO -   - processed (INTEGER)
+2025-06-05 22:27:54,042 - __main__ - INFO -   - metadata (TEXT)
+2025-06-05 22:27:54,042 - __main__ - WARNING - ✗ 质量字段 quality_enhanced 不存在
+2025-06-05 22:27:54,042 - __main__ - WARNING - ✗ 质量字段 quality_score 不存在
+2025-06-05 22:27:54,042 - __main__ - WARNING - ✗ 质量字段 enhanced_title 不存在
+2025-06-05 22:27:54,042 - __main__ - WARNING - ✗ 质量字段 executive_summary 不存在
+2025-06-05 22:27:54,042 - __main__ - WARNING - ✗ 质量字段 key_insights 不存在
+2025-06-05 22:27:54,042 - __main__ - WARNING - ✗ 质量字段 expert_opinion 不存在
+2025-06-05 22:27:54,042 - __main__ - INFO - 数据库表结构检查完成
+2025-06-05 22:27:54,042 - __main__ - INFO - 开始测试内容质量增强功能
+2025-06-05 22:27:54,043 - db.sqlite_client - INFO - SQLite数据库初始化完成: /Users/majiajue/Desktop/newsnow/newsnow-python/data/newsnow.db
+2025-06-05 22:27:54,043 - db.sqlite_client - INFO - SQLite数据库初始化完成: /Users/majiajue/Desktop/newsnow/newsnow-python/data/newsnow.db
+2025-06-05 22:27:54,043 - __main__ - ERROR - 测试过程中发生错误: 未找到 DEEPSEEK_API_KEY，无法初始化内容质量增强器
+Traceback (most recent call last):
+  File "/Users/majiajue/Desktop/newsnow/newsnow-python/test_content_quality.py", line 39, in test_content_quality_enhancement
+    enhancer = ContentQualityEnhancer()
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/majiajue/Desktop/newsnow/newsnow-python/processors/content_quality_enhancer.py", line 40, in __init__
+    raise ValueError("未找到 DEEPSEEK_API_KEY，无法初始化内容质量增强器")
+ValueError: 未找到 DEEPSEEK_API_KEY，无法初始化内容质量增强器

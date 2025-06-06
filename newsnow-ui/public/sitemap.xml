@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:news="http://www.google.com/schemas/sitemap-news/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  
+  <!-- 主页 -->
+  <url>
+    <loc>https://shishixinwen.news/</loc>
+    <lastmod>2025-06-03</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  
+  <!-- 新闻列表页面 -->
+  <url>
+    <loc>https://shishixinwen.news/news</loc>
+    <lastmod>2025-06-03</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- 隐私政策页面 -->
+  <url>
+    <loc>https://shishixinwen.news/privacy</loc>
+    <lastmod>2025-06-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <!-- 隐私设置页面 -->
+  <url>
+    <loc>https://shishixinwen.news/privacy/settings</loc>
+    <lastmod>2025-06-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  
+  <!-- 分类页面 - 财经 -->
+  <url>
+    <loc>https://shishixinwen.news/category/finance</loc>
+    <lastmod>2025-06-03</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- 分类页面 - 科技 -->
+  <url>
+    <loc>https://shishixinwen.news/category/technology</loc>
+    <lastmod>2025-06-03</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- 分类页面 - 政治 -->
+  <url>
+    <loc>https://shishixinwen.news/category/politics</loc>
+    <lastmod>2025-06-03</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- 分类页面 - 体育 -->
+  <url>
+    <loc>https://shishixinwen.news/category/sports</loc>
+    <lastmod>2025-06-03</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- 分类页面 - 娱乐 -->
+  <url>
+    <loc>https://shishixinwen.news/category/entertainment</loc>
+    <lastmod>2025-06-03</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <!-- 搜索页面 -->
+  <url>
+    <loc>https://shishixinwen.news/search</loc>
+    <lastmod>2025-06-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  
+  <!-- 关于我们 -->
+  <url>
+    <loc>https://shishixinwen.news/about</loc>
+    <lastmod>2025-06-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <!-- 联系我们 -->
+  <url>
+    <loc>https://shishixinwen.news/contact</loc>
+    <lastmod>2025-06-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  
+  <!-- RSS订阅 -->
+  <url>
+    <loc>https://shishixinwen.news/rss</loc>
+    <lastmod>2025-06-03</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <!-- API文档 -->
+  <url>
+    <loc>https://shishixinwen.news/api-docs</loc>
+    <lastmod>2025-06-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  
+  <!-- 帮助中心 -->
+  <url>
+    <loc>https://shishixinwen.news/help</loc>
+    <lastmod>2025-06-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  
+  <!-- 服务条款 -->
+  <url>
+    <loc>https://shishixinwen.news/terms</loc>
+    <lastmod>2025-06-03</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  
+</urlset>

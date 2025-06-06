@@ -44,7 +44,7 @@ class FinanceSystem:
         self.analyzer = FinanceAnalyzer(api_key=api_key)
         
         # 初始化搜索服务
-        searxng_url = self.config.get("searxng_url") or "http://localhost:8080/search"
+        searxng_url = self.config.get("searxng_url") or os.environ.get("SEARXNG_URL", "http://searxng:8080/search")
         self.search_service = FinanceSearchService(searxng_url=searxng_url)
     
     def _init_cache(self):
@@ -271,7 +271,7 @@ if __name__ == "__main__":
     # 创建系统配置
     config = {
         "deepseek_api_key": api_key,
-        "searxng_url": "http://localhost:8080/search"
+        "searxng_url": os.environ.get("SEARXNG_URL", "http://searxng:8080/search")
     }
     
     # 初始化系统

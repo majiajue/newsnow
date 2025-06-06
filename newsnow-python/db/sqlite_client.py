@@ -63,7 +63,23 @@ class SQLiteClient:
                 tags TEXT,
                 created_at TEXT,
                 processed INTEGER DEFAULT 0,
-                metadata TEXT
+                metadata TEXT,
+                -- 新增内容质量相关字段
+                quality_enhanced INTEGER DEFAULT 0,
+                quality_score INTEGER DEFAULT 0,
+                enhanced_title TEXT,
+                executive_summary TEXT,
+                key_insights TEXT,
+                expert_opinion TEXT,
+                actionable_advice TEXT,
+                seo_keywords TEXT,
+                originality_percentage TEXT,
+                enhancement_date TEXT,
+                meta_description TEXT,
+                h1_heading TEXT,
+                h2_headings TEXT,
+                suggested_tags TEXT,
+                internal_links TEXT
             )
             ''')
             
@@ -100,12 +116,14 @@ class SQLiteClient:
             
             conn.commit()
     
-    def save_article(self, article):
+    def save_article(self, article, analysis_data=None):
         """
-        保存文章到数据库
+        保存文章到数据库。如果文章已存在，则更新。
+        如果提供了 analysis_data，则文章将被标记为已处理并存储分析元数据。
         
         Args:
             article (dict): 文章数据
+            analysis_data (dict, optional): AI分析结果
             
         Returns:
             bool: 是否保存成功
@@ -113,19 +131,26 @@ class SQLiteClient:
         try:
             article_id = article.get('id')
             source = article.get('source', '')
-            
-            # 检查文章是否已存在
+
             if self.article_exists(article_id, source):
-                return self.update_article(article)
-            
+                return self.update_article(article, analysis_data)
+
+            # Article does not exist, insert new
             with sqlite3.connect(self.db_path) as conn:
                 cursor = conn.cursor()
+                
+                processed_status = 1 if analysis_data else 0
+                metadata_content = json.dumps(analysis_data, ensure_ascii=False) if analysis_data else None
                 
                 cursor.execute('''
                 INSERT INTO articles (
                     id, title, content, url, pub_date, source, category, 
-                    summary, author, image_url, tags, created_at, processed
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    summary, author, image_url, tags, created_at, processed, metadata,
+                    quality_enhanced, quality_score, enhanced_title, executive_summary, 
+                    key_insights, expert_opinion, actionable_advice, seo_keywords, 
+                    originality_percentage, enhancement_date, meta_description, h1_heading, 
+                    h2_headings, suggested_tags, internal_links
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 ''', (
                     article.get('id', ''),
                     article.get('title', ''),
@@ -139,24 +164,43 @@ class SQLiteClient:
                     article.get('imageUrl', ''),
                     json.dumps(article.get('tags', []), ensure_ascii=False),
                     datetime.now().isoformat(),
-                    0
+                    processed_status,
+                    metadata_content,
+                    0,  # quality_enhanced
+                    0,  # quality_score
+                    '',  # enhanced_title
+                    '',  # executive_summary
+                    '',  # key_insights
+                    '',  # expert_opinion
+                    '',  # actionable_advice
+                    '',  # seo_keywords
+                    '',  # originality_percentage
+                    '',  # enhancement_date
+                    '',  # meta_description
+                    '',  # h1_heading
+                    '',  # h2_headings
+                    '',  # suggested_tags
+                    ''  # internal_links
                 ))
                 
                 conn.commit()
-                logger.info(f"保存文章成功: [{source}] {article.get('title')} (ID: {article_id})")
+                logger.info(f"保存新文章成功: [{source}] {article.get('title')} (ID: {article_id}), Processed: {bool(processed_status)}")
                 return True
-                
+            
         except Exception as e:
             logger.error(f"保存文章异常: {str(e)}")
             return False
     
-    def update_article(self, article):
+    def update_article(self, article, analysis_data=None):
         """
-        更新文章信息
+        更新文章信息。
+        如果提供了 analysis_data，则同时更新分析元数据并将文章标记为已处理。
+        否则，仅更新文章基本信息，不改变处理状态或元数据。
         
         Args:
             article (dict): 文章数据
-            
+            analysis_data (dict, optional): AI分析结果
+
         Returns:
             bool: 是否更新成功
         """
@@ -166,30 +210,79 @@ class SQLiteClient:
             
             with sqlite3.connect(self.db_path) as conn:
                 cursor = conn.cursor()
-                
-                cursor.execute('''
-                UPDATE articles SET
-                    title = ?, content = ?, url = ?, pub_date = ?, category = ?,
-                    summary = ?, author = ?, image_url = ?, tags = ?
-                WHERE id = ? AND source = ?
-                ''', (
-                    article.get('title', ''),
-                    article.get('content', ''),
-                    article.get('url', ''),
-                    article.get('pubDate', ''),
-                    article.get('category', ''),
-                    article.get('summary', ''),
-                    article.get('author', ''),
-                    article.get('imageUrl', ''),
-                    json.dumps(article.get('tags', []), ensure_ascii=False),
-                    article_id,
-                    source
-                ))
-                
+                log_message_suffix = ""
+
+                if analysis_data:
+                    processed_status = 1
+                    metadata_content = json.dumps(analysis_data, ensure_ascii=False)
+                    
+                    cursor.execute('''
+                    UPDATE articles SET
+                        title = ?, content = ?, url = ?, pub_date = ?, category = ?,
+                        summary = ?, author = ?, image_url = ?, tags = ?,
+                        processed = ?, metadata = ?,
+                        quality_enhanced = ?, quality_score = ?, enhanced_title = ?, executive_summary = ?,
+                        key_insights = ?, expert_opinion = ?, actionable_advice = ?, seo_keywords = ?,
+                        originality_percentage = ?, enhancement_date = ?, meta_description = ?, h1_heading = ?,
+                        h2_headings = ?, suggested_tags = ?, internal_links = ?
+                    WHERE id = ? AND source = ?
+                    ''', (
+                        article.get('title', ''),
+                        article.get('content', ''),
+                        article.get('url', ''),
+                        article.get('pubDate', ''),
+                        article.get('category', ''),
+                        article.get('summary', ''),
+                        article.get('author', ''),
+                        article.get('imageUrl', ''),
+                        json.dumps(article.get('tags', []), ensure_ascii=False),
+                        processed_status,
+                        metadata_content,
+                        0,  # quality_enhanced
+                        0,  # quality_score
+                        '',  # enhanced_title
+                        '',  # executive_summary
+                        '',  # key_insights
+                        '',  # expert_opinion
+                        '',  # actionable_advice
+                        '',  # seo_keywords
+                        '',  # originality_percentage
+                        '',  # enhancement_date
+                        '',  # meta_description
+                        '',  # h1_heading
+                        '',  # h2_headings
+                        '',  # suggested_tags
+                        '',  # internal_links
+                        article_id,
+                        source
+                    ))
+                    log_message_suffix = f", Processed: True, Metadata Updated"
+                else:
+                    # Only update standard fields, leave processed and metadata untouched
+                    cursor.execute('''
+                    UPDATE articles SET
+                        title = ?, content = ?, url = ?, pub_date = ?, category = ?,
+                        summary = ?, author = ?, image_url = ?, tags = ?
+                    WHERE id = ? AND source = ?
+                    ''', (
+                        article.get('title', ''),
+                        article.get('content', ''),
+                        article.get('url', ''),
+                        article.get('pubDate', ''),
+                        article.get('category', ''),
+                        article.get('summary', ''),
+                        article.get('author', ''),
+                        article.get('imageUrl', ''),
+                        json.dumps(article.get('tags', []), ensure_ascii=False),
+                        article_id,
+                        source
+                    ))
+                    log_message_suffix = ", Basic Info Updated (Processed status and Metadata unchanged)"
+
                 conn.commit()
-                logger.info(f"更新文章成功: [{source}] {article.get('title')} (ID: {article_id})")
+                logger.info(f"更新文章成功: [{source}] {article.get('title')} (ID: {article_id}){log_message_suffix}")
                 return True
-                
+            
         except Exception as e:
             logger.error(f"更新文章异常: {str(e)}")
             return False
@@ -428,7 +521,7 @@ class SQLiteClient:
         根据ID获取文章详情
         
         Args:
-            article_id (str): 文章ID
+            article_id (str): 文章ID，可以是完整路径或简单ID
             source (str, optional): 文章来源
             
         Returns:
@@ -439,12 +532,25 @@ class SQLiteClient:
                 conn.row_factory = sqlite3.Row
                 cursor = conn.cursor()
                 
-                if source:
-                    query = 'SELECT * FROM articles WHERE id = ? AND source = ?'
-                    cursor.execute(query, (article_id, source))
+                # 处理简单ID和完整路径ID
+                # 如果是简单ID（不包含'/'），尝试匹配完整路径中的任何部分
+                if '/' not in article_id:
+                    logger.info(f"使用简单ID查询: {article_id}")
+                    if source:
+                        query = "SELECT * FROM articles WHERE id LIKE ? AND source = ?"
+                        cursor.execute(query, (f'%{article_id}%', source))
+                    else:
+                        query = "SELECT * FROM articles WHERE id LIKE ?"
+                        cursor.execute(query, (f'%{article_id}%',))
                 else:
-                    query = 'SELECT * FROM articles WHERE id = ?'
-                    cursor.execute(query, (article_id,))
+                    # 完整路径ID的处理方式不变
+                    logger.info(f"使用完整路径ID查询: {article_id}")
+                    if source:
+                        query = 'SELECT * FROM articles WHERE id = ? AND source = ?'
+                        cursor.execute(query, (article_id, source))
+                    else:
+                        query = 'SELECT * FROM articles WHERE id = ?'
+                        cursor.execute(query, (article_id,))
                 
                 row = cursor.fetchone()
                 
@@ -470,8 +576,9 @@ class SQLiteClient:
                     
                     return article
                 else:
+                    logger.warning(f"未找到文章: {article_id}")
                     return None
-                
+            
         except Exception as e:
             logger.error(f"获取文章详情异常: {str(e)}")
             return None
@@ -610,6 +717,15 @@ class SQLiteClient:
                         except:
                             article['tags'] = []
                     
+                    # 处理AI分析数据
+                    if 'metadata' in article and article['metadata']:
+                        try:
+                            article['analysis_data'] = json.loads(article['metadata'])
+                        except:
+                            article['analysis_data'] = {}
+                    else:
+                        article['analysis_data'] = {}
+                    
                     # 转换字段名
                     if 'pub_date' in article:
                         article['pubDate'] = article.pop('pub_date')
@@ -713,6 +829,15 @@ class SQLiteClient:
                         except:
                             article['tags'] = []
                     
+                    # 处理AI分析数据
+                    if 'metadata' in article and article['metadata']:
+                        try:
+                            article['analysis_data'] = json.loads(article['metadata'])
+                        except:
+                            article['analysis_data'] = {}
+                    else:
+                        article['analysis_data'] = {}
+                    
                     # 转换字段名
                     if 'pub_date' in article:
                         article['pubDate'] = article.pop('pub_date')
@@ -780,3 +905,291 @@ class SQLiteClient:
         except Exception as e:
             logger.error(f"备份数据库异常: {str(e)}")
             return None
+
+    def update_article_quality(self, enhanced_article):
+        """
+        更新文章的质量增强数据
+        
+        Args:
+            enhanced_article (dict): 增强后的文章数据
+            
+        Returns:
+            bool: 是否更新成功
+        """
+        try:
+            with sqlite3.connect(self.db_path) as conn:
+                cursor = conn.cursor()
+                
+                article_id = enhanced_article.get('id')
+                source = enhanced_article.get('source')
+                
+                # 准备质量增强数据
+                quality_analysis = enhanced_article.get('quality_analysis', {})
+                seo_optimization = enhanced_article.get('seo_optimization', {})
+                
+                cursor.execute('''
+                UPDATE articles SET
+                    quality_enhanced = 1,
+                    quality_score = ?,
+                    enhanced_title = ?,
+                    executive_summary = ?,
+                    key_insights = ?,
+                    expert_opinion = ?,
+                    actionable_advice = ?,
+                    seo_keywords = ?,
+                    originality_percentage = ?,
+                    enhancement_date = ?,
+                    meta_description = ?,
+                    h1_heading = ?,
+                    h2_headings = ?,
+                    suggested_tags = ?,
+                    internal_links = ?
+                WHERE id = ? AND source = ?
+                ''', (
+                    enhanced_article.get('quality_score', 0),
+                    enhanced_article.get('enhanced_title', ''),
+                    enhanced_article.get('executive_summary', ''),
+                    json.dumps(enhanced_article.get('key_insights', []), ensure_ascii=False),
+                    json.dumps(enhanced_article.get('expert_opinion', {}), ensure_ascii=False),
+                    json.dumps(enhanced_article.get('actionable_advice', []), ensure_ascii=False),
+                    json.dumps(enhanced_article.get('seo_keywords', []), ensure_ascii=False),
+                    enhanced_article.get('originality_percentage', ''),
+                    enhanced_article.get('enhancement_date', ''),
+                    enhanced_article.get('meta_description', ''),
+                    enhanced_article.get('h1_heading', ''),
+                    json.dumps(enhanced_article.get('h2_headings', []), ensure_ascii=False),
+                    json.dumps(enhanced_article.get('suggested_tags', []), ensure_ascii=False),
+                    json.dumps(enhanced_article.get('internal_links', []), ensure_ascii=False),
+                    article_id,
+                    source
+                ))
+                
+                conn.commit()
+                
+                if cursor.rowcount > 0:
+                    logger.info(f"文章质量数据更新成功: {article_id}")
+                    return True
+                else:
+                    logger.warning(f"未找到要更新的文章: {article_id}")
+                    return False
+                    
+        except Exception as e:
+            logger.error(f"更新文章质量数据异常: {str(e)}")
+            return False
+
+    def get_articles_for_enhancement(self, limit=10, source=None):
+        """
+        获取需要质量增强的文章（优先选择未增强的）
+        
+        Args:
+            limit (int): 获取数量限制
+            source (str, optional): 文章来源筛选
+            
+        Returns:
+            list: 文章列表
+        """
+        try:
+            with sqlite3.connect(self.db_path) as conn:
+                conn.row_factory = sqlite3.Row
+                cursor = conn.cursor()
+                
+                if source:
+                    query = '''
+                    SELECT * FROM articles 
+                    WHERE quality_enhanced = 0 AND source = ? 
+                    ORDER BY pub_date DESC LIMIT ?
+                    '''
+                    cursor.execute(query, (source, limit))
+                else:
+                    query = '''
+                    SELECT * FROM articles 
+                    WHERE quality_enhanced = 0 
+                    ORDER BY pub_date DESC LIMIT ?
+                    '''
+                    cursor.execute(query, (limit,))
+                
+                articles = []
+                for row in cursor.fetchall():
+                    article = dict(row)
+                    if 'tags' in article and article['tags']:
+                        try:
+                            article['tags'] = json.loads(article['tags'])
+                        except:
+                            article['tags'] = []
+                    
+                    # 转换字段名
+                    if 'pub_date' in article:
+                        article['pubDate'] = article.pop('pub_date')
+                    if 'image_url' in article:
+                        article['imageUrl'] = article.pop('image_url')
+                    
+                    articles.append(article)
+                
+                return articles
+                
+        except Exception as e:
+            logger.error(f"获取待增强文章异常: {str(e)}")
+            return []
+
+    def get_recent_articles(self, days=30):
+        """
+        获取最近指定天数的文章
+        
+        Args:
+            days (int): 天数
+            
+        Returns:
+            list: 文章列表
+        """
+        try:
+            with sqlite3.connect(self.db_path) as conn:
+                conn.row_factory = sqlite3.Row
+                cursor = conn.cursor()
+                
+                # 计算日期范围
+                from datetime import datetime, timedelta
+                start_date = (datetime.now() - timedelta(days=days)).isoformat()
+                
+                query = '''
+                SELECT * FROM articles 
+                WHERE created_at >= ? 
+                ORDER BY created_at DESC
+                '''
+                cursor.execute(query, (start_date,))
+                
+                articles = []
+                for row in cursor.fetchall():
+                    article = dict(row)
+                    
+                    # 解析JSON字段
+                    json_fields = ['tags', 'key_insights', 'expert_opinion', 'actionable_advice', 
+                                  'seo_keywords', 'h2_headings', 'suggested_tags', 'internal_links']
+                    
+                    for field in json_fields:
+                        if field in article and article[field]:
+                            try:
+                                article[field] = json.loads(article[field])
+                            except:
+                                article[field] = [] if field.endswith('s') else {}
+                    
+                    # 转换字段名
+                    if 'pub_date' in article:
+                        article['pubDate'] = article.pop('pub_date')
+                    if 'image_url' in article:
+                        article['imageUrl'] = article.pop('image_url')
+                    
+                    articles.append(article)
+                
+                return articles
+                
+        except Exception as e:
+            logger.error(f"获取最近文章异常: {str(e)}")
+            return []
+
+    def get_quality_statistics(self):
+        """
+        获取内容质量统计信息
+        
+        Returns:
+            dict: 质量统计数据
+        """
+        try:
+            with sqlite3.connect(self.db_path) as conn:
+                cursor = conn.cursor()
+                
+                # 总文章数
+                cursor.execute('SELECT COUNT(*) FROM articles')
+                total_articles = cursor.fetchone()[0]
+                
+                # 已增强文章数
+                cursor.execute('SELECT COUNT(*) FROM articles WHERE quality_enhanced = 1')
+                enhanced_articles = cursor.fetchone()[0]
+                
+                # 平均质量评分
+                cursor.execute('SELECT AVG(quality_score) FROM articles WHERE quality_enhanced = 1')
+                avg_quality_score = cursor.fetchone()[0] or 0
+                
+                # 按来源统计
+                cursor.execute('''
+                SELECT source, 
+                       COUNT(*) as total,
+                       SUM(quality_enhanced) as enhanced,
+                       AVG(CASE WHEN quality_enhanced = 1 THEN quality_score ELSE NULL END) as avg_score
+                FROM articles 
+                GROUP BY source
+                ''')
+                
+                source_stats = {}
+                for row in cursor.fetchall():
+                    source, total, enhanced, avg_score = row
+                    source_stats[source] = {
+                        'total': total,
+                        'enhanced': enhanced or 0,
+                        'enhancement_rate': (enhanced or 0) / total if total > 0 else 0,
+                        'avg_quality_score': avg_score or 0
+                    }
+                
+                return {
+                    'total_articles': total_articles,
+                    'enhanced_articles': enhanced_articles,
+                    'enhancement_rate': enhanced_articles / total_articles if total_articles > 0 else 0,
+                    'average_quality_score': avg_quality_score,
+                    'source_statistics': source_stats
+                }
+                
+        except Exception as e:
+            logger.error(f"获取质量统计异常: {str(e)}")
+            return {}
+
+    def get_high_quality_articles(self, min_score=8, limit=20):
+        """
+        获取高质量文章
+        
+        Args:
+            min_score (int): 最低质量评分
+            limit (int): 获取数量限制
+            
+        Returns:
+            list: 高质量文章列表
+        """
+        try:
+            with sqlite3.connect(self.db_path) as conn:
+                conn.row_factory = sqlite3.Row
+                cursor = conn.cursor()
+                
+                query = '''
+                SELECT * FROM articles 
+                WHERE quality_enhanced = 1 AND quality_score >= ? 
+                ORDER BY quality_score DESC, pub_date DESC 
+                LIMIT ?
+                '''
+                cursor.execute(query, (min_score, limit))
+                
+                articles = []
+                for row in cursor.fetchall():
+                    article = dict(row)
+                    
+                    # 解析JSON字段
+                    json_fields = ['tags', 'key_insights', 'expert_opinion', 'actionable_advice', 
+                                  'seo_keywords', 'h2_headings', 'suggested_tags', 'internal_links']
+                    
+                    for field in json_fields:
+                        if field in article and article[field]:
+                            try:
+                                article[field] = json.loads(article[field])
+                            except:
+                                article[field] = [] if field.endswith('s') else {}
+                    
+                    # 转换字段名
+                    if 'pub_date' in article:
+                        article['pubDate'] = article.pop('pub_date')
+                    if 'image_url' in article:
+                        article['imageUrl'] = article.pop('image_url')
+                    
+                    articles.append(article)
+                
+                return articles
+                
+        except Exception as e:
+            logger.error(f"获取高质量文章异常: {str(e)}")
+            return []

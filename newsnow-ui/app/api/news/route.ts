@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 
 // 后端API基础URL
-const API_BASE_URL = 'http://localhost:5000';
+const API_BASE_URL = 'http://localhost:5001';
 
 export async function GET(request: Request) {
   try {

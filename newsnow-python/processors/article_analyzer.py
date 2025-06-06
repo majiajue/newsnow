@@ -112,11 +112,9 @@ class ArticleProcessor:
                 logger.info(f"使用 DeepSeek AI 服务分析文章: {title}")
                 
                 # 调用金融分析器
-                finance_analysis = self.finance_analyzer.analyze_finance_article(
-                    title=title,
-                    content=clean_content,
-                    source=source,
-                    json_output=True
+                finance_analysis = self.finance_analyzer.analyze_market_news(
+                    text=clean_content,
+                    title=title
                 )
                 
                 # 如果 DeepSeek 分析失败，回退到默认分析
@@ -125,14 +123,23 @@ class ArticleProcessor:
                     analysis = generate_analysis(title, clean_content, source)
                 else:
                     # 使用 DeepSeek 分析结果
+                    # 将 analyze_market_news 返回的格式转换为我们需要的格式
                     analysis = {
-                        "summary": finance_analysis.get("summary", ""),
-                        "key_points": finance_analysis.get("key_points", []),
-                        "background": finance_analysis.get("background", ""),
-                        "impact": finance_analysis.get("impact", ""),
-                        "opinion": finance_analysis.get("opinion", ""),
-                        "comment": finance_analysis.get("comment", ""),
-                        "suggestions": finance_analysis.get("suggestions", []),
+                        "summary": finance_analysis.get("market_summary", ""),
+                        "key_points": [
+                            f"影响分析: {finance_analysis.get('impact_analysis', '')[:100]}...",
+                            f"投资建议: {finance_analysis.get('investment_advice', '')}",
+                            f"市场情绪: {finance_analysis.get('sentiment', '')}"
+                        ],
+                        "background": "基于市场新闻分析",
+                        "impact": finance_analysis.get("impact_analysis", "")[:200],
+                        "opinion": finance_analysis.get("investment_advice", ""),
+                        "comment": f"市场情绪: {finance_analysis.get('sentiment', '')}",
+                        "suggestions": [
+                            f"关注受影响行业: {', '.join([i.get('industry', '') for i in finance_analysis.get('affected_industries', [])])}",
+                            f"相关公司: {', '.join([c for i in finance_analysis.get('affected_industries', []) for c in i.get('companies', [])])}",
+                            finance_analysis.get("investment_advice", "")
+                        ],
                     }
             else:
                 # 使用默认分析服务

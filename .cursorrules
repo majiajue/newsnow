@@ -1,0 +1,231 @@
+# NewsNow 项目 Cursor Rules
+
+## 项目概述
+这是一个多技术栈的新闻聚合平台，主要包含两个核心模块：
+- **newsnow-python**: Python 后端服务，负责新闻爬取、数据处理和 API 服务
+- **newsnow-ui**: Next.js 前端应用，提供用户界面和交互体验
+
+## 项目结构
+```
+newsnow/
+├── newsnow-python/     # Python 后端服务
+│   ├── api/           # Flask API 服务
+│   ├── crawlers/      # 新闻爬虫模块
+│   ├── processors/    # 数据处理模块
+│   ├── db/           # 数据库操作
+│   └── utils/        # 工具函数
+├── newsnow-ui/        # Next.js 前端应用
+│   ├── app/          # App Router 页面
+│   ├── components/   # React 组件
+│   ├── lib/          # 工具库
+│   └── types/        # TypeScript 类型定义
+└── src/              # 主应用（Vite + React）
+```
+
+## 技术栈
+
+### newsnow-python 后端技术栈
+- **Web框架**: Flask + Flask-CORS
+- **爬虫**: BeautifulSoup4 + Requests + lxml
+- **AI处理**: Transformers + OpenAI
+- **任务调度**: Schedule
+- **服务器**: Waitress
+- **环境管理**: python-dotenv
+- **时区处理**: pytz
+
+### newsnow-ui 前端技术栈
+- **框架**: Next.js 15 + React 19
+- **样式**: Tailwind CSS + tailwindcss-animate
+- **UI组件**: Radix UI (@radix-ui/react-*)
+- **工具库**: class-variance-authority + clsx + tailwind-merge
+- **主题**: next-themes (深色模式支持)
+- **时间处理**: date-fns
+- **图标**: lucide-react
+- **防抖**: use-debounce
+
+### 主应用技术栈（src/）
+- **前端**: React 18 + Vite + TypeScript + UnoCSS + TanStack Router
+- **状态管理**: Jotai + Zustand + TanStack Query
+- **部署**: Docker + Cloudflare Pages + Wrangler
+
+## 开发规范
+
+### newsnow-python 后端规范
+
+#### Python 代码风格
+- 遵循 PEP 8 代码风格规范
+- 使用类型提示 (Type Hints) 提高代码可读性
+- 函数和类必须添加详细的文档字符串
+- 使用 `async/await` 处理异步操作
+- 异常处理要具体明确，避免裸露的 except
+
+#### 爬虫开发规范
+- 每个新闻源创建独立的爬虫文件（如 `jin10.py`, `wallstreet.py`）
+- 使用 `crawler_factory.py` 统一管理爬虫实例
+- 实现请求重试机制和错误处理
+- 添加请求间隔避免被反爬
+- 数据清洗和标准化处理
+
+#### API 设计规范
+- 使用 RESTful API 设计原则
+- 统一的 JSON 响应格式
+- 实现 CORS 跨域支持
+- 添加请求验证和参数校验
+- 使用适当的 HTTP 状态码
+
+#### 数据处理规范
+- 使用 AI 模型进行内容质量评估
+- 实现新闻去重和分类
+- 数据持久化使用 SQLite
+- 定时任务使用 Schedule 库
+- 日志记录使用结构化格式
+
+### newsnow-ui 前端规范
+
+#### Next.js 开发规范
+- 使用 App Router 而非 Pages Router
+- 组件文件使用 PascalCase 命名
+- 页面文件使用 kebab-case 命名
+- 使用 TypeScript 严格模式
+- 实现 SEO 优化（sitemap, robots.txt）
+
+#### React 组件规范
+- 优先使用函数组件和 React Hooks
+- Props 接口以 `Props` 结尾
+- 使用 `React.memo` 优化性能
+- 事件处理函数以 `handle` 开头
+- 组件应该单一职责，功能明确
+
+#### 样式规范
+- 使用 Tailwind CSS 原子化样式
+- 利用 CSS 变量实现主题切换
+- 使用 Radix UI 确保可访问性
+- 响应式设计移动端优先
+- 使用 `clsx` 和 `tailwind-merge` 处理条件样式
+
+#### UI 组件规范
+- 基础组件放在 `components/ui/` 目录
+- 业务组件放在 `components/` 根目录
+- 使用 Radix UI 作为无头组件基础
+- 实现深色模式支持
+- 确保键盘导航和屏幕阅读器支持
+
+### 通用开发规范
+
+#### 文件命名规范
+- **Python文件**: snake_case (如 `news_api.py`)
+- **React组件**: PascalCase (如 `NewsCard.tsx`)
+- **工具函数**: camelCase (如 `formatDate.ts`)
+- **类型定义**: PascalCase + `.types.ts` (如 `News.types.ts`)
+- **测试文件**: 原文件名 + `.test.py/.test.tsx`
+
+#### 目录结构规范
+```
+newsnow-python/
+├── api/              # Flask API 路由
+├── crawlers/         # 新闻爬虫
+├── processors/       # 数据处理
+├── db/              # 数据库操作
+├── utils/           # 工具函数
+├── config/          # 配置文件
+└── tests/           # 测试文件
+
+newsnow-ui/
+├── app/             # Next.js App Router
+├── components/      # React 组件
+│   ├── ui/         # 基础 UI 组件
+│   └── news/       # 新闻相关组件
+├── lib/            # 工具库
+├── types/          # TypeScript 类型
+├── hooks/          # 自定义 Hooks
+└── styles/         # 全局样式
+```
+
+## 性能优化
+
+### 后端性能优化
+- 实现数据库查询优化和索引
+- 使用缓存减少重复计算
+- 异步处理耗时的爬虫任务
+- 实现请求限流防止滥用
+- 优化 AI 模型推理性能
+
+### 前端性能优化
+- 使用 Next.js 的图片优化
+- 实现组件懒加载
+- 使用 React.memo 避免不必要渲染
+- 优化 Tailwind CSS 构建大小
+- 实现虚拟滚动处理大列表
+
+## 数据流和集成
+
+### 数据流程
+1. **爬虫采集**: 各爬虫模块定时采集新闻数据
+2. **数据处理**: AI 模型进行内容质量评估和分类
+3. **数据存储**: 清洗后的数据存储到 SQLite 数据库
+4. **API 服务**: Flask 提供 RESTful API 接口
+5. **前端展示**: Next.js 应用消费 API 展示新闻
+
+### 模块间通信
+- 后端使用 Flask API 提供数据接口
+- 前端通过 HTTP 请求获取数据
+- 使用 CORS 解决跨域问题
+- 实现错误处理和重试机制
+
+## 测试规范
+
+### 后端测试
+- 使用 pytest 进行单元测试
+- 爬虫测试使用模拟数据
+- API 测试覆盖所有端点
+- 数据处理测试验证算法正确性
+
+### 前端测试
+- 使用 Jest + React Testing Library
+- 组件测试覆盖主要交互
+- 快照测试确保 UI 一致性
+- E2E 测试覆盖关键用户流程
+
+## 部署和运维
+
+### Docker 容器化
+- 为 Python 后端和 Next.js 前端分别创建 Dockerfile
+- 使用 docker-compose 管理多服务
+- 实现健康检查和优雅关闭
+- 配置环境变量和密钥管理
+
+### 监控和日志
+- 后端使用结构化日志记录
+- 前端实现错误边界和错误上报
+- 监控爬虫任务执行状态
+- 实现性能指标收集
+
+## 安全规范
+
+### 后端安全
+- 实现请求限流和防 DDoS
+- 验证和清理用户输入
+- 使用环境变量管理敏感配置
+- 实现 API 访问控制
+
+### 前端安全
+- 防止 XSS 攻击
+- 实现 CSP 内容安全策略
+- 使用 HTTPS 传输数据
+- 敏感信息不在客户端存储
+
+## 代码质量
+
+### 代码审查
+- 使用语义化提交信息
+- Pull Request 必须经过代码审查
+- 确保测试通过和代码覆盖率
+- 遵循项目编码规范
+
+### 文档维护
+- API 接口提供详细文档
+- 组件库提供使用示例
+- 维护项目 README 和变更日志
+- 记录部署和运维流程
+
+记住：始终优先考虑代码的可读性、可维护性和性能。在开发新功能时，要考虑对现有系统的影响，确保模块间的松耦合和高内聚。 
